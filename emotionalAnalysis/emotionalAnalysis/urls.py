@@ -18,7 +18,10 @@ from django.contrib import admin
 from django.urls import path, include
 
 urlpatterns = [
+    # If /admin url, show admin page
     path('admin/', admin.site.urls),
-    ## Include the URL patterns from api/urls.py 
-    path('', include('api.urls')),
+    # If /api url, show api page
+    path('api/', include('api.urls')),
+    # If / url, show frontend page
+    path('', include('frontend.urls')),
 ]
