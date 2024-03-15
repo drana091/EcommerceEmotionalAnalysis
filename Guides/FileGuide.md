@@ -24,5 +24,6 @@ Handles the redirection of urls.<br>
 
 ## frontend Folder
 ### src/components
+This is where you make your components. Components are pieces of code that can be used like a template.<br>
 ### static/css/index.css
 This is the stylesheet
