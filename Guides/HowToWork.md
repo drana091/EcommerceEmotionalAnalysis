@@ -8,7 +8,6 @@ MaterialUI library will be used for the interface construction.
 1. Website url is `localhost:8000`
 ### Frontend
 1. Run `npm run dev`
-1. Website url is `localhost:3000`
 
 ## Editing or adding code
 **I will not be including imports, but they are required.**<br>

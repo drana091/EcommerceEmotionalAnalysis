@@ -2,6 +2,7 @@ import { Button, Grid, Box, Typography, TextField, FormHelperText, FormControl, 
 import React, { Component } from 'react';
 import ProductBox from './ProductBox';
 
+// This component is used to display all products.
 export default class AllProductsPage extends Component {
     constructor(props) {
         super(props);
@@ -10,6 +11,7 @@ export default class AllProductsPage extends Component {
         };
     }
     
+    // When component is mounted, make a GET request to the server to get all products.
     componentDidMount() {
         fetch('/api/product')
         .then(response => response.json())
@@ -21,11 +23,15 @@ export default class AllProductsPage extends Component {
         const { products } = this.state;
         return (
             <Grid container spacing={1}>
+
+                {/* Title */}
                 <Grid item xs={12} align="center">
                     <Typography component="h4" variant="h4">
                         All Products
                     </Typography>
                 </Grid>
+
+                {/* Display all products */}
                 {products.map(product => (
                     <Grid key={product.id} item xs={6} align="center">
                         <ProductBox product={product} />
