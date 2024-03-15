@@ -8,4 +8,5 @@ urlpatterns = [
     path('view', index),
     # If the user goes to /create, go to the index.js file
     path('create', index),
+    path('all', index),
 ]

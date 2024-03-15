@@ -9,7 +9,7 @@ from .models import Product
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('id', 'name', 'description', 'price', 'stock', 'total_emotion')
+        fields = ('id', 'name', 'description', 'price', 'stock', 'totalEmotion')
 
 # Create a serializer for the Product model that creates a new product.
 class CreateProductSerializer(serializers.ModelSerializer):

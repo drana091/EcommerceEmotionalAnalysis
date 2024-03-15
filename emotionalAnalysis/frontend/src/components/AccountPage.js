@@ -7,9 +7,9 @@ export default class AccountPage extends Component {
     
     render() {
         return (
-            <div>
-                <p>This is AccountPage</p>
-            </div>
-        )
+            <Grid container spacing={1}>
+
+            </Grid>
+        );
     }
 }
