@@ -1,17 +1,14 @@
 from django.db import models
-
 # Create your models here.
 
 class Product(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     price = models.FloatField(default=0.0)
-    stock = models.IntegerField()
+    stock = models.IntegerField(default = 0)
     total_emotion = models.CharField(max_length=255, blank=True, null=True)
 
 class User(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
     password = models.CharField(max_length=255)
@@ -19,7 +16,6 @@ class User(models.Model):
     phone = models.CharField(max_length=255)
 
 class Review(models.Model):
-    id = models.AutoField(primary_key=True, unique=True)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     # Adding choices for rating field

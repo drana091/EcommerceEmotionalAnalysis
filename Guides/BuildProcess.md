@@ -21,10 +21,13 @@ So now your directory should look like this
 
 ## Step 4
 1. Make frontend with `npm init -y`
-1. Run `npm i webpack webpack-cli --save-dev`<br>
-`npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev`<br>
-`npm i react react-dom --save-dev`<br>
-`npm install @mui/material`<br>
-`npm install @babel/plugin-proposal-class-properties`<br>
-`npm install react-router-dom`<br>
-`npm install @mui/icons-material`
+1. Run
+```
+npm i webpack webpack-cli --save-dev
+npm i @babel/core babel-loader @babel/preset-env @babel/preset-react --save-dev
+npm i react react-dom --save-dev
+npm install @mui/material
+npm install @babel/plugin-proposal-class-properties
+npm install react-router-dom
+npm install @mui/icons-material
+```

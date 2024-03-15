@@ -24,10 +24,13 @@ If you want to work on the database model
 1. Run `python manage.py makemigrations`
 1. Run `python manage.py migrate`
 
-How to retrieve the info from the database
+How to retrieve/send info from/to the database
 1. Have your model in `models.py`
-1. Create your serializer in `serializers.py`. A serializer is a class that formats what values should be obtained from the database.
-1. Output this in `api/views.py`. This is so when a request is sent, the view of the database can be returned.
+1. Create your serializer in `serializers.py`. A serializer is a class that model into a readable format.
+1. Make a class to view the data in `api/view.py`. This defines what happens to the data.
+1. Update `api/urls.py` for the new view you made.
+
+
 ---
 ### Adding websites
 There's three main files you have to edit. The new component you want to render, a `url.py` file, and the page where it will be rendered on.

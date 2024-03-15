@@ -1,6 +1,8 @@
 # What each file does
 
 ## api folder
+### api/functions
+This folder contains functions for various uses.
 ### api/views.py
 Contains the views for the project. Views are functions that takes a web request and returns a web response.
 
@@ -21,9 +23,14 @@ Handles the redirection of urls.<br>
 **Example:** If the url ends with **/admin/...**, it gets send to the admin file.
 
 ## emotionalAnalysis Folder
-
+### settings.py
+This is the settings for Django. If you want to install new applications, do it here.
 ## frontend Folder
+### src/index.js
+This is where the website gets rendered. It imports from `app.js`.
 ### src/components
 This is where you make your components. Components are pieces of code that can be used like a template.<br>
+### src/components/App.js
+This is the main website.
 ### static/css/index.css
 This is the stylesheet
