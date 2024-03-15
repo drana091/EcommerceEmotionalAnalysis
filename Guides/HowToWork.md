@@ -1,4 +1,7 @@
 # How to work on the project
+## Conventions and Standards
+MaterialUI library will be used for the interface construction.
+
 ## Testing
 ### Backend
 1. Run `python manage.py runserver`
@@ -10,26 +13,42 @@
 ## Editing or adding code
 **I will not be including imports, but they are required.**<br>
 **Import when necessary, such as models, functions, etc.**
---
+
+---
 ### Making redirects and views
 If you want a function or a view to happen when a user requests a website.
 1. Make the view in the views.py. This will be the functions, classes, or views that you are able to return to the user.
 1. Make the url redirection in urls.py. If the user request /login, /account/..., etc, it will fetch the function from views.py.
 1. Run `python manage.py makemigrations`
 1. Run `python manage.py migrate`
+
+### How URLs work
+The first file the project searches for URL redirection in is `emotionalAnalysis/urls.py`.<br>
+Then, if it ends in `/api/...`, it will go to `api/urls.py`,<br>
+or if it ends in anything else, it will go to `frontend/urls.py`.
+
 ---
 ### Database
-If you want to work on the database model
+**If you want to work on the database model**
 1. Edit the databse in `emotionalAnaylsis/api/models.py`
 1. Run `python manage.py makemigrations`
 1. Run `python manage.py migrate`
 
-How to retrieve/send info from/to the database
+**How to retrieve info from the database**
+1. Make a view to view the data.
+
+**How to send info to the databse**
+1. Make a view to send data.
+1. In the component file you will be using, in the constructor, set the state of each data to send.
+1. Make methods to change this state when user inputs data.
+1. Make method to send this data when user submits.
+1. In the submit method, fetch the url corresponding to the view you made, and send the data.
+
+**Make a view**
 1. Have your model in `models.py`
 1. Create your serializer in `serializers.py`. A serializer is a class that model into a readable format.
 1. Make a class to view the data in `api/view.py`. This defines what happens to the data.
-1. Update `api/urls.py` for the new view you made.
-
+1. Update `api/urls.py` for the new view you made. This defines what url will show the view.
 
 ---
 ### Adding websites

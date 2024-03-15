@@ -30,4 +30,7 @@ npm install @mui/material
 npm install @babel/plugin-proposal-class-properties
 npm install react-router-dom
 npm install @mui/icons-material
+npm install @emotion/react
+npm install @emotion/styled
+npm install @mui/styled-engine
 ```
