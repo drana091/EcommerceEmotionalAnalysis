@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material'; 
 import { Link } from 'react-router-dom';
+import NavBar from './NavBar';
 
 export default class CreateProductPage extends Component {
     constructor(props) {
@@ -42,6 +43,7 @@ export default class CreateProductPage extends Component {
     render() {
         return (
             <Grid container spacing={1}>
+                <NavBar />
 
                 {/* Title */}
                 <Grid item xs={12} align="center">

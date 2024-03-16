@@ -1,6 +1,7 @@
 import { Button, Grid, Box, Typography, TextField, FormHelperText, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material'; 
 import React, { Component } from 'react';
 import ProductBox from './ProductBox';
+import NavBar from './NavBar';
 
 // This component is used to display all products.
 export default class AllProductsPage extends Component {
@@ -23,6 +24,7 @@ export default class AllProductsPage extends Component {
         const { products } = this.state;
         return (
             <Grid container spacing={1}>
+                <NavBar />
 
                 {/* Title */}
                 <Grid item xs={12} align="center">
