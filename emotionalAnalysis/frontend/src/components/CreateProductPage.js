@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material'; 
+import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box } from '@mui/material'; 
 import { Link } from 'react-router-dom';
 import NavBar from './NavBar';
 
@@ -42,61 +42,65 @@ export default class CreateProductPage extends Component {
 
     render() {
         return (
-            <Grid container spacing={1}>
-                <NavBar />
+            <Box sx={{ display: 'flex' }}>
+                <Grid container spacing={1}>
+                    <Grid item xs={12}>
+                        <NavBar />
+                    </Grid>
 
-                {/* Title */}
-                <Grid item xs={12} align="center">
-                    <Typography component="h4" variant="h4">
-                        Create a new product:
-                    </Typography>
+                    {/* Title */}
+                    <Grid item xs={12} align="center">
+                        <Typography component="h4" variant="h4">
+                            Create a new product:
+                        </Typography>
+                    </Grid>
+
+                    {/* Input section */}
+                    <Grid item xs={12} align="center">
+                        <FormControl component="fieldset">
+
+                            {/* Name input */}
+                            <FormHelperText component="div">
+                                <div align="center">Name</div>
+                            </FormHelperText>
+                            <TextField required={true} id="name" label="Product Name"
+                            onChange={this.nameChange}
+                            inputProps={{style: { textAlign: "center"},}} />
+
+                            {/* Description input */}
+                            <FormHelperText component="div">
+                                <div align="center">Description</div>
+                            </FormHelperText>
+                            <TextField required={true} id="description" label="Product Description"
+                            onChange={this.descriptionChange}
+                            inputProps={{style: { textAlign: "center"},}} />
+
+                            {/* Price input */}
+                            <FormHelperText component="div">
+                                <div align="center">Price</div>
+                            </FormHelperText>
+                            <TextField required={true} id="price" label="Product Price" type='number'
+                            onChange={this.priceChange}
+                            inputProps={{style: { textAlign: "center"},}} />
+                        </FormControl>
+                    </Grid>
+
+                    {/* Create poduct button */}
+                    <Grid item xs={12} align="center">
+                        <Button color="primary" variant="contained"
+                        onClick={this.createProductButtonPressed}>
+                            Create Product
+                        </Button>
+                    </Grid>
+
+                    {/* Go back button */}
+                    <Grid item xs={12} align="center">
+                        <Button color="secondary" variant="contained" to="/" component={Link}>
+                            Back
+                        </Button>
+                    </Grid>
                 </Grid>
-
-                {/* Input section */}
-                <Grid item xs={12} align="center">
-                    <FormControl component="fieldset">
-
-                        {/* Name input */}
-                        <FormHelperText component="div">
-                            <div align="center">Name</div>
-                        </FormHelperText>
-                        <TextField required={true} id="name" label="Product Name"
-                        onChange={this.nameChange}
-                        inputProps={{style: { textAlign: "center"},}} />
-
-                        {/* Description input */}
-                        <FormHelperText component="div">
-                            <div align="center">Description</div>
-                        </FormHelperText>
-                        <TextField required={true} id="description" label="Product Description"
-                        onChange={this.descriptionChange}
-                        inputProps={{style: { textAlign: "center"},}} />
-
-                        {/* Price input */}
-                        <FormHelperText component="div">
-                            <div align="center">Price</div>
-                        </FormHelperText>
-                        <TextField required={true} id="price" label="Product Price" type='number'
-                        onChange={this.priceChange}
-                        inputProps={{style: { textAlign: "center"},}} />
-                    </FormControl>
-                </Grid>
-
-                {/* Create poduct button */}
-                <Grid item xs={12} align="center">
-                    <Button color="primary" variant="contained"
-                    onClick={this.createProductButtonPressed}>
-                        Create Product
-                    </Button>
-                </Grid>
-
-                {/* Go back button */}
-                <Grid item xs={12} align="center">
-                    <Button color="secondary" variant="contained" to="/" component={Link}>
-                        Back
-                    </Button>
-                </Grid>
-            </Grid>
+            </Box>
         );
     }
 }

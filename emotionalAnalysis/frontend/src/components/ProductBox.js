@@ -1,5 +1,6 @@
 import { Button, Grid, Box, Typography, TextField, FormHelperText, FormControl, Radio, RadioGroup, FormControlLabel } from '@mui/material'; 
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 // This component is used to display a product in a box.
 export default class ProductBox extends Component {
@@ -27,7 +28,8 @@ export default class ProductBox extends Component {
 
                             {/* View Button */}
                             <Grid item>
-                                <Button variant="contained" color="primary">View</Button>
+                                <Button variant="contained" color="primary"
+                                component={Link} to={`/product/${product.id}`}>View</Button>
                             </Grid>
                         </Grid>
 

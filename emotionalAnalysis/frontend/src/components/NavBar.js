@@ -53,6 +53,7 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
+// NavBar component
 export default class NavBar extends Component {
     constructor(props) {
         super(props);
@@ -61,7 +62,7 @@ export default class NavBar extends Component {
     render() {
         return (
             <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static">
+                <AppBar position="static" sx={{ width:'100%' }}>
                     <Toolbar>
                         <IconButton
                             size="large"
@@ -73,8 +74,13 @@ export default class NavBar extends Component {
                             <MenuIcon />
                         </IconButton>
                         
+                        {/* Page Buttons */}
                         <Button color='primary' variant='contained'
                         component={Link} to='/all'>Products</Button>
+                        <Button color='primary' variant='contained'
+                        component={Link} to='/create'>Create Product</Button>
+
+                        {/* Search bar */}
                         <Search>
                             <SearchIconWrapper>
                                 <SearchIcon />
@@ -84,6 +90,8 @@ export default class NavBar extends Component {
                                 inputProps={{ 'aria-label': 'search' }}
                             />
                         </Search>
+
+                        {/* Login Button */}
                         <Button color="inherit">Login</Button>
                     </Toolbar>
                 </AppBar>
