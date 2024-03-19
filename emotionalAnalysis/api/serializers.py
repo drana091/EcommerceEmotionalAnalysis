@@ -27,13 +27,13 @@ class CreateProductSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'name', 'email', 'password', 'address', 'phone')
+        fields = ('id', 'Fname', 'Lname', 'email', 'password')
 
 # Create a serializer for the User model that creates a new user.
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('name', 'email', 'password', 'address', 'phone')       
+        fields = ('Fname', 'Lname', 'email', 'password')       
         
 #----------------------------------------------
 # REVIEW SERIALIZERS

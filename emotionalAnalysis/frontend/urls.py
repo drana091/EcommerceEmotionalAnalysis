@@ -9,4 +9,6 @@ urlpatterns = [
     # If the user goes to /create, go to the index.js file
     path('create', index),
     path('all', index),
+    path('signin', index),
+    path('signup', index),
 ]

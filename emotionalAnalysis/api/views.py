@@ -4,6 +4,8 @@ from .serializers import ProductSerializer, CreateProductSerializer, UserSeriali
 from .models import Product, User,Review
 from rest_framework.views import APIView
 from rest_framework.response import Response
+from rest_framework import status
+from django.contrib.auth import authenticate
 
 # Create your views here. This is where you define what happends to the data.
 
@@ -47,6 +49,25 @@ class UserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+# View to login a user
+class SignInView(APIView):
+    def post(self, request):
+        # Extract username/email and password from the request data
+        username = request.data.get('username')
+        password = request.data.get('password')
+
+        # Authenticate user
+        user = authenticate(request, username=username, password=password)
+
+        if user is not None:
+            # User authentication successful
+            # Return success response with user data or authentication token
+            return Response({'message': 'Sign in successful', 'user_id': user.id}, status=status.HTTP_200_OK)
+        else:
+            # User authentication failed
+            # Return error response
+            return Response({'error': 'Invalid username/email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+        
 # View to create a new user.
 # Takes a POST request with parameters: name, email, password, address, phone
 class CreateUserView(APIView):
@@ -57,12 +78,11 @@ class CreateUserView(APIView):
         serializer = self.serializer_class(data=request.data)
         # If the data is valid, create a new user
         if serializer.is_valid():
-            name = serializer.data.get('name')
+            Fname = serializer.data.get('Fname')
+            Lname = serializer.data.get('Lname')
             email = serializer.data.get('email')
             password = serializer.data.get('password')
-            address = serializer.data.get('address')
-            phone = serializer.data.get('phone')
-            user = User(name=name, email=email, password=password, address=address, phone=phone)
+            user = User(Fname=Fname, Lname=Lname, email=email, password=password)
             user.save()
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)    
