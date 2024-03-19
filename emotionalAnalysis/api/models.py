@@ -8,6 +8,9 @@ class Product(models.Model):
     stock = models.IntegerField(default = 0)
     totalEmotion = models.CharField(max_length=255, blank=True, null=True)
 
+    def getReviews(self):
+        return self.review_set.all()
+
 class User(models.Model):
     name = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
