@@ -1,33 +1,37 @@
-import React, { Component } from 'react';
+import { useParams } from 'react-router-dom';
+import ProductBox from './ProductBox';
+import React, { useState, useEffect } from 'react';
+import NavBar from './NavBar';
 
-export default class ViewProductPage extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            id: "",
-            name: "",
-            description: "",
-            price: "",
-            stock: "",
-            totalEmotion: "",
-        };
-        // Access the productID from props and assign it to state
-        this.productID = this.props.match.params.productID;
-    }
+export default function ViewProductPage() {
+    // Get the product ID from the URL
+    let { productID } = useParams();
+    const [product, setProduct] = useState(null);
     
-    render() {
-        return (
-            <div>
-                {/* Display the productID */}
-                <h3>{this.productID}</h3>
-                {/* Access id from state */}
-                <p>ID: {this.state.id}</p>
-                <p>Name: {this.state.name}</p>
-                <p>Description: {this.state.description}</p>
-                <p>Price: {this.state.price}</p>
-                <p>Stock: {this.state.stock}</p>
-                <p>Total Emotion: {this.state.totalEmotion}</p>
-            </div>
-        );
-    }
+    // Fetch product data from the server
+    useEffect(() => {
+        const fetchProduct = async () => {
+            try {
+                const response = await fetch(`/api/product/${productID}`);
+                if (!response.ok) {
+                    throw new Error('Failed to fetch product data');
+                }
+                const data = await response.json();
+                setProduct(data); // Update the product state with fetched data
+            } catch (error) {
+                console.error('Error fetching product data:', error);
+            }
+        };
+
+        // Call the fetchProduct function when productID changes
+        fetchProduct();
+    }, [productID]);
+
+    return (
+        <div>
+            <NavBar />
+            {/* Pass product data to ProductBox component */}
+            {product && <ProductBox product={product} />}
+        </div>
+    );
 }

@@ -15,6 +15,12 @@ class ProductView(generics.ListAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
 
+# View to show a single product
+class SingleProductView(generics.RetrieveAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    lookup_field = 'pk'
+
 # View to create a new product. 
 # Takes a POST request with parameters: name, description, price
 class CreateProductView(APIView):
