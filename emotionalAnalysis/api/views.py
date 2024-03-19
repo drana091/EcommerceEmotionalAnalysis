@@ -75,6 +75,16 @@ class ReviewView(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+# View to show reviews of a single product
+class ProductReviewView(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    lookup_url_kwarg = 'product'
+
+    def get_queryset(self):
+        product_id = self.kwargs[self.lookup_url_kwarg]
+        return Review.objects.filter(product_id=product_id)
+    
+                        
 # View to create a new review for a product
 # Takes a POST request with parameters: product, name, rating, comment, emotion
 class CreateReviewView(APIView):

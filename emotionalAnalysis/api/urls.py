@@ -1,6 +1,6 @@
 from django.urls import path
 ## Import the functions from views.py
-from .views import ProductView, SingleProductView, CreateProductView, ReviewView, CreateReviewView, UserView, CreateUserView
+from .views import ProductView, SingleProductView, ProductReviewView, CreateProductView, ReviewView, CreateReviewView, UserView, CreateUserView
 
 ## Define the URL patterns
 
@@ -21,6 +21,7 @@ urlpatterns = [
     ### REVIEW URLS
     path('review', ReviewView.as_view()),
     path('create-review', CreateReviewView.as_view()),
+    path('product-reviews/<product>', ProductReviewView.as_view()),
 
     #----------------------------------------------
     # USER URLS
