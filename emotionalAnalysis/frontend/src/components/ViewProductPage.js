@@ -3,6 +3,7 @@ import ProductBox from './ProductBox';
 import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import ShowReviewBox from './ShowReviewBox';
+import { Button, Grid, Box, Typography } from '@mui/material'; 
 
 export default function ViewProductPage() {
     // Get the product ID from the URL
@@ -49,12 +50,26 @@ export default function ViewProductPage() {
     }, [productID]);
 
     return (
-        <div>
+        <Grid container spacing={1}>
             <NavBar />
-            {/* Pass product data to ProductBox component */}
-            {product && <ProductBox product={product} />}
-            {/* Display reviews */}
-            <ShowReviewBox review={reviews} />
-        </div>
+
+            {/* Title */}
+            <Grid item xs={12} align="center">
+                <Typography component="h4" variant="h4">
+                    Product:
+                </Typography>
+            </Grid>
+
+            <Grid item xs={12} align="center">
+                {product && <ProductBox product={product} />}
+            </Grid>
+            {/* Display all reviews */}
+            {reviews.map(review => (
+                <Grid key={review.id} item xs={6} align="center">
+                    <ShowReviewBox review={review} />
+                </Grid>
+            ))}
+
+        </Grid>
     );
 }
