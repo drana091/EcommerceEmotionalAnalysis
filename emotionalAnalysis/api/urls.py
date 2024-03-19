@@ -21,7 +21,7 @@ urlpatterns = [
     ### REVIEW URLS
     path('review', ReviewView.as_view()),
     path('create-review', CreateReviewView.as_view()),
-    path('product-review', ProductReviewView.as_view()),
+    path('product-reviews/<product>', ProductReviewView.as_view()),
 
     #----------------------------------------------
     # USER URLS
