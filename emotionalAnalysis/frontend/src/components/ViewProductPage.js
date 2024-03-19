@@ -64,6 +64,11 @@ export default function ViewProductPage() {
                 {product && <ProductBox product={product} />}
             </Grid>
             {/* Display all reviews */}
+            <Grid item xs={12} align="center">
+                <Typography component="h4" variant="h4">
+                    Reviews:
+                </Typography>
+            </Grid>
             {reviews.map(review => (
                 <Grid key={review.id} item xs={6} align="center">
                     <ShowReviewBox review={review} />
