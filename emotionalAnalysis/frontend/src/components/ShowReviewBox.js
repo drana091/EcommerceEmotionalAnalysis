@@ -15,8 +15,13 @@ export default class ShowReviewBox extends Component {
 
                             {/* Review Name, Comment, Emotion */}
                             <Grid item xs>
-                                <Typography>{review.name}</Typography>
+                                <Typography>Review ID:</Typography>
+                                <Typography>{review.id}</Typography>
+                                <Typography>User ID:</Typography>
+                                <Typography>{review.user}</Typography>
+                                <Typography>Comment:</Typography>
                                 <Typography>{review.comment}</Typography>
+                                <Typography>Emotion:</Typography>
                                 <Typography>{review.emotion}</Typography>
                             </Grid>
                         

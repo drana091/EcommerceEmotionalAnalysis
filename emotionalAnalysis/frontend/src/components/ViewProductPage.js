@@ -3,13 +3,14 @@ import ProductBox from './ProductBox';
 import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import ShowReviewBox from './ShowReviewBox';
-import { Button, Grid, Box, Typography } from '@mui/material'; 
+import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box } from '@mui/material'; 
 
 export default function ViewProductPage() {
     // Get the product ID from the URL
     let { productID } = useParams();
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
+    const [formData, setFormData] = useState({ product: null, user: '1', comment: "" });
     
     // Fetch product data from the server
     useEffect(() => {
@@ -21,6 +22,7 @@ export default function ViewProductPage() {
                 }
                 const data = await response.json();
                 setProduct(data); // Update the product state with fetched data
+                setFormData({ product: data, user: '1', comment: "" });
             } catch (error) {
                 console.error('Error fetching product data:', error);
             }
@@ -49,6 +51,27 @@ export default function ViewProductPage() {
         fetchReviews();
     }, [productID]);
 
+    const commentChange = (e) => {
+        setFormData(prevState => ({ ...prevState, comment: e.target.value }));
+    }
+    
+
+    const createReviewButtonPressed = () => {
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                product: product.id,
+                user: formData.user,
+                comment: formData.comment,
+            }),
+        };
+        // The fetch() method is used to make a POST request to the server.
+        fetch('/api/create-review', requestOptions)
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+    }
+
     return (
         <Grid container spacing={1}>
             <NavBar />
@@ -63,6 +86,32 @@ export default function ViewProductPage() {
             <Grid item xs={12} align="center">
                 {product && <ProductBox product={product} />}
             </Grid>
+            {/* Make Review */}
+            {/* Input section */}
+            <Grid item xs={12} align="center">
+                <FormControl component="fieldset">
+
+                    {/* Text input */}
+                    <FormHelperText component="div">
+                        <div align="center">Text</div>
+                    </FormHelperText>
+                    <TextField
+                        required
+                        id="comment"
+                        label="Comment"
+                        onChange={commentChange} // Use textChange directly
+                        inputProps={{ style: { textAlign: "center" } }}
+                    />
+                </FormControl>
+            </Grid>
+            {/* Create review button */}
+            <Grid item xs={12} align="center">
+                <Button color="primary" variant="contained"
+                onClick={createReviewButtonPressed}>
+                    Create Review
+                </Button>
+            </Grid>
+
             {/* Display all reviews */}
             <Grid item xs={12} align="center">
                 <Typography component="h4" variant="h4">

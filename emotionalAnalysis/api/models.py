@@ -20,14 +20,5 @@ class User(models.Model):
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    # Adding choices for rating field
-    RATING_CHOICES = [
-        (1, '1 Star'),
-        (2, '2 Stars'),
-        (3, '3 Stars'),
-        (4, '4 Stars'),
-        (5, '5 Stars'),
-    ]
-    rating = models.IntegerField(choices=RATING_CHOICES)
     comment = models.CharField(max_length=255)
-    emotion = models.CharField(max_length=255)
+    emotion = models.CharField(max_length=255, null = True, blank = True)

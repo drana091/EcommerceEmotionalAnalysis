@@ -42,10 +42,10 @@ class CreateUserSerializer(serializers.ModelSerializer):
 class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ('id', 'product', 'user', 'rating', 'comment', 'emotion')
+        fields = ('id', 'product', 'user', 'comment', 'emotion')
 
 # Create a serializer for the Review model that creates a new review.
 class CreateReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
-        fields = ('product', 'user', 'rating', 'comment', 'emotion')
+        fields = ('product', 'user', 'comment', 'emotion')

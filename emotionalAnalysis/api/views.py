@@ -115,12 +115,10 @@ class CreateReviewView(APIView):
         serializer = self.serializer_class(data=request.data)
         # If the data is valid, create a new review
         if serializer.is_valid():
-            product = serializer.data.get('product')
-            user = serializer.data.get('user')
-            rating = serializer.data.get('rating')
+            product = Product.objects.get(id=serializer.data.get('product'))
+            user = User.objects.get(id=serializer.data.get('user'))
             comment = serializer.data.get('comment')
-            emotion = serializer.data.get('emotion')
-            review = Review(product=product, user=user, rating=rating, comment=comment, emotion=emotion)
+            review = Review(product=product, user=user, comment=comment)
             review.save()
             return Response(ReviewSerializer(review).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
