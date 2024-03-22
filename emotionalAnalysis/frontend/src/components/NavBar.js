@@ -92,7 +92,8 @@ export default class NavBar extends Component {
                         </Search>
 
                         {/* Login Button */}
-                        <Button color="inherit">Login</Button>
+                        <Button color='primary' variant='contained'
+                        component={Link} to='/signin'>Sign in</Button>
                     </Toolbar>
                 </AppBar>
             </Box>
