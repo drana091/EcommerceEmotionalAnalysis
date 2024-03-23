@@ -18,6 +18,10 @@
         <div id="app"></div>
     </div>
 
+    <script>
+        window.csrfToken = "{{ csrf_token }}";
+    </script>
+
     <script src="{%static "frontend/main.js"%}"></script>
 </body>
 </html>

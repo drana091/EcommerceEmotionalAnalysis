@@ -5,7 +5,7 @@ import ViewProductPage from './ViewProductPage';
 import AllProductsPage from './AllProductsPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
-import NavBar from './NavBar';
+import NavBar from '../components/NavBar';
 
 
 export default function HomePage() {

@@ -21,6 +21,7 @@ export default function CreateReviewBox({ commentChange, createReviewButtonPress
                             inputProps={{ style: { textAlign: "center" } }}
                         />
                     </FormControl>
+                    
                 </Grid>
                 {/* Create review button */}
                 <Grid item xs={12} align="center">

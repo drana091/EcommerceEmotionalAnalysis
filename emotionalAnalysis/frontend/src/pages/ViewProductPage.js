@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
-import ProductBox from './ProductBox';
+import ProductBox from '../components/ProductBox';
 import React, { useState, useEffect } from 'react';
-import NavBar from './NavBar';
-import ShowReviewBox from './ShowReviewBox';
+import NavBar from '../components/NavBar';
+import ShowReviewBox from '../components/ShowReviewBox';
 import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box } from '@mui/material'; 
-import { FetchProduct } from './fetch/FetchProduct';
-import { FetchProductReviews } from './fetch/FetchProductReviews';
-import CreateReviewBox from './CreateReviewBox';
+import { FetchProduct } from '../components/fetch/FetchProduct';
+import { FetchProductReviews } from '../components/fetch/FetchProductReviews';
+import CreateReviewBox from '../components/CreateReviewBox';
 
 export default function ViewProductPage() {
     let { productID } = useParams();
@@ -34,7 +34,11 @@ export default function ViewProductPage() {
     const createReviewButtonPressed = () => {
         const requestOptions = {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: {
+                'Content-Type': 'application/json',
+                // Include the CSRF token in the headers
+                'X-CSRFToken': window.csrfToken,
+            },
             body: JSON.stringify({
                 product: product.id,
                 user: formData.user,
