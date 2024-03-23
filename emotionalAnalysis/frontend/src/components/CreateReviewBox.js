@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button, Grid, Box, FormControl, FormHelperText, TextField } from '@mui/material'; 
+import InputField from './InputField';
+import CreateReviewForm from './CreateReviewForm';
 
 // This function is used to display the review of a product in a box.
 export default function CreateReviewBox({ commentChange, createReviewButtonPressed }) {
@@ -7,20 +9,7 @@ export default function CreateReviewBox({ commentChange, createReviewButtonPress
         <Box sx={{ border: '2px solid black' }}>
             <Grid container spacing={1}>
                 <Grid item xs={12} align="center">
-                    <FormControl component="fieldset">
-
-                        {/* Text input */}
-                        <FormHelperText component="div">
-                            <div align="center">Text</div>
-                        </FormHelperText>
-                        <TextField
-                            required
-                            id="comment"
-                            label="Comment"
-                            onChange={commentChange} // Use textChange directly
-                            inputProps={{ style: { textAlign: "center" } }}
-                        />
-                    </FormControl>
+                    <CreateReviewForm commentChange={commentChange} />
                     
                 </Grid>
                 {/* Create review button */}
