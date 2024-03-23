@@ -1,15 +1,22 @@
-import React, { Component } from 'react';
+import { useParams } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box } from '@mui/material'; 
+import NavBar from './NavBar';
 
-export default class CartPage extends Component {
-    constructor(props) {
-        super(props);
-    }
+export default function CartPage() {
     
-    render() {
-        return (
-            <div>
-                <p>This is CartPage</p>
-            </div>
-        )
-    }
+    
+
+    return (
+        <Grid>
+            <Grid item xs={12}>
+                <NavBar />
+            </Grid>
+            <Grid item xs={12} align="center">
+                <Typography component="h4" variant="h4">
+                    Cart Page
+                </Typography>
+            </Grid>
+        </Grid>
+    );
 }

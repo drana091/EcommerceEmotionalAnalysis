@@ -4,58 +4,33 @@ import React, { useState, useEffect } from 'react';
 import NavBar from './NavBar';
 import ShowReviewBox from './ShowReviewBox';
 import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box } from '@mui/material'; 
+import { FetchProduct } from './fetch/FetchProduct';
+import { FetchProductReviews } from './fetch/FetchProductReviews';
+import CreateReviewBox from './CreateReviewBox';
 
 export default function ViewProductPage() {
-    // Get the product ID from the URL
     let { productID } = useParams();
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [formData, setFormData] = useState({ product: null, user: '1', comment: "" });
-    
-    // Fetch product data from the server
+
     useEffect(() => {
-        const fetchProduct = async () => {
-            try {
-                const response = await fetch(`/api/product/${productID}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch product data');
-                }
-                const data = await response.json();
-                setProduct(data); // Update the product state with fetched data
-                setFormData({ product: data, user: '1', comment: "" });
-            } catch (error) {
-                console.error('Error fetching product data:', error);
-            }
+        const fetchData = async () => {
+            const productData = await FetchProduct(productID);
+            const reviewsData = await FetchProductReviews(productID);
+            setProduct(productData);
+            setReviews(reviewsData);
+            setFormData({ product: productData, user: '1', comment: "" });
         };
 
-        // Call the fetchProduct function when productID changes
-        fetchProduct();
+        fetchData();
     }, [productID]);
 
-    // Fetch reviews for the product from the server
-    useEffect(() => {
-        const fetchReviews = async () => {
-            try {
-                const response = await fetch(`/api/product-reviews/${productID}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch reviews');
-                }
-                const data = await response.json();
-                setReviews(data); // Update the reviews state with fetched data
-            } catch (error) {
-                console.error('Error fetching reviews:', error);
-            }
-        };
-
-        // Call the fetchReviews function when productID changes
-        fetchReviews();
-    }, [productID]);
 
     const commentChange = (e) => {
         setFormData(prevState => ({ ...prevState, comment: e.target.value }));
     }
     
-
     const createReviewButtonPressed = () => {
         const requestOptions = {
             method: 'POST',
@@ -86,31 +61,12 @@ export default function ViewProductPage() {
             <Grid item xs={12} align="center">
                 {product && <ProductBox product={product} />}
             </Grid>
+            
             {/* Make Review */}
-            {/* Input section */}
             <Grid item xs={12} align="center">
-                <FormControl component="fieldset">
-
-                    {/* Text input */}
-                    <FormHelperText component="div">
-                        <div align="center">Text</div>
-                    </FormHelperText>
-                    <TextField
-                        required
-                        id="comment"
-                        label="Comment"
-                        onChange={commentChange} // Use textChange directly
-                        inputProps={{ style: { textAlign: "center" } }}
-                    />
-                </FormControl>
+                <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
             </Grid>
-            {/* Create review button */}
-            <Grid item xs={12} align="center">
-                <Button color="primary" variant="contained"
-                onClick={createReviewButtonPressed}>
-                    Create Review
-                </Button>
-            </Grid>
+            
 
             {/* Display all reviews */}
             <Grid item xs={12} align="center">
