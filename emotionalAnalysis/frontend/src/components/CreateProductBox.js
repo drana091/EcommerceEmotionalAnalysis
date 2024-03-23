@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Box, FormControl, FormHelperText, TextField } from '@mui/material'; 
+import { Button, Grid, Box } from '@mui/material'; 
 import CreateProductForm from './CreateProductForm';
 
 // This function is used to display the review of a product in a box.

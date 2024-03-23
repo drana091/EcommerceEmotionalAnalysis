@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Grid, Box, FormControl, FormHelperText, TextField } from '@mui/material'; 
-import InputField from './InputField';
+import { Button, Grid, Box } from '@mui/material'; 
 import CreateReviewForm from './CreateReviewForm';
 
 // This function is used to display the review of a product in a box.

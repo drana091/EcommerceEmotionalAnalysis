@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Box, FormControl, FormHelperText, TextField } from '@mui/material'; 
+import { FormHelperText, TextField } from '@mui/material'; 
 
 // Component for input field
 export default function InputField ({ id, name, label, type, value, onChange }) {

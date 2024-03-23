@@ -76,6 +76,8 @@ export default class NavBar extends Component {
                         
                         {/* Page Buttons */}
                         <Button color='primary' variant='contained'
+                        component={Link} to='/'>Home</Button>
+                        <Button color='primary' variant='contained'
                         component={Link} to='/all'>Products</Button>
                         <Button color='primary' variant='contained'
                         component={Link} to='/create'>Create Product</Button>

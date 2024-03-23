@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Grid, Box, FormControl, FormHelperText, TextField } from '@mui/material'; 
+import { FormControl } from '@mui/material'; 
 import InputField from './InputField';
 
 export default function CreateProductForm({ handleInputChange, formData }) {
