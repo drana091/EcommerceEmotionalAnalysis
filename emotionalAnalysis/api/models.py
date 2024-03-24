@@ -17,7 +17,7 @@ class Product(models.Model):
         # Replace spaces in product name with underscores and add .jpg extension
         filename = f"{self.name.replace(' ', '_')}.jpg"
         # Assuming images are stored in a folder named 'product_images' within MEDIA_URL
-        return os.path.join('media/productImages', filename)
+        return os.path.join('productImages', filename)
 
     def save(self, *args, **kwargs):
         if not self.image_url:

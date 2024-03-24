@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 // This component is used to display a product in a box.
 export default function ProductBox({ product }) {
     // Construct the absolute URL of the image based on MEDIA_URL
-
+    const imageURL = `${window.location.origin}/media/${product.image_url}`;
     return (
         // Box of product
         <Box sx={{ border: '2px solid black' }}>
@@ -14,7 +14,7 @@ export default function ProductBox({ product }) {
                 {/* Product Image */}
                 <Grid item xs={12} sm={6}>
                     {/* Use the absolute URL for the image */}
-                    <img src={product.image_url} alt={product.name} style={{ width: '100%' }} />
+                    <img src={imageURL} alt={product.name} style={{ width: '100%' }} />
                 </Grid>
 
                 {/* Product Details */}
