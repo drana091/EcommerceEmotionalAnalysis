@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 
 // This component is used to display a product in a box.
 export default function ProductBox({ product }) {
+
     // Construct the absolute URL of the image based on MEDIA_URL
     const imageURL = `${window.location.origin}/media/${product.image_url}`;
     return (
@@ -24,6 +25,7 @@ export default function ProductBox({ product }) {
                         <Typography variant="h6">{product.name}</Typography>
                         <Typography>{product.description}</Typography>
                         <Typography>Stock: {product.stock}</Typography>
+                        <Typography>Emotion: {product.totalEmotion}</Typography>
                     </Grid>
 
                     {/* View Button */}

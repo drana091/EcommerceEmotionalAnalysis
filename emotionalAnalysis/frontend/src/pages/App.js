@@ -7,6 +7,7 @@ import AllProductsPage from './AllProductsPage';
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import HomePage from './HomePage';
+import CartPage from './CartPage';
 
 
 export default function App() {
@@ -18,6 +19,7 @@ export default function App() {
                 <Route path= '/signup' element={<SignUp />} />
                 <Route path= '/create' element={<CreateProductPage />} />
                 <Route path= '/all' element={<AllProductsPage />} />
+                <Route path= '/cart' element={<CartPage />} />
                 <Route path= "/product/:productID" element={<ViewProductPage />} />
             </Routes>
         </Router>

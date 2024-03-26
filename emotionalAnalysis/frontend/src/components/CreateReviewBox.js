@@ -13,7 +13,7 @@ export default function CreateReviewBox({ commentChange, createReviewButtonPress
                 </Grid>
                 {/* Create review button */}
                 <Grid item xs={12} align="center">
-                    <Button color="primary" variant="contained"
+                    <Button color="primary" variant="contained" 
                     onClick={createReviewButtonPressed}>
                         Create Review
                     </Button>

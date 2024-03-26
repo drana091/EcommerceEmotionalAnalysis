@@ -1,11 +1,12 @@
 from django.shortcuts import render
 from rest_framework import generics, status
-from .serializers import ProductSerializer, CreateProductSerializer, UserSerializer, CreateUserSerializer, ReviewSerializer, CreateReviewSerializer
+from .serializers import *
 from .models import Product, User,Review
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+from nrclex import NRCLex
 
 # Create your views here. This is where you define what happends to the data.
 
@@ -48,6 +49,12 @@ class CreateProductView(APIView):
 class UserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+
+# View to show a single user
+class SingleUserView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'pk'
 
 # View to login a user
 class SignInView(APIView):
@@ -118,7 +125,54 @@ class CreateReviewView(APIView):
             product = Product.objects.get(id=serializer.data.get('product'))
             user = User.objects.get(id=serializer.data.get('user'))
             comment = serializer.data.get('comment')
-            review = Review(product=product, user=user, comment=comment)
+            emotion = NRCLex(comment).affect_frequencies
+            review = Review(product=product, user=user, comment=comment, emotion=emotion)
             review.save()
             return Response(ReviewSerializer(review).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+    
+#----------------------------------------------
+# CART VIEWS
+#----------------------------------------------
+# View to show all cart items
+class CartView(generics.ListAPIView):
+    queryset = Cart.objects.all()
+    serializer_class = CartSerializer
+
+# View to all products in the cart
+class UserCartView(generics.ListAPIView):
+    serializer_class = CartSerializer
+    lookup_url_kwarg = 'user'
+
+    def get_queryset(self):
+        user_id = self.kwargs[self.lookup_url_kwarg]
+        return Cart.objects.filter(user_id=user_id)
+
+    
+# View to create a new cart item
+# Takes a POST request with parameters: user, product, quantity
+class CreateCartView(APIView):
+    serializer_class = CreateCartSerializer
+    # Define the post method
+    def post(self, request, format=None):
+        # Get the data from the request
+        serializer = self.serializer_class(data=request.data)
+        # If the data is valid, create a new cart item
+        if serializer.is_valid():
+            user = User.objects.get(id=serializer.data.get('user'))
+            product = Product.objects.get(id=serializer.data.get('product'))
+            quantity = serializer.data.get('quantity')
+            cart = Cart(user=user, product=product, quantity=quantity)
+            cart.save()
+            return Response(CartSerializer(cart).data, status=status.HTTP_201_CREATED)
+        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+# View to delete a product from the cart
+class DeleteProductFromCartView(APIView):
+    serializer_class = CartSerializer
+    def post(self, request):
+        user_id = request.data.get('user')
+        product_id = request.data.get('product')
+        cart_item = Cart.objects.filter(user_id=user_id, product_id=product_id)
+        cart_item.delete()
+        return Response({'message': 'Product deleted from cart'}, status=status.HTTP_200_OK)
