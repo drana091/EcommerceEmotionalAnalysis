@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Grid, Typography } from '@mui/material'; 
 import { FetchProduct } from '../components/fetch/FetchProduct'; // Import the function to fetch product data
 import ProductBox from './ProductBox'; // Import the ProductBox component
+import DeleteFromCartButton from './DeleteFromCartButton';
+import { FetchUser } from './fetch/FetchUser';
 
-export default function CartBox({ userCart }) {
+export default function CartBox({ userCart, setUserCart }) {
     const [cartItems, setCartItems] = useState([]);
 
     useEffect(() => {
@@ -12,7 +14,8 @@ export default function CartBox({ userCart }) {
             try {
                 const itemsWithProductDetails = await Promise.all(userCart.map(async (cartItem) => {
                     const productData = await FetchProduct(cartItem.product); // Assuming cartItem.product is the productId
-                    return { ...cartItem, product: productData };
+                    const userData = await FetchUser(cartItem.user);
+                    return { ...cartItem, product: productData, user: userData};
                 }));
                 setCartItems(itemsWithProductDetails);
             } catch (error) {
@@ -33,6 +36,7 @@ export default function CartBox({ userCart }) {
             {cartItems.map((cartItem) => (
                 <Grid item xs={12} key={cartItem.product.id}>
                     <ProductBox product={cartItem.product} quantity={cartItem.quantity} />
+                    <DeleteFromCartButton product={cartItem.product} user={cartItem.user} setUserCart={setUserCart} />
                 </Grid>
                 
             ))}

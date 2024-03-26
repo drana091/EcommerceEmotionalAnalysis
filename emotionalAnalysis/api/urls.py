@@ -27,6 +27,7 @@ urlpatterns = [
     # USER URLS
     #----------------------------------------------
     path('user', UserView.as_view()),
+    path('user/<pk>', SingleUserView.as_view()),
     path('create-user', CreateUserView.as_view()),
 
     #----------------------------------------------
@@ -35,4 +36,5 @@ urlpatterns = [
     path('cart', CartView.as_view()),
     path('create-cart', CreateCartView.as_view()),
     path('user-cart/<user>', UserCartView.as_view()),
+    path('delete-product-cart', DeleteProductFromCartView.as_view()),
 ]

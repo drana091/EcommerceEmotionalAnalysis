@@ -23,7 +23,7 @@ export default function CartPage() {
                 <NavBar />
             </Grid>
             <Grid item xs={12} align="center">
-                <CartBox userCart={userCart} />
+                <CartBox userCart={userCart} setUserCart={setUserCart} />
             </Grid>
         </Grid>
     );

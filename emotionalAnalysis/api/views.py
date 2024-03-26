@@ -50,6 +50,12 @@ class UserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
+# View to show a single user
+class SingleUserView(generics.RetrieveAPIView):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    lookup_field = 'pk'
+
 # View to login a user
 class SignInView(APIView):
     def post(self, request):
@@ -141,7 +147,7 @@ class UserCartView(generics.ListAPIView):
     def get_queryset(self):
         user_id = self.kwargs[self.lookup_url_kwarg]
         return Cart.objects.filter(user_id=user_id)
-    
+
     
 # View to create a new cart item
 # Takes a POST request with parameters: user, product, quantity
@@ -160,3 +166,13 @@ class CreateCartView(APIView):
             cart.save()
             return Response(CartSerializer(cart).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+# View to delete a product from the cart
+class DeleteProductFromCartView(APIView):
+    serializer_class = CartSerializer
+    def post(self, request):
+        user_id = request.data.get('user')
+        product_id = request.data.get('product')
+        cart_item = Cart.objects.filter(user_id=user_id, product_id=product_id)
+        cart_item.delete()
+        return Response({'message': 'Product deleted from cart'}, status=status.HTTP_200_OK)
