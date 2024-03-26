@@ -133,6 +133,16 @@ class CartView(generics.ListAPIView):
     queryset = Cart.objects.all()
     serializer_class = CartSerializer
 
+# View to all products in the cart
+class UserCartView(generics.ListAPIView):
+    serializer_class = CartSerializer
+    lookup_url_kwarg = 'user'
+
+    def get_queryset(self):
+        user_id = self.kwargs[self.lookup_url_kwarg]
+        return Cart.objects.filter(user_id=user_id)
+    
+    
 # View to create a new cart item
 # Takes a POST request with parameters: user, product, quantity
 class CreateCartView(APIView):

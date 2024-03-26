@@ -77,8 +77,12 @@ class Cart(models.Model):
 
     # Run when a cart is saved
     def save(self, *args, **kwargs):
-        # Calculate the total price of the product
-        self.total = self.product.price * self.quantity
+        if self.product:
+            # Calculate the total price of the product if the product is not None
+            self.total = self.product.price * self.quantity
+        else:
+            # Handle the case where the product is None
+            self.total = 0.0  # Set total to 0
         super().save(*args, **kwargs)
 
 class Order(models.Model):

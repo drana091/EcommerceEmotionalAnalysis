@@ -7,6 +7,7 @@ import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box }
 import { FetchProduct } from '../components/fetch/FetchProduct';
 import { FetchProductReviews } from '../components/fetch/FetchProductReviews';
 import CreateReviewBox from '../components/CreateReviewBox';
+import ProductToCartButton from '../components/ProductToCartButton';
 
 export default function ViewProductPage() {
     let { productID } = useParams();
@@ -74,6 +75,10 @@ export default function ViewProductPage() {
                 {product && <ProductBox product={product} />}
             </Grid>
             
+            {/*Add to cart button */}
+            <Grid item xs={12} align="center">
+                <ProductToCartButton product={product} formData={formData} />
+            </Grid>
             {/* Make Review */}
             <Grid item xs={12} align="center">
                 <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
@@ -91,7 +96,7 @@ export default function ViewProductPage() {
                     <ShowReviewBox review={review} />
                 </Grid>
             ))}
-
+            
         </Grid>
     );
 }

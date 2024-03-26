@@ -34,4 +34,5 @@ urlpatterns = [
     #----------------------------------------------
     path('cart', CartView.as_view()),
     path('create-cart', CreateCartView.as_view()),
+    path('user-cart/<user>', UserCartView.as_view()),
 ]
