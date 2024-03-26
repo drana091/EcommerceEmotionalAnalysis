@@ -1,6 +1,6 @@
 from django.urls import path
 ## Import the functions from views.py
-from .views import ProductView, SingleProductView, ProductReviewView, CreateProductView, ReviewView, CreateReviewView, UserView, CreateUserView
+from .views import *
 
 ## Define the URL patterns
 
@@ -28,4 +28,10 @@ urlpatterns = [
     #----------------------------------------------
     path('user', UserView.as_view()),
     path('create-user', CreateUserView.as_view()),
+
+    #----------------------------------------------
+    # CART URLS
+    #----------------------------------------------
+    path('cart', CartView.as_view()),
+    path('create-cart', CreateCartView.as_view()),
 ]

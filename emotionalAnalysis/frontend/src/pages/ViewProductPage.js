@@ -48,7 +48,15 @@ export default function ViewProductPage() {
         // The fetch() method is used to make a POST request to the server.
         fetch('/api/create-review', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => console.log(data))
+        .then(() => {
+            // Fetch the reviews again to show the updated list
+            FetchProductReviews(productID).then((reviewsData) => setReviews(reviewsData))
+            // Fetch the product again to show the updated list
+            FetchProduct(productID).then((productData) => setProduct(productData))
+            // Clear the comment field. NOT WORKING
+            setFormData(prevState => ({ ...prevState, comment: "" }));
+        });
     }
 
     return (

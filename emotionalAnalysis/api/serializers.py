@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Product, User, Review
+from .models import Product, User, Review, Cart, Order
 
 # Create serializers for the model here.
 # This converts the data from the model into JSON format
@@ -49,3 +49,34 @@ class CreateReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = ('product', 'user', 'comment', 'emotion')
+
+#----------------------------------------------
+# CART SERIALIZERS
+#----------------------------------------------
+# Create a serializer for the Cart model to view the cart
+class CartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = ('id', 'user', 'product', 'quantity', 'total')
+
+# Create a serializer for the Cart model that creates a new cart
+class CreateCartSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Cart
+        fields = ('user', 'product', 'quantity')
+
+#----------------------------------------------
+# ORDER SERIALIZERS
+#----------------------------------------------
+# Create a serializer for the Order model to view the orders
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('id', 'recepitID', 'user', 'product', 'quantity', 'total')
+
+# Create a serializer for the Order model that creates a new order
+class CreateOrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Order
+        fields = ('recepitID', 'user', 'product', 'quantity')
+
