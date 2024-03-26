@@ -54,51 +54,45 @@ const Search = styled('div')(({ theme }) => ({
   }));
 
 // NavBar component
-export default class NavBar extends Component {
-    constructor(props) {
-        super(props);
-    }
-    
-    render() {
-        return (
-            <Box sx={{ flexGrow: 1 }}>
-                <AppBar position="static" sx={{ width:'100%' }}>
-                    <Toolbar>
-                        <IconButton
-                            size="large"
-                            edge="start"
-                            color="inherit"
-                            aria-label="menu"
-                            sx={{ mr: 2 }}
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        
-                        {/* Page Buttons */}
-                        <Button color='primary' variant='contained'
-                        component={Link} to='/'>Home</Button>
-                        <Button color='primary' variant='contained'
-                        component={Link} to='/all'>Products</Button>
-                        <Button color='primary' variant='contained'
-                        component={Link} to='/create'>Create Product</Button>
+export default function NavBar() {
+  return (
+    <Box sx={{ flexGrow: 1 }}>
+        <AppBar position="static" sx={{ width:'100%' }}>
+            <Toolbar>
+                <IconButton
+                    size="large"
+                    edge="start"
+                    color="inherit"
+                    aria-label="menu"
+                    sx={{ mr: 2 }}
+                >
+                    <MenuIcon />
+                </IconButton>
+                
+                {/* Page Buttons */}
+                <Button color='primary' variant='contained'
+                component={Link} to='/'>Home</Button>
+                <Button color='primary' variant='contained'
+                component={Link} to='/all'>Products</Button>
+                <Button color='primary' variant='contained'
+                component={Link} to='/create'>Create Product</Button>
 
-                        {/* Search bar */}
-                        <Search>
-                            <SearchIconWrapper>
-                                <SearchIcon />
-                            </SearchIconWrapper>
-                            <StyledInputBase
-                                placeholder="Search…"
-                                inputProps={{ 'aria-label': 'search' }}
-                            />
-                        </Search>
+                {/* Search bar */}
+                <Search>
+                    <SearchIconWrapper>
+                        <SearchIcon />
+                    </SearchIconWrapper>
+                    <StyledInputBase
+                        placeholder="Search…"
+                        inputProps={{ 'aria-label': 'search' }}
+                    />
+                </Search>
 
-                        {/* Login Button */}
-                        <Button color='primary' variant='contained'
-                        component={Link} to='/signin'>Sign in</Button>
-                    </Toolbar>
-                </AppBar>
-            </Box>
-        );
-    }
+                {/* Login Button */}
+                <Button color='primary' variant='contained'
+                component={Link} to='/signin'>Sign in</Button>
+            </Toolbar>
+        </AppBar>
+    </Box>
+  );
 }
