@@ -24,6 +24,7 @@ export default function ProductBox({ product }) {
                         <Typography variant="h6">{product.name}</Typography>
                         <Typography>{product.description}</Typography>
                         <Typography>Stock: {product.stock}</Typography>
+                        <Typography>Emotion: {product.totalEmotion}</Typography>
                     </Grid>
 
                     {/* View Button */}

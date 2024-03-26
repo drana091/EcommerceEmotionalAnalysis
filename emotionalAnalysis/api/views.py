@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+from nrclex import NRCLex
 
 # Create your views here. This is where you define what happends to the data.
 
@@ -118,7 +119,8 @@ class CreateReviewView(APIView):
             product = Product.objects.get(id=serializer.data.get('product'))
             user = User.objects.get(id=serializer.data.get('user'))
             comment = serializer.data.get('comment')
-            review = Review(product=product, user=user, comment=comment)
+            emotion = NRCLex(comment).affect_frequencies
+            review = Review(product=product, user=user, comment=comment, emotion=emotion)
             review.save()
             return Response(ReviewSerializer(review).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
