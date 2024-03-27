@@ -37,4 +37,9 @@ urlpatterns = [
     path('create-cart', CreateCartView.as_view()),
     path('user-cart/<user>', UserCartView.as_view()),
     path('delete-product-cart', DeleteProductFromCartView.as_view()),
+
+    #----------------------------------------------
+    # ORDER URLS
+    #----------------------------------------------
+    path('create-order', CreateOrderView.as_view()),
 ]

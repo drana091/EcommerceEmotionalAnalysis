@@ -86,14 +86,14 @@ class Cart(models.Model):
         super().save(*args, **kwargs)
 
 class Order(models.Model):
-    recepitID = models.CharField(max_length=255, unique=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product)
+    address = models.CharField(max_length=255)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255)
+    zip = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
+    paymentMethod = models.CharField(max_length=255)
     quantity = models.IntegerField(default = 1)
     total = models.FloatField(default = 0.0)
 
-    # Run when an order is saved
-    def save(self, *args, **kwargs):
-        # Calculate the total price of the product
-        self.total = self.product.price * self.quantity
-        super().save(*args, **kwargs)
