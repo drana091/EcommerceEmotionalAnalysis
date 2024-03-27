@@ -55,9 +55,21 @@ export default function CheckoutPage() {
         };
         // The fetch() method is used to make a POST request to the server.
         fetch('/api/create-order', requestOptions)
-        .then((response) => response.json())
-        .then((data) => console.log(data))
-        .then(() => deleteItemsFromCart());
+        .then((response) => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then((data) => {
+            console.log(data);
+            // Call deleteItemsFromCart only if fetch was successful
+            deleteItemsFromCart();
+        })
+        .catch((error) => {
+            console.error('There was a problem with the fetch operation:', error);
+            // Handle errors here if necessary
+        });
     };
 
     const deleteItemsFromCart = () => {
