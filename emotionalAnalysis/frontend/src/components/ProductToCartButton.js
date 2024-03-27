@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { ink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const addToCartButton = (product, formData) => {
     const requestOptions = {
@@ -24,7 +24,7 @@ const addToCartButton = (product, formData) => {
 
 export default function ProductToCartButton({ product, formData }) {
     return(
-        <Button variant="contained" color="primary" onClick={() => addToCartButton(product, formData)}>
+        <Button href='../cart' variant="contained" color="primary" onClick={() => addToCartButton(product, formData)}>
             Add to Cart   
         </Button>
     );

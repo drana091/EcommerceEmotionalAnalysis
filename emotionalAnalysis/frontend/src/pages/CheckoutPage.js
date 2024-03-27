@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Grid, Typography, Box } from '@mui/material'; 
+import { Grid, Typography } from '@mui/material'; 
 import NavBar from '../components/NavBar';
 import { FetchUserCart } from '../components/fetch/FetchUserCart';
 import CartBox from '../components/CartBox';
 
-export default function CartPage() {
+export default function CheckoutPage() {
     const [userCart, setUserCart] = useState([]);
     const userID = 1; // Assuming this is the user's ID
 
@@ -23,9 +23,7 @@ export default function CartPage() {
                 <NavBar />
             </Grid>
             <Grid item xs={12} align="center">
-                <Box ml={'25%'} mr={'25%'}>
-                  <CartBox userCart={userCart} setUserCart={setUserCart} />
-                </Box>
+                <CartBox userCart={userCart} setUserCart={setUserCart} />
             </Grid>
         </Grid>
     );
