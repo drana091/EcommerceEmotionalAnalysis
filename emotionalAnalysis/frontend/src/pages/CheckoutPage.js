@@ -3,15 +3,11 @@ import { Button, Grid, Typography, Box } from '@mui/material';
 import NavBar from '../components/NavBar';
 import { FetchUserCart } from '../components/fetch/FetchUserCart';
 import CartBox from '../components/CartBox';
-import InputField from '../components/InputField';
 import CreateOrderForm from '../components/CreateOrderForm';
-import { FetchProduct } from '../components/fetch/FetchProduct';
-import { FetchUser } from '../components/fetch/FetchUser';
 
 export default function CheckoutPage() {
     const [userCart, setUserCart] = useState([]);
     const userID = 1; // Assuming this is the user's ID
-    const [cartItems, setCartItems] = useState([]);
 
     // Fetch the user's cart data
     useEffect(() => {
@@ -23,28 +19,17 @@ export default function CheckoutPage() {
         fetchData();
     }, [userID]);
 
-    // Fetch product details for each item in the cart
+    // Update formData whenever userCart changes
     useEffect(() => {
-        const fetchProductDetails = async () => {
-            try {
-                const itemsWithProductDetails = await Promise.all(userCart.map(async (cartItem) => {
-                    const productData = await FetchProduct(cartItem.product); // Assuming cartItem.product is the productId
-                    const userData = await FetchUser(cartItem.user);
-                    return { ...cartItem, product: productData, user: userData};
-                }));
-                setCartItems(itemsWithProductDetails);
-            } catch (error) {
-                console.error('Error fetching product details for cart items:', error);
-            }
-        }
-        
-        fetchProductDetails();
+        setFormData(prevState => ({
+            ...prevState,
+            products: userCart.map(cartItem => cartItem.product),
+        }));
     }, [userCart]);
-
 
     const [formData, setFormData] = useState({
         user: userID,
-        products: userCart.map(item => item.product),
+        products: '',
         address: '',
         city: '',
         state: '',
@@ -71,7 +56,23 @@ export default function CheckoutPage() {
         // The fetch() method is used to make a POST request to the server.
         fetch('/api/create-order', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => console.log(data))
+        .then(() => deleteItemsFromCart());
+    };
+
+    const deleteItemsFromCart = () => {
+        // Iterate through each item in the cart and delete it
+        userCart.forEach((cartItem) => {
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.csrfToken},
+                body: JSON.stringify({ user: userID, product: cartItem.product }),
+            };
+            fetch('/api/delete-product-cart', requestOptions)
+            .then((response) => response.json())
+            .then((data) => console.log(data))
+            .then(() => setUserCart([])); // Clear userCart state after all items are deleted
+        });
     };
 
     return (
@@ -80,7 +81,7 @@ export default function CheckoutPage() {
                 <Grid item xs={12}>
                     <NavBar />
                 </Grid>
-                
+
                 {/* Checkout Area */}
                 <Grid container item xs={12} alignItems="center" justifyContent="center" spacing={3}>
                     
