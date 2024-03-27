@@ -180,6 +180,16 @@ class DeleteProductFromCartView(APIView):
 #----------------------------------------------
 # ORDER VIEWS
 #----------------------------------------------
+# View to show all orders of a user
+class OrderView(generics.ListAPIView):
+    serializer_class = OrderSerializer
+    lookup_url_kwarg = 'user'
+
+    def get_queryset(self):
+        user_id = self.kwargs[self.lookup_url_kwarg]
+        return Order.objects.filter(user_id=user_id)    
+
+
 # View to create a new order
 # Takes a POST request with parameters: user, product, address, city, state, zip, country, paymentMethod, quantity
 class CreateOrderView(APIView):

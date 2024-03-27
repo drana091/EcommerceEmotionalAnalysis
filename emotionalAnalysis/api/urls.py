@@ -41,5 +41,6 @@ urlpatterns = [
     #----------------------------------------------
     # ORDER URLS
     #----------------------------------------------
+    path('order/<user>', OrderView.as_view()),
     path('create-order', CreateOrderView.as_view()),
 ]
