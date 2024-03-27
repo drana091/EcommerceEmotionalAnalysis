@@ -78,6 +78,8 @@ export default function NavBar() {
                 component={Link} to='/create'>Create Product</Button>
                 <Button color='primary' variant='contained'
                 component={Link} to='/cart'>Cart</Button>
+                <Button color='primary' variant='contained'
+                component={Link} to='/pastorders'>Orders</Button>
 
                 {/* Search bar */}
                 <Search>

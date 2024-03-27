@@ -14,4 +14,5 @@ urlpatterns = [
     path('signup', index),
     path('cart', index),
     path('checkout', index),
+    path('pastorders', index),
 ]

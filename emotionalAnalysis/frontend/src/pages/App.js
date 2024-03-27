@@ -9,6 +9,7 @@ import SignUp from './SignUp';
 import HomePage from './HomePage';
 import CartPage from './CartPage';
 import CheckoutPage from './CheckoutPage';
+import PastOrdersPage from './PastOrdersPage';
 
 export default function App() {
     return(
@@ -21,6 +22,7 @@ export default function App() {
                 <Route path= '/all' element={<AllProductsPage />} />
                 <Route path= '/cart' element={<CartPage />} />
                 <Route path= '/checkout' element={<CheckoutPage />} />
+                <Route path= '/pastorders' element={<PastOrdersPage />} />
                 <Route path= "/product/:productID" element={<ViewProductPage />} />
             </Routes>
         </Router>
