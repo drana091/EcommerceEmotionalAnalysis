@@ -13,4 +13,5 @@ urlpatterns = [
     path('signin', index),
     path('signup', index),
     path('cart', index),
+    path('checkout', index),
 ]

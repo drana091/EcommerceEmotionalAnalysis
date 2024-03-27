@@ -176,3 +176,44 @@ class DeleteProductFromCartView(APIView):
         cart_item = Cart.objects.filter(user_id=user_id, product_id=product_id)
         cart_item.delete()
         return Response({'message': 'Product deleted from cart'}, status=status.HTTP_200_OK)
+
+#----------------------------------------------
+# ORDER VIEWS
+#----------------------------------------------
+# View to create a new order
+# Takes a POST request with parameters: user, product, address, city, state, zip, country, paymentMethod, quantity
+class CreateOrderView(APIView):
+    serializer_class = CreateOrderSerializer
+
+    def post(self, request, format=None):
+        serializer = self.serializer_class(data=request.data)
+        
+        if serializer.is_valid():
+            user = serializer.validated_data.get('user')
+            products = serializer.validated_data.get('products')
+            address = serializer.validated_data.get('address')
+            city = serializer.validated_data.get('city')
+            state = serializer.validated_data.get('state')
+            zip_code = serializer.validated_data.get('zip')
+            country = serializer.validated_data.get('country')
+            payment_method = serializer.validated_data.get('paymentMethod')
+            
+            # Create the order instance
+            order = Order.objects.create(
+                user=user,
+                address=address,
+                city=city,
+                state=state,
+                zip=zip_code,
+                country=country,
+                paymentMethod=payment_method,
+            )
+            
+            # Add products to the order
+            order.products.set(products)
+            
+            # Serialize and return the created order
+            order_serializer = OrderSerializer(order)
+            return Response(order_serializer.data, status=status.HTTP_201_CREATED)
+        
+        return Response({'Bad Request': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)

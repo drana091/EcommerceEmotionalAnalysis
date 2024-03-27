@@ -8,7 +8,7 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import HomePage from './HomePage';
 import CartPage from './CartPage';
-
+import CheckoutPage from './CheckoutPage';
 
 export default function App() {
     return(
@@ -20,6 +20,7 @@ export default function App() {
                 <Route path= '/create' element={<CreateProductPage />} />
                 <Route path= '/all' element={<AllProductsPage />} />
                 <Route path= '/cart' element={<CartPage />} />
+                <Route path= '/checkout' element={<CheckoutPage />} />
                 <Route path= "/product/:productID" element={<ViewProductPage />} />
             </Routes>
         </Router>

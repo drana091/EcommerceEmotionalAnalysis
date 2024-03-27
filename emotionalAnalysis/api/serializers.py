@@ -72,11 +72,11 @@ class CreateCartSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'recepitID', 'user', 'product', 'quantity', 'total')
+        fields = ('id', 'user', 'products', 'quantity', 'total', 'address', 'city', 'state', 'zip', 'country', 'paymentMethod')
 
 # Create a serializer for the Order model that creates a new order
 class CreateOrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('recepitID', 'user', 'product', 'quantity')
+        fields = ('user', 'products', 'address', 'city', 'state', 'zip', 'country', 'paymentMethod')
 
