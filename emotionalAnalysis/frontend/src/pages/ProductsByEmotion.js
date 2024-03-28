@@ -25,17 +25,26 @@ export default function ProductsByEmotion() {
         };
 
         fetchProducts();
-    }, []);
+    }, [emotion]); // Fetch products again when the emotion changes. Called the depedency.
+
+    const emotionColors = {
+        love: '#FFC0CB', // Light pink
+        joy: '#FFFF00',  // Yellow
+        surprise: '#87CEEB', // Sky blue
+        anger: '#FF4500', // Orange red
+        sadness: '#4682B4', // Steel blue
+        fear: '#008080' // Teal
+    };
+    const backgroundColor = emotionColors[emotion];
 
     return (
-        <Grid container spacing={1}>
+        <Grid container spacing={1} style={{backgroundColor}}>
             <NavBar />
 
             {/* Title */}
             <Grid item xs={12} align="center">
                 <Typography component="h4" variant="h4">
-                    Emotion products
-                    {emotion}
+                    Emotion: {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
                 </Typography>
             </Grid>
             
