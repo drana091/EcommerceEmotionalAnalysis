@@ -10,7 +10,9 @@ import MenuIcon from '@mui/icons-material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
+import SideDrawer from './SideDrawer';
 
+export default function NavBar() {
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
@@ -53,21 +55,15 @@ const Search = styled('div')(({ theme }) => ({
     },
   }));
 
+  
+
 // NavBar component
-export default function NavBar() {
+
   return (
     <Box sx={{ flexGrow: 1 }}>
         <AppBar position="static" sx={{ width:'100%' }}>
             <Toolbar>
-                <IconButton
-                    size="large"
-                    edge="start"
-                    color="inherit"
-                    aria-label="menu"
-                    sx={{ mr: 2 }}
-                >
-                    <MenuIcon />
-                </IconButton>
+                <SideDrawer />
                 
                 {/* Page Buttons */}
                 <Button color='primary' variant='contained'

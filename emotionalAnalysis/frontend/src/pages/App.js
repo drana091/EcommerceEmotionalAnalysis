@@ -10,6 +10,7 @@ import HomePage from './HomePage';
 import CartPage from './CartPage';
 import CheckoutPage from './CheckoutPage';
 import PastOrdersPage from './PastOrdersPage';
+import ProductsByEmotion from './ProductsByEmotion';
 
 export default function App() {
     return(
@@ -23,6 +24,7 @@ export default function App() {
                 <Route path= '/cart' element={<CartPage />} />
                 <Route path= '/checkout' element={<CheckoutPage />} />
                 <Route path= '/pastorders' element={<PastOrdersPage />} />
+                <Route path= '/emotion' element={<ProductsByEmotion />} />
                 <Route path= "/product/:productID" element={<ViewProductPage />} />
             </Routes>
         </Router>
