@@ -20,35 +20,35 @@ export default function DrawerList({ open, toggleDrawer  }) {
                             >
                             Categories
                             </AccordionSummary>
-                            <AccordionDetails>
+                            <AccordionDetails onClick={toggleDrawer(false)}>
                                 <List>
                                     <ListItem>
-                                        <ListItemButton component={Link} to={`/cart`}>
+                                        <ListItemButton component={Link} to={`/emotion/love`}>
                                             <ListItemText primary="Love" />
                                         </ListItemButton>
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemButton>
+                                        <ListItemButton component={Link} to={`/emotion/joy`}>
                                             <ListItemText primary="Joy" />
                                         </ListItemButton>
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemButton>
+                                        <ListItemButton component={Link} to={`/emotion/surprise`}>
                                             <ListItemText primary="Surprise" />
                                         </ListItemButton>
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemButton>
+                                        <ListItemButton component={Link} to={`/emotion/anger`}>
                                             <ListItemText primary="Anger" />
                                         </ListItemButton>
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemButton>
+                                        <ListItemButton component={Link} to={`/emotion/sadness`}>
                                             <ListItemText primary="Sadness" />
                                         </ListItemButton>
                                     </ListItem>
                                     <ListItem>
-                                        <ListItemButton>
+                                        <ListItemButton component={Link} to={`/emotion/fear`}>
                                             <ListItemText primary="Fear" />
                                         </ListItemButton>
                                     </ListItem>

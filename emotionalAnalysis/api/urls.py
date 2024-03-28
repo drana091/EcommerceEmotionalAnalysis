@@ -14,6 +14,7 @@ urlpatterns = [
     path('product/<pk>', SingleProductView.as_view()),
     ## If /create url, create a new product
     path('create-product', CreateProductView.as_view()),
+    path('emotion-product/<emotion>', EmotionProductView.as_view()),
  
     #----------------------------------------------
     # REVIEW URLS

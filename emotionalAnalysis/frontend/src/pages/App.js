@@ -24,7 +24,7 @@ export default function App() {
                 <Route path= '/cart' element={<CartPage />} />
                 <Route path= '/checkout' element={<CheckoutPage />} />
                 <Route path= '/pastorders' element={<PastOrdersPage />} />
-                <Route path= '/emotion' element={<ProductsByEmotion />} />
+                <Route path= '/emotion/:emotion' element={<ProductsByEmotion />} />
                 <Route path= "/product/:productID" element={<ViewProductPage />} />
             </Routes>
         </Router>

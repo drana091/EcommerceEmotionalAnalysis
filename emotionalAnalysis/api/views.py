@@ -24,6 +24,15 @@ class SingleProductView(generics.RetrieveAPIView):
     serializer_class = ProductSerializer
     lookup_field = 'pk'
 
+# View to show products with a specific totalEmotion
+class EmotionProductView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+    lookup_url_kwarg = 'emotion'
+
+    def get_queryset(self):
+        emotion = self.kwargs[self.lookup_url_kwarg]
+        return Product.objects.filter(totalEmotion=emotion)
+
 # View to create a new product. 
 # Takes a POST request with parameters: name, description, price
 class CreateProductView(APIView):
