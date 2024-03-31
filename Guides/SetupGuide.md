@@ -1,6 +1,10 @@
 # Setup Guide for Ecommerce Emotional Analysis
 **This assumes you have basic knowledge of using a terminal and troubleshooting**
 ## Programs to install
+To install all components, run
+```
+pip install -r requirments.txt
+```
 
 ### Applications from the internet
 1. Python
