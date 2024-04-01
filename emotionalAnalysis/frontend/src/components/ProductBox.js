@@ -1,46 +1,34 @@
-import { Button, Grid, Box, Typography } from '@mui/material'; 
+import { Button, Grid, Box, Typography, Paper } from '@mui/material'; 
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-// This component is used to display a product in a box.
 export default function ProductBox({ product }) {
-
-    // Construct the absolute URL of the image based on MEDIA_URL
     const imageURL = `${window.location.origin}/media/${product.image_url}`;
+
     return (
-        // Box of product
-        <Box sx={{ border: '2px solid black' }}>
-            <Grid container spacing={1}>
-
-                {/* Product Image */}
-                <Grid item xs={12} sm={6}>
-                    {/* Use the absolute URL for the image */}
-                    <img src={imageURL} alt={product.name} style={{ width: '100%' }} />
-                </Grid>
-
-                {/* Product Details */}
-                <Grid item xs={12} sm={6} container direction="column" spacing={1}>
-                    {/* Product Name, Description, Stock */}
-                    <Grid item>
-                        <Typography variant="h6">{product.name}</Typography>
-                        <Typography>{product.description}</Typography>
-                        <Typography>Stock: {product.stock}</Typography>
-                        <Typography>Emotion: {product.totalEmotion}</Typography>
+        <Box sx={{ border: '2px solid #ccc', borderRadius: '8px', overflow: 'hidden', bgcolor: '#fff', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', margin: '16px' }}>
+            <Paper elevation={10}>
+                <Grid container spacing={2} alignItems="center">
+                    <Grid item xs={12} sm={6}>
+                        {/* Adjusted styles to make the image fill the container */}
+                        <img src={imageURL} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </Grid>
-
-                    {/* View Button */}
-                    <Grid item>
-                        <Button variant="contained" color="primary" component={Link} to={`/product/${product.id}`}>
-                            View
-                        </Button>
-                    </Grid>
-
-                    {/* Product Price */}
-                    <Grid item>
-                        <Typography variant="h6">${product.price}</Typography>
+                    <Grid item xs={12} sm={6} container direction="column" justifyContent="space-between">
+                        <Grid item>
+                            <Typography variant="h5" gutterBottom>{product.name}</Typography>
+                            <Typography variant="body1" gutterBottom>{product.description}</Typography>
+                            <Typography variant="body2" color="textSecondary">Stock: {product.stock}</Typography>
+                            <Typography variant="body2" color="textSecondary">Emotion: {product.totalEmotion}</Typography>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained" color="primary" component={Link} to={`/product/${product.id}`}>View Details</Button>
+                        </Grid>
+                        <Grid item>
+                            <Typography variant="h6">${product.price}</Typography>
+                        </Grid>
                     </Grid>
                 </Grid>
-            </Grid>
+            </Paper>
         </Box>
     );
 }

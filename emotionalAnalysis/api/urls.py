@@ -15,6 +15,8 @@ urlpatterns = [
     ## If /create url, create a new product
     path('create-product', CreateProductView.as_view()),
     path('emotion-product/<emotion>', EmotionProductView.as_view()),
+    ## New URL pattern for fetching random products
+    path('random-products', RandomProductView.as_view()),
  
     #----------------------------------------------
     # REVIEW URLS

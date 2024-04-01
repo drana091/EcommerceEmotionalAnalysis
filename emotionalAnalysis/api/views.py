@@ -6,6 +6,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
+import random
 
 # Create your views here. This is where you define what happends to the data.
 
@@ -49,6 +50,18 @@ class CreateProductView(APIView):
             product.save()
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
+
+    # View to fetch random products
+class RandomProductView(generics.ListAPIView):
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        # Get all product IDs
+        all_product_ids = list(Product.objects.values_list('id', flat=True))
+        # Choose a random subset of product IDs (e.g., 10 random product IDs)
+        random_product_ids = random.sample(all_product_ids, k=3)  # Adjust the value of 'k' as needed
+        # Fetch products corresponding to the random IDs
+        return Product.objects.filter(id__in=random_product_ids)
     
 #----------------------------------------------
 # USER VIEWS
