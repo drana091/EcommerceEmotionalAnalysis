@@ -29,6 +29,7 @@ export default function HomePage() {
     const theme = createTheme({
         typography: {
             poster: {
+                fontFamily: "Lucida Handwriting",
                 fontSize: '4rem',
                 color: '#333', // Adjusted text color for better readability
                 fontWeight: 'bold', // Added font weight for emphasis
@@ -44,17 +45,48 @@ export default function HomePage() {
                 </Grid>
                 <Grid item xs={12} align="center">
                     <Typography variant="poster" gutterBottom>
-                        Welcome to Our Store
+                        For The Record
+                           
                     </Typography>
-                    <Typography variant="h5" gutterBottom>
-                        Explore our latest products and promotions
+                </Grid>
+                <Grid item xs={12} align="center">
+                    <Typography variant="h5">
+                        Memories From Our Past
                     </Typography>
                 </Grid>
 
                 {/* Banner */}
-                <Grid item xs={12} align="center">
-                    <img src={window.location.origin + '/media/bannerImages/banner.jpg'} alt="Banner" style={{ maxWidth: '100%' }} />
+                <Grid
+                    item
+                    xs={12}
+                    align="center"
+                    sx={{
+                        backgroundImage: `url(${window.location.origin}/media/bannerImages/recordBanner.png)`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        height: '400px', // Set a minHeight to ensure the banner container is at least 400px tall
+                        margin: '0 8%',
+                        display: 'flex',
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        // Remove overflow: hidden
+                    }}
+                >
+                    <Grid container spacing={2}>
+                        
+                        
+                        <Grid item xs={6} align="center">
+                            <Typography variant="h5" gutterBottom>
+                                
+                            </Typography>
+                        </Grid>
+                    </Grid>
                 </Grid>
+
+
+
+
+
 
                 {/* Promotions */}
                 <Grid item xs={12} align="center">
@@ -71,10 +103,10 @@ export default function HomePage() {
                 </Grid>
                 {/* Display all products */}
                 {products.map(product => (
-                    <Grid key={product.id} item xs={4} align="center">
-                        <ProductBox product={product} />
-                    </Grid>
-                ))}
+                        <Grid key={product.id} item xs={4} align="center">
+                            <ProductBox product={product} />
+                        </Grid>
+                    ))}
 
                 {/* Call to Action */}
                 <Grid item xs={12} align="center">

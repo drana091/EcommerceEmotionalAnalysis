@@ -4,7 +4,7 @@ import { Box, Slide, Typography } from '@mui/material';
 import { pink } from '@mui/material/colors';
 
 const messages = [
-    "Buy One Get One Free",
+    "Buy 1 Get 1 Free!",
     "$5 Off Purchases of $50 or More",
     "Refer Someone Get $20 off"
 ];

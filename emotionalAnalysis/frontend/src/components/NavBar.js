@@ -71,13 +71,18 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
+const LogoImg = styled('img')({
+  height: '60px', // Adjust height as needed
+  marginRight: '230px', // Add some spacing between logo and text/buttons
+});
+
 export default function NavBar() {
   return (
     <NavBarContainer>
       <StyledAppBar position="static">
         <Toolbar>
           <SideDrawer />
-          <Title variant="h6">Your Brand</Title>
+          <LogoImg src={window.location.origin + '/media/bannerImages/logo.png'} alt="Logo" />
           <ButtonContainer>
             <Button color="primary" component={Link} to="/">
               Home
@@ -101,9 +106,7 @@ export default function NavBar() {
             </SearchIconWrapper>
             <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
           </SearchContainer>
-          <Button color="primary" variant="contained" component={Link} to="/signin">
-            Sign in
-          </Button>
+          
         </Toolbar>
       </StyledAppBar>
     </NavBarContainer>

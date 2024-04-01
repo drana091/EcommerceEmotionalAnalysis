@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Button, Grid, Box, Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import ProductBox from '../components/ProductBox';
 import NavBar from '../components/NavBar';
 import { useParams } from 'react-router-dom';
@@ -27,34 +27,33 @@ export default function ProductsByEmotion() {
         fetchProducts();
     }, [emotion]); // Fetch products again when the emotion changes. Called the depedency.
 
-    const emotionColors = {
-        love: '#FFC0CB', // Light pink
-        joy: '#FFFF00',  // Yellow
-        surprise: '#87CEEB', // Sky blue
-        anger: '#FF4500', // Orange red
-        sadness: '#4682B4', // Steel blue
-        fear: '#008080' // Teal
+    const emotionBackgrounds = {
+        love: 'url(/media/emotionImages/love.jpg)', // Light pink
+        joy: 'url(/media/emotionImages/joy.jpg)',  // Yellow
+        surprise: 'url(/media/emotionImages/surprise.jpg)', // Sky blue
+        anger: 'url(/media/emotionImages/anger.jpg)', // Orange red
+        sadness: 'url(/media/emotionImages/sadness.jpg)', // Steel blue
+        fear: 'url(/media/emotionImages/fear.jpg)' // Teal
     };
-    const backgroundColor = emotionColors[emotion];
+    const backgroundImage = emotionBackgrounds[emotion];
 
     return (
-        <Grid container spacing={1} style={{backgroundColor}}>
+        <div style={{ backgroundImage, backgroundSize: 'cover', minHeight: '100vh' }}>
             <NavBar />
 
             {/* Title */}
-            <Grid item xs={12} align="center">
-                <Typography component="h4" variant="h4">
-                    Emotion: {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
-                </Typography>
-            </Grid>
-            
+            <Typography variant="h4" align="center" style={{ margin: '20px 0', color: 'white' }}>
+                Emotion: {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
+            </Typography>
+
             {/* Display all products */}
-            {products.map(product => (
-                <Grid key={product.id} item xs={6} align="center">
-                    <ProductBox product={product} />
-                </Grid>
-            ))}
-            
-        </Grid>
+            <Grid container spacing={2} justifyContent="center">
+                {products.map(product => (
+                    <Grid key={product.id} item xs={12} sm={6} md={4} lg={3} align="center">
+                        <ProductBox product={product} />
+                    </Grid>
+                ))}
+            </Grid>
+        </div>
     );
-};
+}
