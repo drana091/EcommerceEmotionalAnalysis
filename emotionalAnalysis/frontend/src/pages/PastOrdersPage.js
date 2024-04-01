@@ -1,8 +1,6 @@
-import React from 'react';
-import { Grid, Typography } from '@mui/material'; 
+import React, { useState, useEffect } from 'react';
+import { Grid, Typography } from '@mui/material';
 import NavBar from '../components/NavBar';
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
 import { FetchProduct } from '../components/fetch/FetchProduct';
 import ProductBox from '../components/ProductBox';
 
@@ -28,18 +26,17 @@ export default function PastOrdersPage() {
         };
         fetchOrders();
     }, []);
-    
 
     // Fetch products from orders
     useEffect(() => {
         const fetchProductsForOrders = async () => {
             const fetchedProducts = [];
-    
+
             // Iterate through each order
             for (const order of orders) {
                 // Fetch products for the current order
                 const productsForOrder = [];
-    
+
                 // Iterate through each product ID in the order
                 for (const productId of order.products) {
                     try {
@@ -50,58 +47,55 @@ export default function PastOrdersPage() {
                         console.error(`Error fetching product with ID ${productId}:`, error);
                     }
                 }
-    
+
                 // Append the products for the current order to the fetchedProducts array
                 fetchedProducts.push({ order, products: productsForOrder });
             }
-    
+
             // Update the state with the fetched products
             setProducts(fetchedProducts);
             console.log('Fetched orders:', fetchedProducts);
         };
-    
+
         // Fetch products for orders only if there are orders
         if (orders.length > 0) {
             fetchProductsForOrders();
         }
     }, [orders]);
-        return (
-            <Grid container spacing={1}>
-                <Grid item xs={12}>
-                    <NavBar />
-                </Grid>
-                <Grid item xs={12} align="center">
-                    <Typography component="h4" variant="h4">
-                        Orders:
-                    </Typography>
-                    {/* Display orders and their products */}
-                    {products.map(({ order, products }) => (
-                        <Grid container spacing={1} key={order.id}>
-                            <Grid item xs={12}>
-                                <Typography component="h5" variant="h5">
-                                    Order ID: {order.id}
-                                </Typography>
-                                <Typography component="h6" variant="h6">
-                                    Total: ${order.total}
-                                </Typography>
-                                <Typography component="h6" variant="h6">
-                                    Date: {order.date}
-                                </Typography>
-                                <Typography component="h6" variant="h6">
-                                    Products:
-                                </Typography>
-                                <Grid container spacing={1}>
-                                    {products.map(product => (
-                                        <Grid item xs={3} key={product.id}>
-                                            <ProductBox product={product} />
-                                        </Grid>
-                                    ))}
-                                </Grid>
+
+    return (
+        <div style={{ padding: '20px' }}>
+            <NavBar />
+            <Typography variant="h4" style={{ marginTop: '20px', marginBottom: '10px' }}>
+                Past Orders
+            </Typography>
+            <Grid container spacing={2}>
+                {products.map(({ order, products }) => (
+                    <Grid item xs={12} key={order.id}>
+                        <div style={{ border: '1px solid #ccc', padding: '10px', marginBottom: '20px' }}>
+                            <Typography variant="h6">
+                                Order ID: {order.id}
+                            </Typography>
+                            <Typography>
+                                Total: ${order.total}
+                            </Typography>
+                            <Typography>
+                                Date: {order.date}
+                            </Typography>
+                            <Typography style={{ marginTop: '10px' }}>
+                                Products:
+                            </Typography>
+                            <Grid container spacing={2}>
+                                {products.map(product => (
+                                    <Grid item xs={12} md={4} key={product.id}>
+                                        <ProductBox product={product} />
+                                    </Grid>
+                                ))}
                             </Grid>
-                        </Grid>
-                    ))}
-                </Grid>
+                        </div>
+                    </Grid>
+                ))}
             </Grid>
-        );
-        
+        </div>
+    );
 }
