@@ -37,9 +37,16 @@ export default function ProductsByEmotion() {
         fear: 'url(/media/emotionImages/fear.jpg)' // Teal
     };
     const backgroundImage = emotionBackgrounds[emotion];
+    const backgroundStyle = {
+        backgroundImage,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        overflow: 'auto' 
+    };
 
     return (
-        <div style={{ backgroundImage, backgroundSize: 'cover', minHeight: '100vh' }}>
+        <div style={backgroundStyle}>
             <NavBar />
 
             {/* Title */}
@@ -48,11 +55,11 @@ export default function ProductsByEmotion() {
                     Products for {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
                 </Typography>
             </Paper>
-            
+
             {/* Display all products */}
             <Grid container spacing={2} justifyContent="center">
                 {products.map(product => (
-                    <Grid key={product.id} item xs={12} sm={6} md={4} lg={3} align="center">
+                    <Grid key={product.id} item xs={12} sm={6} md={3} align="center">
                         <ProductBox product={product} />
                     </Grid>
                 ))}
