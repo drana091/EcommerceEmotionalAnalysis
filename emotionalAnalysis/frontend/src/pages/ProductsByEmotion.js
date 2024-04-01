@@ -3,6 +3,7 @@ import { Grid, Typography } from '@mui/material';
 import ProductBox from '../components/ProductBox';
 import NavBar from '../components/NavBar';
 import { useParams } from 'react-router-dom';
+import Paper from '@mui/material/Paper';
 
 // This component is used to display all products.
 export default function ProductsByEmotion() {
@@ -36,20 +37,29 @@ export default function ProductsByEmotion() {
         fear: 'url(/media/emotionImages/fear.jpg)' // Teal
     };
     const backgroundImage = emotionBackgrounds[emotion];
+    const backgroundStyle = {
+        backgroundImage,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        minHeight: '100vh',
+        overflow: 'auto' 
+    };
 
     return (
-        <div style={{ backgroundImage, backgroundSize: 'cover', minHeight: '100vh' }}>
+        <div style={backgroundStyle}>
             <NavBar />
 
             {/* Title */}
-            <Typography variant="h4" align="center" style={{ margin: '20px 0', color: 'white' }}>
-                Emotion: {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
-            </Typography>
+            <Paper elevation={3} style={{ margin: '20px', padding: '20px', backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+                <Typography variant="h4" align="center" style={{ color: 'white' }}>
+                    Products for {emotion.charAt(0).toUpperCase() + emotion.slice(1)}
+                </Typography>
+            </Paper>
 
             {/* Display all products */}
             <Grid container spacing={2} justifyContent="center">
                 {products.map(product => (
-                    <Grid key={product.id} item xs={12} sm={6} md={4} lg={3} align="center">
+                    <Grid key={product.id} item xs={12} sm={6} md={3} align="center">
                         <ProductBox product={product} />
                     </Grid>
                 ))}

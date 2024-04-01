@@ -59,7 +59,7 @@ class User(models.Model):
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    comment = models.CharField(max_length=255)
+    comment = models.CharField(max_length=1000)
     emotion = models.CharField(max_length=255, null = True, blank = True)
 
     # Run when a review is saved
