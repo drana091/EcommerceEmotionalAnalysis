@@ -37,7 +37,7 @@ export default function AllProductsPage() {
 
             {/* Display all products */}
             {products.map(product => (
-                <Grid key={product.id} item xs={12} sm={6} align="center">
+                <Grid key={product.id} item xs={12} sm={6} md={4} align="center">
                     <ProductBox product={product} />
                 </Grid>
             ))}
