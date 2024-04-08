@@ -79,6 +79,7 @@ const LogoImg = styled('img')({
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     if (searchQuery.trim() !== '') {
