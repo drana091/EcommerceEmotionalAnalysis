@@ -99,6 +99,7 @@ export default function NavBar() {
             <Button color="primary" component={Link} to="/pastorders">
               Orders
             </Button>
+            <SearchButton color="primary" component={Link} to="/all">Search</SearchButton>
           </ButtonContainer>
           <SearchContainer>
             <SearchIconWrapper>
