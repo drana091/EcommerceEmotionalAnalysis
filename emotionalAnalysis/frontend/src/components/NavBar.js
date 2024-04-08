@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,7 +7,7 @@ import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import SideDrawer from './SideDrawer';
 
 const ButtonContainer = styled('div')({
@@ -76,7 +76,41 @@ const LogoImg = styled('img')({
   marginRight: '230px', // Add some spacing between logo and text/buttons
 });
 
+
 export default function NavBar() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const handleSearchSubmit = async (e) => {
+    e.preventDefault();
+    if (searchQuery.trim() !== '') {
+        try {
+            const response = await fetch('/api/search/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': window.csrfToken,
+                },
+                body: JSON.stringify({ query: searchQuery }),
+            });
+
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+
+            const data = await response.json();
+            if (data.length > 0) {
+                const productId = data[0].id;
+                navigate(`/product/${productId}`);
+            } else {
+                alert('Product not found');
+            }
+        } catch (error) {
+            console.error('An error occurred while fetching search results:', error);
+            alert('Failed to fetch search results. Please try again later.');
+        }
+    } else {
+        alert('Please enter a search query');
+    }
+};  
   return (
     <NavBarContainer>
       <StyledAppBar position="static">
@@ -99,15 +133,19 @@ export default function NavBar() {
             <Button color="primary" component={Link} to="/pastorders">
               Orders
             </Button>
-            <SearchButton color="primary" component={Link} to="/all">Search</SearchButton>
           </ButtonContainer>
           <SearchContainer>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase placeholder="Hello" inputProps={{ 'aria-label': 'search' }} />
+          <form onSubmit={handleSearchSubmit}>
+                        <InputBase
+                            placeholder="Search…"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                        <Button type="submit" color="inherit">
+                            <SearchIcon />
+                        </Button>
+                    </form>
           </SearchContainer>
-          
         </Toolbar>
       </StyledAppBar>
     </NavBarContainer>

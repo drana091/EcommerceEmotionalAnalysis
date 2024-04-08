@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 import random
+from django.http import JsonResponse
+
 
 # Create your views here. This is where you define what happends to the data.
 
@@ -248,9 +250,25 @@ class CreateOrderView(APIView):
         
         return Response({'Bad Request': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
-class SearchProduct(APIView):
-    def search_products(request):
-        query = request.GET.get('query')  # Get the search query from the request parameters
-        products = Product.objects.filter(name__icontains=query)  # Query the database for products
-        data = [{'id': product.id, 'name': product.name, 'description':product.description, 'price': product.price, 'stock': product.stock, 'totalEmotion': product.totalEmotion, 'image_url': product.image_url } for product in products]
-        return JsonResponse(data, safe=False)
+class SearchProduct(generics.ListAPIView):
+    
+    def post(self, request):
+        query = request.data.get('query')  # Get the search query from the request data
+        if query:
+            # Query the database for products containing the search query in their name
+            products = Product.objects.filter(name__icontains=query)
+            # Serialize the queryset into JSON format
+            data = [{
+                'id': product.id,
+                'name': product.name,
+                'description': product.description,
+                'price': product.price,
+                'stock': product.stock,
+                'totalEmotion': product.totalEmotion,
+                'image_url': product.image_url
+            } for product in products]
+            # Return the JSON response
+            return JsonResponse(data, safe=False)
+        else:
+            # If no search query is provided, return a bad request response
+            return JsonResponse({'error': 'No search query provided'}, status=400)

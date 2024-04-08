@@ -1,5 +1,6 @@
 {
   "dependencies": {
-    "nltk": "^0.0.1"
+    "nltk": "^0.0.1",
+    "react-router-dom": "^5.3.0"
   }
 }
