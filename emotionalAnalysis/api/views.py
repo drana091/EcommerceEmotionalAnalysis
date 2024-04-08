@@ -247,3 +247,10 @@ class CreateOrderView(APIView):
             return Response(order_serializer.data, status=status.HTTP_201_CREATED)
         
         return Response({'Bad Request': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
+
+class SearchProduct(APIView):
+    def search_products(request):
+        query = request.GET.get('query')  # Get the search query from the request parameters
+        products = Product.objects.filter(name__icontains=query)  # Query the database for products
+        data = [{'id': product.id, 'name': product.name, 'description':product.description, 'price': product.price, 'stock': product.stock, 'totalEmotion': product.totalEmotion, 'image_url': product.image_url } for product in products]
+        return JsonResponse(data, safe=False)

@@ -1,0 +1,32 @@
+import django.db.models.deletion
+from django.db import migrations, models
+from api.models import Product  # Import the Product model
+
+class Migration(migrations.Migration):
+
+    def set_default_product(apps, schema_editor):
+        # Get the Product model
+        Product = apps.get_model('api', 'Product')
+
+        # Get the first product from the database
+        default_product = Product.objects.first()
+
+        # Set the first product as the default value for the ForeignKey field
+        Cart = apps.get_model('api', 'Cart')
+        for cart in Cart.objects.all():
+            cart.product = default_product
+            cart.save()
+
+    operations = [
+        migrations.RunPython(set_default_product),  # Run the Python code to set default product
+        migrations.RemoveField(
+            model_name='cart',
+            name='products',
+        ),
+        migrations.AddField(
+            model_name='cart',
+            name='product',
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='api.product'),
+            preserve_default=False,
+        ),
+    ]
