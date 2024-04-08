@@ -106,7 +106,6 @@ export default function NavBar() {
               <SearchIcon />
             </SearchIconWrapper>
             <StyledInputBase placeholder="Hello" inputProps={{ 'aria-label': 'search' }} />
-            <SearchButton color="primary" component={Link} to="/all" variant="contained">Search</SearchButton>
           </SearchContainer>
           
         </Toolbar>
