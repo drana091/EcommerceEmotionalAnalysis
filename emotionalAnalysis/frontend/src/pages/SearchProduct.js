@@ -1,14 +1,11 @@
-// Your React component
 
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import ProductBox from '../components/ProductBox';
 import React, { useEffect } from 'react';
 import NavBar from '../components/NavBar';
-import ShowReviewBox from '../components/ShowReviewBox';
 import { Button, Grid, Typography, TextField } from '@mui/material'; 
 import { FetchProduct, FetchProductReviews } from '../components/fetch/FetchProduct';
-import CreateReviewBox from '../components/CreateReviewBox';
 import ProductToCartButton from '../components/ProductToCartButton';
 
 export default function ViewProductPage() {
@@ -88,11 +85,6 @@ export default function ViewProductPage() {
                     {/* Add to cart button */}
                     <Grid item xs={12} align="center">
                         <ProductToCartButton product={product} formData={formData} />
-                    </Grid>
-
-                    {/* Make Review */}
-                    <Grid item xs={12} align="center">
-                        <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
                     </Grid>
 
                     {/* Display all reviews */}
