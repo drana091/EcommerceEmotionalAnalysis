@@ -5,6 +5,13 @@ import NavBar from '../components/NavBar';
 import InputField from '../components/InputField';
 
 export default function SignUp() {
+    const[user, setUser] = useState({
+        Fname: '',
+        Lname: '',
+        email: '',
+        username: '',
+        password: '',
+    });
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -28,7 +35,13 @@ export default function SignUp() {
         // The fetch() method is used to make a POST request to the server.
         fetch('/api/signin', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => {
+          console.log(data);
+          setUser(data);
+          localStorage.setItem('user', JSON.stringify(data));
+        }
+        );
+          
     };
 
     return (
