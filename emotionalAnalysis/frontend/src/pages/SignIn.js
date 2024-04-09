@@ -5,7 +5,6 @@ import NavBar from '../components/NavBar';
 import InputField from '../components/InputField';
 
 export default function SignUp() {
-  
     const [formData, setFormData] = useState({
         username: '',
         password: '',
@@ -29,16 +28,8 @@ export default function SignUp() {
         // The fetch() method is used to make a POST request to the server.
         fetch('/api/signin', requestOptions)
         .then((response) => response.json())
-        .then(data => {
-          const { access } = data.token;
-          localStorage.setItem('accessToken', access);
-          // Redirect or perform other actions upon successful sign-in
-      })
-      .catch(error => {
-          console.error('Sign-in failed:', error);
-      });
+        .then((data) => console.log(data));
     };
-    
 
     return (
         <Box sx={{ display: 'flex' }}>

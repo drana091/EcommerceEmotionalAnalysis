@@ -9,7 +9,6 @@ from django.contrib.auth import authenticate
 import random
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
-from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here. This is where you define what happends to the data.
 
@@ -101,12 +100,8 @@ class SignInView(generics.RetrieveAPIView):
         
         # Check if the password is correct
         if check_password(password, user.password):
-            # Generate JWT token
-            refresh = RefreshToken.for_user(user)
-            token = {'refresh': str(refresh), 'access': str(refresh.access_token)}
-
-            # Return token and user data if authentication succeeds
-            return Response({'token': token, 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
+            # Return user data if authentication succeeds
+            return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
         else:
             # Return error message if authentication fails
             return Response({'message': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
