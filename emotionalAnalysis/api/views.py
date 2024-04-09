@@ -7,6 +7,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 import random
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
+from rest_framework_simplejwt.tokens import RefreshToken
 
 # Create your views here. This is where you define what happends to the data.
 
@@ -78,24 +81,37 @@ class SingleUserView(generics.RetrieveAPIView):
     lookup_field = 'pk'
 
 # View to login a user
-class SignInView(APIView):
-    def post(self, request):
-        # Extract username/email and password from the request data
+class SignInView(generics.RetrieveAPIView):
+    def post(self, request, format=None):
+        # Extract username and password from request data
         username = request.data.get('username')
         password = request.data.get('password')
 
-        # Authenticate user
-        user = authenticate(request, username=username, password=password)
+        # Check if both username and password are provided
+        if not username or not password:
+            return Response({'message': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
 
-        if user is not None:
-            # User authentication successful
-            # Return success response with user data or authentication token
-            return Response({'message': 'Sign in successful', 'user_id': user.id}, status=status.HTTP_200_OK)
-        else:
-            # User authentication failed
-            # Return error response
-            return Response({'error': 'Invalid username/email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            # Retrieve user from database
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response({'message': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
+        except User.MultipleObjectsReturned:
+            return Response({'message': 'Multiple users found with the same username.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+        # Check if the password is correct
+        if check_password(password, user.password):
+            # Generate JWT token
+            refresh = RefreshToken.for_user(user)
+            token = {'refresh': str(refresh), 'access': str(refresh.access_token)}
+
+            # Return token and user data if authentication succeeds
+            return Response({'token': token, 'user': UserSerializer(user).data}, status=status.HTTP_200_OK)
+        else:
+            # Return error message if authentication fails
+            return Response({'message': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+
+
 # View to create a new user.
 # Takes a POST request with parameters: name, email, password, address, phone
 class CreateUserView(APIView):
@@ -109,8 +125,9 @@ class CreateUserView(APIView):
             Fname = serializer.data.get('Fname')
             Lname = serializer.data.get('Lname')
             email = serializer.data.get('email')
-            password = serializer.data.get('password')
-            user = User(Fname=Fname, Lname=Lname, email=email, password=password)
+            username = serializer.data.get('username')
+            password = make_password(serializer.data.get('password'))
+            user = User(Fname=Fname, Lname=Lname, email=email, username=username, password=password)
             user.save()
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)    

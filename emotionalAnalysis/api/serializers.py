@@ -27,13 +27,18 @@ class CreateProductSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'Fname', 'Lname', 'email', 'password')
+        fields = ('id', 'Fname', 'Lname', 'email', 'username', 'password', 'admin')
 
 # Create a serializer for the User model that creates a new user.
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('Fname', 'Lname', 'email', 'password')       
+        fields = ('Fname', 'Lname', 'email', 'username', 'password')     
+
+class SignInUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password')  
         
 #----------------------------------------------
 # REVIEW SERIALIZERS

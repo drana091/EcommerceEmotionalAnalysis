@@ -32,6 +32,7 @@ urlpatterns = [
     path('user', UserView.as_view()),
     path('user/<pk>', SingleUserView.as_view()),
     path('create-user', CreateUserView.as_view()),
+    path('signin', SignInView.as_view()),
 
     #----------------------------------------------
     # CART URLS

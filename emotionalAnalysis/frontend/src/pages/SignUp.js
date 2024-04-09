@@ -1,150 +1,115 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box } from '@mui/material'; 
+import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
+import InputField from '../components/InputField';
 
 export default function SignUp() {
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        try {
-          const response = await fetch('/api/create-user', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              Fname: formData.get('firstName'),
-              Lname: formData.get('lastName'),
-              email: formData.get('email'),
-              password: formData.get('password'),
-              // Add other form fields as needed
-            }),
-          });
-          if (!response.ok) {
-            throw new Error('Failed to submit form');
-          }
-          console.log('Form submitted successfully');
-          // Optionally, you can redirect the user or perform other actions after successful form submission
-        } catch (error) {
-          console.error('Error submitting form:', error);
-          // Handle error, e.g., display an error message to the user
-        }
-      };
-  
+    const [formData, setFormData] = useState({
+        Fname: '',
+        Lname: '',
+        email: '',
+        username: '',
+        password: '',
+    });
 
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <NavBar />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const buttonPressed = () => {
+        console.log("FormData:", formData);
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.csrfToken},
+            body: JSON.stringify(formData),
+        };
+        // The fetch() method is used to make a POST request to the server.
+        fetch('/api/create-user', requestOptions)
+        .then((response) => response.json())
+        .then((data) => console.log(data));
+    };
+
+    return (
+        <Box sx={{ display: 'flex' }}>
+            <Grid container spacing={1}>
+                <Grid item xs={12}>
+                    <NavBar />
+                </Grid>
+
+                {/* Title */}
+                <Grid item xs={12} align="center">
+                    <Typography component="h4" variant="h4">
+                        SignUp:
+                    </Typography>
+                </Grid>
+
+                {/* Form */}
+                <Grid item xs={12} align="center">
+                    <FormControl>
+                        <InputField
+                            id="Fname"
+                            name="Fname"
+                            label="First Name"
+                            type="text"
+                            value={formData.Fname}
+                            onChange={handleInputChange}
+                        />
+                        <InputField
+                            id="Lname"
+                            name="Lname"
+                            label="Last Name"
+                            type="text"
+                            value={formData.Lname}
+                            onChange={handleInputChange}
+                        />
+                        <InputField
+                            id="email"
+                            name="email"
+                            label="Email"
+                            type="email"
+                            value={formData.email}
+                            onChange={handleInputChange}
+                        />
+                        <InputField
+                            id="username"
+                            name="username"
+                            label="Username"
+                            type="text"
+                            value={formData.username}
+                            onChange={handleInputChange}
+                        />
+                        <InputField
+                            id="password"
+                            name="password"
+                            label="Password"
+                            type="password"
+                            value={formData.password}
+                            onChange={handleInputChange}
+                        />
+                    </FormControl>
+                </Grid>
+
+                {/* Submit button */}
+                <Grid item xs={12} align="center">
+                    <Button color="primary" variant="contained" onClick={buttonPressed}>
+                        Submit
+                    </Button>
+                </Grid>
+
+                
+
+                {/* Go back button */}
+                <Grid item xs={12} align="center">
+                    <Button color="secondary" variant="contained" to="/" component={Link}>
+                        Back
+                    </Button>
+                </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
-  );
+    );
 }

@@ -54,7 +54,9 @@ class User(models.Model):
     Fname = models.CharField(max_length=255)
     Lname = models.CharField(max_length=255)
     email = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, unique=True)
     password = models.CharField(max_length=255)
+    admin = models.BooleanField(default=False)
 
 class Review(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
