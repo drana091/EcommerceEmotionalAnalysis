@@ -9,6 +9,12 @@ import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
 import { Link } from 'react-router-dom';
 import SideDrawer from './SideDrawer';
+import SignOutButton from './buttons/SignOutButton';
+import SignUpButton from './buttons/SignUpButton';
+import SignInButton from './buttons/SignInButton';
+import GoToCreateProductButton from './buttons/GoToCreateProductButton';
+import GoToCartButton from './buttons/GoToCartButton';
+import GoToOrdersButton from './buttons/GoToOrdersButton';
 
 const ButtonContainer = styled('div')({
   display: 'flex',
@@ -76,37 +82,40 @@ const LogoImg = styled('img')({
   marginRight: '230px', // Add some spacing between logo and text/buttons
 });
 
+const isLoggedIn = localStorage.getItem('user') !== null;
+const user = JSON.parse(localStorage.getItem('user'));
+const isAdmin = user !== null && user.admin;
 export default function NavBar() {
   return (
     <NavBarContainer>
       <StyledAppBar position="static">
         <Toolbar>
-          <SideDrawer />
-          <LogoImg src={window.location.origin + '/media/bannerImages/logo.png'} alt="Logo" />
-          <ButtonContainer>
-            <Button color="primary" component={Link} to="/">
-              Home
-            </Button>
-            <Button color="primary" component={Link} to="/all">
-              Products
-            </Button>
-            <Button color="primary" component={Link} to="/create">
-              Create Product
-            </Button>
-            <Button color="primary" component={Link} to="/cart">
-              Cart
-            </Button>
-            <Button color="primary" component={Link} to="/pastorders">
-              Orders
-            </Button>
-          </ButtonContainer>
-          <SearchContainer>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
-          </SearchContainer>
           
+        <SideDrawer />
+        <LogoImg src={window.location.origin + '/media/bannerImages/logo.png'} alt="Logo" />
+
+        <ButtonContainer>
+          <Button color="primary" component={Link} to="/">
+            Home
+          </Button>
+          <Button color="primary" component={Link} to="/all">
+            Products
+          </Button>
+          {isAdmin && <GoToCreateProductButton />}
+          {isLoggedIn && !isAdmin && <GoToCartButton />}
+          {isLoggedIn && !isAdmin && <GoToOrdersButton />}
+          {!isLoggedIn && <SignInButton />}
+          {!isLoggedIn && <SignUpButton />}
+          {isLoggedIn && <SignOutButton />} 
+        </ButtonContainer>
+
+        <SearchContainer>
+          <SearchIconWrapper>
+            <SearchIcon />
+          </SearchIconWrapper>
+          <StyledInputBase placeholder="Search…" inputProps={{ 'aria-label': 'search' }} />
+        </SearchContainer>
+
         </Toolbar>
       </StyledAppBar>
     </NavBarContainer>
