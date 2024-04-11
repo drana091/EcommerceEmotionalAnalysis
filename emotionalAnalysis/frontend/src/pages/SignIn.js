@@ -39,6 +39,7 @@ export default function SignUp() {
           console.log(data);
           setUser(data);
           localStorage.setItem('user', JSON.stringify(data));
+          window.location.href = '/'; // Redirect to the home page
         }
         );
           
