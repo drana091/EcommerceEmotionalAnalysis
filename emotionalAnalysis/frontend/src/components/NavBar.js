@@ -22,7 +22,6 @@ const ButtonContainer = styled('div')({
   alignItems: 'center',
   '& .MuiButton-root': {
     color: 'white',
-    // Add more button styles here if needed
   },
 });
 
