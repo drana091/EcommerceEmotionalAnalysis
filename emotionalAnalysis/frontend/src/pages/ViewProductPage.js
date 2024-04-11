@@ -10,10 +10,14 @@ import CreateReviewBox from '../components/CreateReviewBox';
 import ProductToCartButton from '../components/ProductToCartButton';
 
 export default function ViewProductPage() {
+    // Get the user ID from the local storage
+    const user = localStorage.getItem('user');
+    const userID = JSON.parse(user).id;
+
     let { productID } = useParams();
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
-    const [formData, setFormData] = useState({ product: null, user: '1', comment: "" });
+    const [formData, setFormData] = useState({ product: null, user: userID, comment: "" });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,7 +25,7 @@ export default function ViewProductPage() {
             const reviewsData = await FetchProductReviews(productID);
             setProduct(productData);
             setReviews(reviewsData);
-            setFormData({ product: productData, user: '1', comment: "" });
+            setFormData({ product: productData, user: userID, comment: "" });
         };
 
         fetchData();

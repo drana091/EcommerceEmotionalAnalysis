@@ -5,9 +5,12 @@ import { FetchProduct } from '../components/fetch/FetchProduct';
 import ProductBox from '../components/ProductBox';
 
 export default function PastOrdersPage() {
+    // Get the user ID from the local storage
+    const user = localStorage.getItem('user');
+    const userID = JSON.parse(user).id;
+
     const [orders, setOrders] = useState([]);
     const [products, setProducts] = useState([]);
-    const userID = 1; // Assuming this is the user's ID
 
     // Fetch orders
     useEffect(() => {

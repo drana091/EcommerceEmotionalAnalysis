@@ -7,7 +7,8 @@ import GoToCheckoutButton from '../components/GoToCheckoutButton';
 
 export default function CartPage() {
     const [userCart, setUserCart] = useState([]);
-    const userID = 1; // Assuming this is the user's ID
+    const user = localStorage.getItem('user');
+    const userID = JSON.parse(user).id;
 
     useEffect(() => {
         const fetchData = async () => {

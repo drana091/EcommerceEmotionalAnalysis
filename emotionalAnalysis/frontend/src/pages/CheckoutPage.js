@@ -6,8 +6,12 @@ import CartBox from '../components/CartBox';
 import CreateOrderForm from '../components/CreateOrderForm';
 
 export default function CheckoutPage() {
+    // Get the user ID from the local storage
+    const user = localStorage.getItem('user');
+    const userID = JSON.parse(user).id;
+
     const [userCart, setUserCart] = useState([]);
-    const userID = 1; // Assuming this is the user's ID
+    
 
     // Fetch the user's cart data
     useEffect(() => {
