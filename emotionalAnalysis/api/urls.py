@@ -51,5 +51,5 @@ urlpatterns = [
     path('search/', SearchProduct.as_view()),
 
     #Delet Product
-    path('api/products/<int:pk>/delete/', ProductDeleteView.as_view(), name='product_delete'),
+    path('product-delete/<pk>', ProductDeleteView.as_view()),
 ]

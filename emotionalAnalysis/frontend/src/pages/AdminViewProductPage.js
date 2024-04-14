@@ -1,5 +1,5 @@
 import { useParams, useNavigate } from 'react-router-dom';
-import ProductBox from '../components/ProductBox';
+import ProductBox from '../components/AdminProductBox';
 import React, { useState, useEffect } from 'react';
 import NavBar from '../components/NavBar';
 import ShowReviewBox from '../components/ShowReviewBox';
@@ -14,6 +14,7 @@ export default function ViewProductPage() {
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
     const [formData, setFormData] = useState({ product: null, user: '1', comment: "" });
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -61,6 +62,31 @@ export default function ViewProductPage() {
         });
     }
 
+    const handleDeleteProduct = async (productId) => {
+        // Confirm with the user before deleting the product
+
+        const confirmDelete = window.confirm('Are you sure you want to delete this product?');
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`/api/product-delete/${productId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': window.csrfToken,
+                },
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete product');
+            }
+            
+            navigate('/all');
+        } catch (error) {
+            console.error('Error deleting product:', error);
+            // Handle error, e.g., display an error message to the user
+        }
+    };
+
     return (
         <Grid container spacing={1}>
             <NavBar />
@@ -73,7 +99,7 @@ export default function ViewProductPage() {
             </Grid>
 
             <Grid item xs={12} align="center">
-                {product && <ProductBox product={product}/>}
+                {product && <ProductBox product={product} onDelete={handleDeleteProduct}/>}
             </Grid>
             
             {/*Add to cart button */}
