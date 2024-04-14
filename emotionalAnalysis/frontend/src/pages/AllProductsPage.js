@@ -3,7 +3,6 @@ import { Button, Grid, Box, Typography } from '@mui/material';
 import ProductBox from '../components/ProductBox';
 import NavBar from '../components/NavBar';
 
-// This component is used to display all products.
 export default function AllProductsPage() {
     const [products, setProducts] = useState([]);
 
@@ -24,6 +23,20 @@ export default function AllProductsPage() {
         fetchProducts();
     }, []);
 
+    const handleDeleteProduct = async (productId) => {
+        try {
+            const response = await fetch(`/api/product/${productId}`, {
+                method: 'DELETE',
+            });
+            if (!response.ok) {
+                throw new Error('Failed to delete product');
+            }
+            setProducts(products.filter(product => product.id !== productId));
+        } catch (error) {
+            console.error('Error deleting product:', error);
+        }
+    };
+
     return (
         <Grid container spacing={1}>
             <NavBar />
@@ -38,7 +51,7 @@ export default function AllProductsPage() {
             {/* Display all products */}
             {products.map(product => (
                 <Grid key={product.id} item xs={12} sm={6} md={4} align="center">
-                    <ProductBox product={product} />
+                    <ProductBox product={product} onDelete={handleDeleteProduct} />
                 </Grid>
             ))}
         </Grid>

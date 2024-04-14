@@ -2,8 +2,12 @@ import { Button, Grid, Box, Typography, Paper } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function ProductBox({ product }) {
+export default function ProductBox({ product, onDelete }) {
     const imageURL = `${window.location.origin}/media/${product.image_url}`;
+
+    const handleDeleteClick = () => {
+        onDelete(product.id);
+    };
 
     return (
         <Box sx={{ border: '2px solid #ccc', borderRadius: '8px', overflow: 'hidden', bgcolor: '#fff', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', margin: '16px' }}>
@@ -22,6 +26,9 @@ export default function ProductBox({ product }) {
                         </Grid>
                         <Grid item>
                             <Button variant="contained" color="primary" component={Link} to={`/product/${product.id}`}>View Details</Button>
+                        </Grid>
+                        <Grid item>
+                            <Button variant="contained" color="error" onClick={handleDeleteClick}>Delete</Button>
                         </Grid>
                         <Grid item>
                             <Typography variant="h6">${product.price}</Typography>

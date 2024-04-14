@@ -272,3 +272,12 @@ class SearchProduct(generics.ListAPIView):
         else:
             # If no search query is provided, return a bad request response
             return JsonResponse({'error': 'No search query provided'}, status=400)
+        
+class ProductDeleteView(APIView):
+   def delete(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+            product.delete()
+            return JsonResponse({'message': 'Product deleted successfully'}, status=204)
+        except Product.DoesNotExist:
+            return JsonResponse({'error': 'Product not found'}, status=404)
