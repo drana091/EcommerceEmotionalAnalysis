@@ -52,4 +52,7 @@ urlpatterns = [
 
     #Delet Product
     path('product-delete/<pk>', ProductDeleteView.as_view()),
+
+    #Upate Product
+    path('product-update/<pk>', ProductUpdateView.as_view()),
 ]

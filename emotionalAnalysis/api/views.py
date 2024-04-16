@@ -281,3 +281,7 @@ class ProductDeleteView(APIView):
             return JsonResponse({'message': 'Product deleted successfully'}, status=204)
         except Product.DoesNotExist:
             return JsonResponse({'error': 'Product not found'}, status=404)
+        
+class ProductUpdateView(APIView):
+    def post( self, request, pk):
+        query = request.data.get('query')
