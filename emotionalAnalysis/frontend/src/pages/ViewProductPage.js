@@ -12,7 +12,12 @@ import ProductToCartButton from '../components/ProductToCartButton';
 export default function ViewProductPage() {
     // Get the user ID from the local storage
     const user = localStorage.getItem('user');
+    if (!user) {
+        // If the user is not logged in, redirect to the sign-in page
+        window.location.href = '/sign-in';
+    }
     const userID = JSON.parse(user).id;
+
 
     let { productID } = useParams();
     const [product, setProduct] = useState(null);

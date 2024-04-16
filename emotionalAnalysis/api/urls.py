@@ -47,4 +47,7 @@ urlpatterns = [
     #----------------------------------------------
     path('order/<user>', OrderView.as_view()),
     path('create-order', CreateOrderView.as_view()),
+
+    #Search Product
+    path('search/', SearchProduct.as_view()),
 ]
