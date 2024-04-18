@@ -17,6 +17,8 @@ const buttonPressed = (product) => {
     fetch('/api/delete-product', requestOptions)
     .then((response) => response.json())
     .then((data) => console.log(data))
+    // Then reload the page
+    .then(() => window.location.reload());
     
 }
 
