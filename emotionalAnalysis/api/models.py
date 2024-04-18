@@ -98,4 +98,5 @@ class Order(models.Model):
     paymentMethod = models.CharField(max_length=255)
     quantity = models.IntegerField(default = 1)
     total = models.FloatField(default = 0.0)
+    date = models.DateTimeField(auto_now_add=True)
 

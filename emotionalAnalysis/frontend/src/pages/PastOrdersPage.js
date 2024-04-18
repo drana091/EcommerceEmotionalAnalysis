@@ -83,7 +83,7 @@ export default function PastOrdersPage() {
                                 Total: ${order.total}
                             </Typography>
                             <Typography>
-                                Date: {order.date}
+                                Date: {new Date(order.date).toDateString()}
                             </Typography>
                             <Typography style={{ marginTop: '10px' }}>
                                 Products:

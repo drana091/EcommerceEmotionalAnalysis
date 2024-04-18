@@ -251,6 +251,11 @@ class CreateOrderView(APIView):
             zip_code = serializer.validated_data.get('zip')
             country = serializer.validated_data.get('country')
             payment_method = serializer.validated_data.get('paymentMethod')
+
+            # Total price calculation
+            totalPrice = 0
+            for product in products:
+                totalPrice += product.price
             
             # Create the order instance
             order = Order.objects.create(
@@ -261,6 +266,7 @@ class CreateOrderView(APIView):
                 zip=zip_code,
                 country=country,
                 paymentMethod=payment_method,
+                total=totalPrice
             )
             
             # Add products to the order

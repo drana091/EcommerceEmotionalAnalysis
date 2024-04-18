@@ -19,6 +19,14 @@ export default function CartPage() {
         fetchData();
     }, [userID]);
 
+    // Price calculation
+    let totalPrice = 0;
+    userCart.forEach((item) => 
+    {
+        totalPrice += item.total;
+    });
+    
+
     return (
         <Grid container spacing={1}>
             <Grid item xs={12}>
@@ -28,6 +36,13 @@ export default function CartPage() {
                 <Box ml={'25%'} mr={'25%'}>
                   <CartBox userCart={userCart} setUserCart={setUserCart} />
                 </Box>
+            </Grid>
+
+            {/* Total Price */}
+            <Grid item xs={12} align="center">
+                <Typography>
+                    Total Price: {totalPrice.toFixed(2)}
+                </Typography>
             </Grid>
 
             {/* Checkout Button */}

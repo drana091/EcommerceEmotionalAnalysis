@@ -22,6 +22,7 @@ export default function CheckoutPage() {
 
         fetchData();
     }, [userID]);
+    
 
     // Update formData whenever userCart changes
     useEffect(() => {
@@ -91,6 +92,13 @@ export default function CheckoutPage() {
         });
     };
 
+    // Price calculation
+    let totalPrice = 0;
+    userCart.forEach((item) => 
+    {
+        totalPrice += item.total;
+    });
+
     return (
         <Box sx={{ flexGrow: 1 }}>
             <Grid container spacing={1}>
@@ -102,7 +110,7 @@ export default function CheckoutPage() {
                 <Grid container item xs={12} alignItems="center" justifyContent="center" spacing={3}>
                     
                     {/* Checkout Form */}
-                    <Grid item xs={6} align="center">
+                    <Grid item xs={4} align="center">
                         <Grid container spacing={1}>
                             <Grid item xs={12} align="center">
                                 <CreateOrderForm formData={formData} handleInputChange={handleInputChange} />
@@ -115,8 +123,15 @@ export default function CheckoutPage() {
                         </Grid>
                     </Grid>
                     
+                    {/* Total Price */}
+                    <Grid item xs={4} align="center">
+                        <Typography>
+                            Total Price: {totalPrice.toFixed(2)}
+                        </Typography>
+                    </Grid>
+                    
                     {/* Cart */}
-                    <Grid item xs={6} align="center">
+                    <Grid item xs={4} align="center">
                         <Box ml={'25%'} mr={'25%'} >
                             <CartBox userCart={userCart} setUserCart={setUserCart} />
                         </Box>
