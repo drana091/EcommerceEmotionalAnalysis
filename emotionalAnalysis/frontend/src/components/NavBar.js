@@ -17,6 +17,7 @@ import GoToCartButton from './buttons/GoToCartButton';
 import GoToOrdersButton from './buttons/GoToOrdersButton';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
+import AccountPageButton from './buttons/AccountPageButton';
 
 const ButtonContainer = styled('div')({
   display: 'flex',
@@ -145,6 +146,8 @@ export default function NavBar() {
           {!isLoggedIn && <SignInButton />}
           {!isLoggedIn && <SignUpButton />}
           {isLoggedIn && <SignOutButton />} 
+          {isLoggedIn && <AccountPageButton />}
+
         </ButtonContainer>
 
         <SearchContainer>
