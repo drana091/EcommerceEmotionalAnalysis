@@ -4,6 +4,11 @@ import { Link } from 'react-router-dom';
 import DeleteProductButton from './buttons/DeleteProductButton';
 
 export default function ProductBox({ product }) {
+// Check if the user or admin is logged in
+const isLoggedIn = localStorage.getItem('user') !== null;
+const user = JSON.parse(localStorage.getItem('user'));
+const isAdmin = user !== null && user.admin;
+
     const imageURL = `${window.location.origin}/media/${product.image_url}`;
 
     return (
@@ -27,10 +32,10 @@ export default function ProductBox({ product }) {
                         <Grid item>
                             <Typography variant="h6">${product.price}</Typography>
                         </Grid>
-                        {/* Delete Product Button */}
-                        <Grid item>
+                        {/* Delete Product Button if admin */}
+                        {isAdmin && <Grid item>
                             <DeleteProductButton product={product} />
-                        </Grid>
+                        </Grid>}
                     </Grid>
                 </Grid>
             </Paper>
