@@ -11,6 +11,7 @@ import CartPage from './CartPage';
 import CheckoutPage from './CheckoutPage';
 import PastOrdersPage from './PastOrdersPage';
 import ProductsByEmotion from './ProductsByEmotion';
+import AccountPage from './AccountPage';
 
 
 export default function App() {
@@ -31,7 +32,7 @@ export default function App() {
                 {isUser ? (
                     <>
                         <Route path= '/create' element={<CreateProductPage />} />
-                        
+                        <Route path= '/account' element={<AccountPage />} />
                         <Route path= '/cart' element={<CartPage />} />
                         <Route path= '/checkout' element={<CheckoutPage />} />
                         <Route path= '/pastorders' element={<PastOrdersPage />} />
