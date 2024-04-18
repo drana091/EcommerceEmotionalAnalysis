@@ -11,6 +11,7 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 
+
 # Create your views here. This is where you define what happends to the data.
 
 #----------------------------------------------
@@ -26,6 +27,16 @@ class SingleProductView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
+
+# View to delete a product
+class DeleteProductView(APIView):
+    serializer_class = ProductSerializer
+    def post(self, request):
+        productID = request.data.get('product')
+        product = Product.objects.get(id=productID)
+        product.delete()
+        return Response({'message': 'Product deleted'}, status=status.HTTP_200_OK)
+
 
 # View to show products with a specific totalEmotion
 class EmotionProductView(generics.ListAPIView):

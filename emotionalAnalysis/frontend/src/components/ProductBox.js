@@ -1,6 +1,7 @@
 import { Button, Grid, Box, Typography, Paper } from '@mui/material'; 
 import React from 'react';
 import { Link } from 'react-router-dom';
+import DeleteProductButton from './buttons/DeleteProductButton';
 
 export default function ProductBox({ product }) {
     const imageURL = `${window.location.origin}/media/${product.image_url}`;
@@ -25,6 +26,10 @@ export default function ProductBox({ product }) {
                         </Grid>
                         <Grid item>
                             <Typography variant="h6">${product.price}</Typography>
+                        </Grid>
+                        {/* Delete Product Button */}
+                        <Grid item>
+                            <DeleteProductButton product={product} />
                         </Grid>
                     </Grid>
                 </Grid>
