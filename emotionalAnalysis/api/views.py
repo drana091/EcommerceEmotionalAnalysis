@@ -283,5 +283,13 @@ class ProductDeleteView(APIView):
             return JsonResponse({'error': 'Product not found'}, status=404)
         
 class ProductUpdateView(APIView):
-    def post( self, request, pk):
-        query = request.data.get('query')
+    def put(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+            serializer = ProductSerializer(product, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)

@@ -7,7 +7,7 @@ export default function ProductBox({ product, onDelete }) {
     const handleDeleteClick = () => {
         onDelete(product.id);
     };
-    
+
     return (
         <Box sx={{ border: '2px solid #ccc', borderRadius: '8px', overflow: 'hidden', bgcolor: '#fff', boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)', margin: '16px' }}>
             <Paper elevation={10}>
@@ -31,6 +31,10 @@ export default function ProductBox({ product, onDelete }) {
                         </Grid>
                         <Grid item>
                             <Typography variant="h6">${product.price}</Typography>
+                        </Grid>
+                        <Grid item>
+                            {/* Add Update Product button */}
+                            <Button variant="contained" color="secondary" component={Link} to={`/product-update/${product.id}`}>Update Product</Button>
                         </Grid>
                     </Grid>
                 </Grid>

@@ -11,6 +11,7 @@ import CartPage from './CartPage';
 import CheckoutPage from './CheckoutPage';
 import PastOrdersPage from './PastOrdersPage';
 import ProductsByEmotion from './ProductsByEmotion';
+import UpdateProductForm from './UpdateProductForm';
 
 export default function App() {
     return(
@@ -26,6 +27,7 @@ export default function App() {
                 <Route path= '/pastorders' element={<PastOrdersPage />} />
                 <Route path= '/emotion/:emotion' element={<ProductsByEmotion />} />
                 <Route path= "/product/:productID" element={<ViewProductPage />} />
+                <Route path="/product-update/:productId" element={<UpdateProductForm />} />
             </Routes>
         </Router>
     );
