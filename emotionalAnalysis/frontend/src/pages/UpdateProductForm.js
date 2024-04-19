@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Button, Grid, Typography, TextField, CircularProgress, FormControl, InputField } from '@mui/material';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { Button, Grid, Box, Typography, TextField, CircularProgress, FormControl, InputField } from '@mui/material';
 import NavBar from '../components/NavBar';
 
 
@@ -49,8 +49,11 @@ export default function UpdateProductForm() {
     };
 
     return (
-        <Grid container spacing={2} justifyContent="center">
-            <NavBar />
+        <Box sx={{ display: 'flex' }}>
+        <Grid container spacing={1} justifyContent="center">
+                <Grid item xs={12}>
+                    <NavBar />
+                </Grid>            
             <Grid item xs={12} md={6}>
                 <Typography variant="h4" align="center" gutterBottom>
                     Update Product
@@ -59,6 +62,7 @@ export default function UpdateProductForm() {
                     <TextField
                         fullWidth
                         label="Name"
+                        InputLabelProps={{ shrink: true }}
                         name="name"
                         value={formData.name || product.name}
                         onChange={handleChange}
@@ -68,6 +72,7 @@ export default function UpdateProductForm() {
                     <TextField
                         fullWidth
                         label="Description"
+                        InputLabelProps={{ shrink: true }}
                         name="description"
                         value={formData.description || product.description}
                         onChange={handleChange}
@@ -79,6 +84,7 @@ export default function UpdateProductForm() {
                     <TextField
                         fullWidth
                         label="Price"
+                        InputLabelProps={{ shrink: true }}
                         name="price"
                         value={formData.price || product.price}
                         onChange={handleChange}
@@ -86,17 +92,23 @@ export default function UpdateProductForm() {
                         margin="normal"
                         type="number"
                     />
-                    <Button
-                        type="submit"
-                        variant="contained"
-                        color="primary"
-                        fullWidth
-                        size="large"
-                    >
-                        Update Product
-                    </Button>
+                    <Grid item xs={12} align="center">
+                        <Button type="submit" variant="contained" color="primary" size="large">
+                            Update Product
+                        </Button>
+                    </Grid>
+
+                    <Grid item xs={12} align="center">
+                        <Button type="submit" variant="contained" color="secondary" size="large"
+                        to="/all" 
+                        component={Link}
+                        >
+                            Back
+                        </Button>
+                    </Grid>
                 </form>
             </Grid>
         </Grid>
+        </Box>
     );
 };

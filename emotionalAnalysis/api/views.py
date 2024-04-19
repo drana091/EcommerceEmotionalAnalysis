@@ -277,9 +277,14 @@ class ProductDeleteView(APIView):
    def delete(self, request, pk):
         try:
             product = Product.objects.get(pk=pk)
+            #Delete Product
             product.delete()
+
+            # Returns a success message
             return JsonResponse({'message': 'Product deleted successfully'}, status=204)
         except Product.DoesNotExist:
+
+            # If product is not in the database, return a no product found response
             return JsonResponse({'error': 'Product not found'}, status=404)
         
 class ProductUpdateView(APIView):
