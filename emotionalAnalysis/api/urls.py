@@ -43,6 +43,7 @@ urlpatterns = [
     path('create-cart', CreateCartView.as_view()),
     path('user-cart/<user>', UserCartView.as_view()),
     path('delete-product-cart', DeleteProductFromCartView.as_view()),
+    path('update-cart-quantity', UpdateCartQuantityView.as_view()),
 
     #----------------------------------------------
     # ORDER URLS

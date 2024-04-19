@@ -221,6 +221,17 @@ class DeleteProductFromCartView(APIView):
         cart_item.delete()
         return Response({'message': 'Product deleted from cart'}, status=status.HTTP_200_OK)
 
+# View to update the quantity of a product in the cart
+class UpdateCartQuantityView(APIView):
+    serializer_class = CartSerializer
+    def post(self, request):
+        cartID = request.data.get('cart')
+        quantity = request.data.get('quantity')
+        cart = Cart.objects.get(id=cartID)
+        cart.quantity = quantity
+        cart.save()
+        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+    
 #----------------------------------------------
 # ORDER VIEWS
 #----------------------------------------------
