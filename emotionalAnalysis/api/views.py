@@ -225,10 +225,10 @@ class DeleteProductFromCartView(APIView):
 class UpdateCartQuantityView(APIView):
     serializer_class = CartSerializer
     def post(self, request):
-        cartID = request.data.get('cart')
-        quantity = request.data.get('quantity')
+        cartID = request.data.get('cartID')
+        newQuantity = request.data.get('quantity')
         cart = Cart.objects.get(id=cartID)
-        cart.quantity = quantity
+        cart.quantity = newQuantity
         cart.save()
         return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
     

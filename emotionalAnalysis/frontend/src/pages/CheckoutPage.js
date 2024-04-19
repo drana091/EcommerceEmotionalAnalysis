@@ -124,7 +124,7 @@ export default function CheckoutPage() {
                     </Grid>
                     
                     {/* Total Price */}
-                    <Grid item xs={4} align="center">
+                    <Grid item xs={1} align="center">
                         <Typography>
                             Total Price: {totalPrice.toFixed(2)}
                         </Typography>

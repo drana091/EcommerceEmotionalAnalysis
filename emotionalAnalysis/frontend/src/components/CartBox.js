@@ -5,7 +5,7 @@ import ProductBox from './ProductBox'; // Import the ProductBox component
 import DeleteFromCartButton from './DeleteFromCartButton';
 import { FetchUser } from './fetch/FetchUser';
 import { Unstable_NumberInput as NumberInput } from '@mui/base/Unstable_NumberInput';
-
+import UpdateQuantityButton from './buttons/UpdateQuantityButton';
 
 export default function CartBox({ userCart, setUserCart }) {
     const [cartItems, setCartItems] = useState([]);
@@ -28,6 +28,15 @@ export default function CartBox({ userCart, setUserCart }) {
         fetchProductDetails();
     }, [userCart]);
 
+    const handleQuantityChange = (newQuantity, cartItemIndex) => {
+        // Update the quantity in the cart items state
+        const updatedCartItems = [...cartItems];
+        updatedCartItems[cartItemIndex].quantity = newQuantity;
+        setCartItems(updatedCartItems);
+    };
+
+    const url = window.location.pathname;
+
     return (
         <Grid container spacing={2}>
             <Grid item xs={12} align="center">
@@ -35,19 +44,29 @@ export default function CartBox({ userCart, setUserCart }) {
                     Cart
                 </Typography>
             </Grid>
-            {cartItems.map((cartItem) => (
-                <>
-                    <Grid item xs={10} key={cartItem.product.id}>
+            {cartItems.map((cartItem, index) => (
+                <React.Fragment key={cartItem.product.id}>
+                    <Grid item xs={10}>
                         <ProductBox product={cartItem.product} quantity={cartItem.quantity} />
                         <DeleteFromCartButton product={cartItem.product} user={cartItem.user} setUserCart={setUserCart} />
                     </Grid>
                     <Grid item xs={2} align="center">
-                        <NumberInput 
-                        defaultValue={cartItem.quantity} min={1} max={cartItem.product.stock} 
-                        slotProps={{ incrementButton: { children: '+' }, decrementButton: { children: '-'}}} />
                         
+                        {/* Render update quantity only if in cart page */}
+                        {url === '/cart' && (
+                            <>
+                                <NumberInput 
+                                defaultValue={cartItem.quantity} 
+                                min={1} 
+                                max={cartItem.product.stock} 
+                                slotProps={{ incrementButton: { children: '+' }, decrementButton: { children: '-'}}}
+                                onChange={(event, newQuantity) => handleQuantityChange(newQuantity, index)}
+                                />
+                                <UpdateQuantityButton cartItem={cartItem} />
+                            </>
+                        )}
                     </Grid>
-                </>
+                </React.Fragment>
             ))}
         </Grid>
     );
