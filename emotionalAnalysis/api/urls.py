@@ -19,6 +19,8 @@ urlpatterns = [
     path('random-products', RandomProductView.as_view()),
     ## Delete a product
     path('delete-product', DeleteProductView.as_view()),
+    ## Update a product stock
+    path ('update-stock', UpdateStockView.as_view()),
  
     #----------------------------------------------
     # REVIEW URLS

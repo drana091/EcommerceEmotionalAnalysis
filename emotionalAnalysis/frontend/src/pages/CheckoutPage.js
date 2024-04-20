@@ -41,6 +41,7 @@ export default function CheckoutPage() {
         zip: '',
         country: '',
         paymentMethod: '',
+        quantity: '',
     });
 
     const handleInputChange = (e) => {
@@ -70,6 +71,12 @@ export default function CheckoutPage() {
             console.log(data);
             // Call deleteItemsFromCart only if fetch was successful
             deleteItemsFromCart();
+
+            /* Implement this for updating stock after buying products
+            // Call updateStock only if fetch was successful
+            updateStock();
+            */
+           
         })
         .catch((error) => {
             console.error('There was a problem with the fetch operation:', error);
@@ -87,10 +94,30 @@ export default function CheckoutPage() {
             };
             fetch('/api/delete-product-cart', requestOptions)
             .then((response) => response.json())
-            .then((data) => console.log(data))
+            .then((data) => console.log("Deleted item from cart:", data))
             .then(() => setUserCart([])); // Clear userCart state after all items are deleted
         });
     };
+
+    // Implement this for updating stock after buying products
+    /*
+    const updateStock = () => {
+        // Iterate through each item in the cart and update the stock
+        userCart.forEach((cartItem) => {
+            // New stock = old stock - quantity
+            let newStock = cartItem.product.stock - cartItem.quantity;
+            const requestOptions = {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.csrfToken},
+                body: JSON.stringify({ product: cartItem.product, stock: newStock }),
+            };
+            fetch('/api/update-stock', requestOptions)
+            .then((response) => response.json())
+            .then((data) => console.log("Updated stock:", data));
+        });
+    }
+    */
+    
 
     // Price calculation
     let totalPrice = 0;
@@ -110,7 +137,7 @@ export default function CheckoutPage() {
                 <Grid container item xs={12} alignItems="center" justifyContent="center" spacing={3}>
                     
                     {/* Checkout Form */}
-                    <Grid item xs={4} align="center">
+                    <Grid item xs={6} align="center">
                         <Grid container spacing={1}>
                             <Grid item xs={12} align="center">
                                 <CreateOrderForm formData={formData} handleInputChange={handleInputChange} />
@@ -123,18 +150,16 @@ export default function CheckoutPage() {
                         </Grid>
                     </Grid>
                     
-                    {/* Total Price */}
-                    <Grid item xs={1} align="center">
-                        <Typography>
-                            Total Price: {totalPrice.toFixed(2)}
-                        </Typography>
-                    </Grid>
+                    
                     
                     {/* Cart */}
-                    <Grid item xs={4} align="center">
+                    <Grid item xs={6} align="center">
                         <Box ml={'25%'} mr={'25%'} >
                             <CartBox userCart={userCart} setUserCart={setUserCart} />
                         </Box>
+                        <Typography>
+                            Total Price: {totalPrice.toFixed(2)}
+                        </Typography>
                     </Grid>
                 </Grid>
             </Grid>

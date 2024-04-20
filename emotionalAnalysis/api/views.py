@@ -65,7 +65,7 @@ class CreateProductView(APIView):
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # View to fetch random products
+# View to fetch random products
 class RandomProductView(generics.ListAPIView):
     serializer_class = ProductSerializer
 
@@ -76,6 +76,17 @@ class RandomProductView(generics.ListAPIView):
         random_product_ids = random.sample(all_product_ids, k=3)  # Adjust the value of 'k' as needed
         # Fetch products corresponding to the random IDs
         return Product.objects.filter(id__in=random_product_ids)
+    
+# View to update stock of a product
+class UpdateStockView(APIView):
+    serializer_class = ProductSerializer
+    def post(self, request):
+        productID = request.data.get('product')
+        newStock = request.data.get('stock')
+        product = Product.objects.get(id=productID)
+        product.stock = newStock
+        product.save()
+        return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
     
 #----------------------------------------------
 # USER VIEWS
