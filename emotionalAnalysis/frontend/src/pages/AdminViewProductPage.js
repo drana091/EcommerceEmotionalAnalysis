@@ -9,7 +9,7 @@ import { FetchProductReviews } from '../components/fetch/FetchProductReviews';
 import CreateReviewBox from '../components/CreateReviewBox';
 import ProductToCartButton from '../components/ProductToCartButton';
 
-export default function ViewProductPage() {
+export default function AdminViewProductPage() {
     let { productID } = useParams();
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
@@ -88,15 +88,8 @@ export default function ViewProductPage() {
     };
 
     return (
-        <Grid container spacing={1}>
-            <NavBar />
-
-            {/* Title */}
-            <Grid item xs={12} align="center">
-                <Typography component="h4" variant="h4">
-                    Product:
-                </Typography>
-            </Grid>
+        <React.Fragment>
+            
 
             <Grid item xs={12} align="center">
                 {product && <ProductBox product={product} onDelete={handleDeleteProduct}/>}
@@ -124,6 +117,6 @@ export default function ViewProductPage() {
                 </Grid>
             ))}
             
-        </Grid>
+        </React.Fragment>
     );
 }

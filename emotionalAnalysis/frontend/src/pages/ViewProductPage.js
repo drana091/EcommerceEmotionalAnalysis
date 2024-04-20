@@ -8,11 +8,15 @@ import { FetchProduct } from '../components/fetch/FetchProduct';
 import { FetchProductReviews } from '../components/fetch/FetchProductReviews';
 import CreateReviewBox from '../components/CreateReviewBox';
 import ProductToCartButton from '../components/ProductToCartButton';
+import AdminViewProductPage from './AdminViewProductPage';
 
 export default function ViewProductPage() {
     // Get the user ID from the local storage
     const user = localStorage.getItem('user');
     const userID = user ? JSON.parse(user).id : null;
+    // Check if the user or admin is logged in
+const isLoggedIn = localStorage.getItem('user') !== null;
+const isAdmin = user !== null && user.admin;
 
     let { productID } = useParams();
     const [product, setProduct] = useState(null);
@@ -75,6 +79,8 @@ export default function ViewProductPage() {
                 </Typography>
             </Grid>
 
+            {/* Render if not admin */}
+            {!isAdmin && <React.Fragment>
             <Grid item xs={12} align="center">
                 {product && <ProductBox product={product} />}
             </Grid>
@@ -100,6 +106,10 @@ export default function ViewProductPage() {
                     <ShowReviewBox review={review} />
                 </Grid>
             ))}
+            </React.Fragment>}
+
+            {/* Render if admin */}
+            {isAdmin && <AdminViewProductPage product={product} />}
             
         </Grid>
     );
