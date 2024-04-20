@@ -17,4 +17,5 @@ urlpatterns = [
     path('pastorders', index),
     path('emotion/<emotion>', index),
     path('account', index),
+    path('product-update/<id>', index),
 ]

@@ -322,3 +322,15 @@ class SearchProduct(generics.ListAPIView):
         else:
             # If no search query is provided, return a bad request response
             return JsonResponse({'error': 'No search query provided'}, status=400)
+        
+class ProductUpdateView(APIView):
+    def put(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+            serializer = ProductSerializer(product, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)

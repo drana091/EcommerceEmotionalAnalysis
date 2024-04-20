@@ -12,6 +12,7 @@ import CheckoutPage from './CheckoutPage';
 import PastOrdersPage from './PastOrdersPage';
 import ProductsByEmotion from './ProductsByEmotion';
 import AccountPage from './AccountPage';
+import UpdateProductForm from './UpdateProductForm';
 
 
 export default function App() {
@@ -36,6 +37,7 @@ export default function App() {
                         <Route path= '/cart' element={<CartPage />} />
                         <Route path= '/checkout' element={<CheckoutPage />} />
                         <Route path= '/pastorders' element={<PastOrdersPage />} />
+                        <Route path="/product-update/:productId" element={<UpdateProductForm />} />
                     </>
                 ) : (
                     <Route path = '*' element={<Navigate to='/signin' />} />
