@@ -2,11 +2,7 @@ import React from 'react';
 import { Button, Grid, Box, Typography } from '@mui/material'; 
 import DeleteReviewButton from './buttons/DeleteReviewButton';
 
-export default function ShowReviewBox({ review, onDelete }) {
-    const user = localStorage.getItem('user');
-    const currentUser = user ? JSON.parse(user) : null;
-    // Check if the user or admin is logged in
-    const isLoggedIn = localStorage.getItem('user') !== null;
+export default function AdminShowReviewBox({ review }) {
 
     return (
         // Box of Review
@@ -29,11 +25,9 @@ export default function ShowReviewBox({ review, onDelete }) {
                         </Grid>
 
                         {/* Delete Button */}
-                        {currentUser && currentUser.id === review.user && (
                             <Grid item xs>
                                 <DeleteReviewButton review={review}></DeleteReviewButton>
                             </Grid>
-                        )}
                     
                     </Grid>
                 </Grid>
