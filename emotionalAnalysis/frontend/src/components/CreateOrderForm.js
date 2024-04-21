@@ -55,16 +55,6 @@ export default function CreateOrderForm({ handleInputChange, formData }) {
                 value={formData.country}
                 onChange={handleInputChange}
             />
-
-            {/* Payment method input */}
-            <InputField 
-                id="paymentMethod"
-                name="paymentMethod"
-                label="Payment Method"
-                type="text"
-                value={formData.paymentMethod}
-                onChange={handleInputChange}
-            />
         </FormControl>
     );
 };

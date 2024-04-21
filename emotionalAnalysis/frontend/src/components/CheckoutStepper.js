@@ -60,13 +60,17 @@ export default function CheckoutStepper({ formData, handleInputChange, buttonPre
                             >
                                 Back
                             </Button>
-                            <Button
-                                variant="contained"
-                                onClick={handleNext}
-                                sx={{ mt: 3, ml: 1 }}
-                            >
-                                {activeStep === steps.length - 1 ? 'Place Order' : 'Next'}
-                            </Button>
+                            {/* If the active step is the last step, do not render the next button */}
+                            {activeStep === steps.length - 1 ? null : (
+                                <Button
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={handleNext}
+                                    sx={{ mt: 3, ml: 1 }}
+                                >
+                                    Next
+                                </Button>
+                            )}
                         </Box>
                     </React.Fragment>
                 )}

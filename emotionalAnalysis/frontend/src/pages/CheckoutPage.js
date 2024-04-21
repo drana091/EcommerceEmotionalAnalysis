@@ -134,7 +134,7 @@ export default function CheckoutPage() {
                 </Grid>
 
                 {/* Checkout Area */}
-                <Grid container item xs={12} alignItems="center" justifyContent="center" spacing={3}>
+                <Grid container item xs={12} alignItems="center" justifyContent="center" sx={{marginTop: '4%', marginLeft: '4%'}} >
                     
                     {/* Checkout Form */}
                     <Grid item xs={6} align="center">
