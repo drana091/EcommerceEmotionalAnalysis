@@ -24,7 +24,7 @@ const teamMembers = [
     }
 ];
 
-const switchLayout = false;
+let switchLayout = false;
 
 export default function About() {
 
@@ -39,9 +39,10 @@ export default function About() {
                 {/* About Section */}
                 <Grid item xs={4} align="center" sx={{backgroundColor:'#ccd5ae'}}>
                     Test
+                    <p>Add a bunch of text here about stuff</p>
                 </Grid>
                 <Grid item xs={8} align="center" sx={{backgroundColor:'#d4a373'}}>
-                    Test
+                    <img src={window.location.origin + '/media/bannerImages/pinkRecordPlayer.jpg'} alt="Record Player" style={{ width: '23%', height: 'auto', objectFit: 'auto' }} />
                 </Grid>
 
                 <Grid item xs={2} align="center" sx={{backgroundImage:`url(${window.location.origin}/media/bannerImages/pinkBackground_1.jpg)` , backgroundSize: 'cover'}}>
@@ -69,6 +70,7 @@ export default function About() {
                 <Grid container sx={{backgroundColor:'white'}}>
                 {teamMembers.map((member, index) => (
                     <React.Fragment key={index}>
+                        {switchLayout = !switchLayout}
                         {switchLayout ? (
                             <>
                                 <Grid item xs={6} align="center">
