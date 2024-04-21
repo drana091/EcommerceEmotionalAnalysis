@@ -6,7 +6,7 @@ import InputField from '../components/InputField';
 import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
-
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function SignUp() {
     const[user, setUser] = useState({
@@ -40,6 +40,15 @@ export default function SignUp() {
         fetch('/api/signin', requestOptions)
         .then((response) => response.json())
         .then((data) => {
+            console.log("Response status:", data.status);
+            // If status is 404, display an error message
+            if (data.status === 401) {
+                
+                alert("User does not exist!"); // Alert message for user not found
+                return;
+            }
+
+            
           console.log(data);
           setUser(data);
           localStorage.setItem('user', JSON.stringify(data));
@@ -64,8 +73,18 @@ export default function SignUp() {
         }
     ];
 
+const theme = createTheme({
+    palette: {
+        submitButton: {
+            main: '#c482cf',
+        },
+       
+    },
+});
+
 
     return (
+        <ThemeProvider theme={theme}>
         <Box sx={{ display: 'flex', backgroundImage: `url(${window.location.origin}/media/bannerImages/recordBackground.jpg)` }}>
             <Grid container spacing={1}>
 
@@ -132,18 +151,13 @@ export default function SignUp() {
                             </FormControl>
 
                             {/* Submit button */}
-                            <Grid item xs={12} align="center">
-                                <Button color="primary" variant="contained" onClick={buttonPressed}>
+                            <Grid item xs={12} align="center" sx={{padding: 1}}>
+                                <Button color="submitButton" variant="contained" onClick={buttonPressed}>
                                     Submit
                                 </Button>
                             </Grid>
 
-                            {/* Go back button */}
-                            <Grid item xs={12} align="center">
-                                <Button color="secondary" variant="contained" to="/" component={Link}>
-                                    Back
-                                </Button>
-                            </Grid>
+                            
 
                         </Grid>
                     </Grid>
@@ -151,6 +165,6 @@ export default function SignUp() {
             </Grid>
             
         </Box>
-        
+        </ThemeProvider>
     );
 }

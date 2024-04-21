@@ -117,9 +117,7 @@ class SignInView(generics.RetrieveAPIView):
             # Retrieve user from database
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            return Response({'message': 'User not found.'}, status=status.HTTP_404_NOT_FOUND)
-        except User.MultipleObjectsReturned:
-            return Response({'message': 'Multiple users found with the same username.'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(status=status.HTTP_401_UNAUTHORIZED)
         
         # Check if the password is correct
         if check_password(password, user.password):

@@ -1,8 +1,12 @@
 import React, { useState } from 'react';
-import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box } from '@mui/material'; 
+import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box, } from '@mui/material'; 
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import InputField from '../components/InputField';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 export default function SignUp() {
     const [formData, setFormData] = useState({
