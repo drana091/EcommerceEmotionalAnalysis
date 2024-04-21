@@ -31,7 +31,7 @@ urlpatterns = [
     path('review', ReviewView.as_view()),
     path('create-review', CreateReviewView.as_view()),
     path('product-reviews/<product>', ProductReviewView.as_view()),
-
+    
     #----------------------------------------------
     # USER URLS
     #----------------------------------------------
