@@ -83,7 +83,7 @@ export default function AdminViewProductPage() {
             navigate('/all');
         } catch (error) {
             console.error('Error deleting product:', error);
-            // Handle error, e.g., display an error message to the user
+            // Handle error, display an error message to the user
         }
     };
 

@@ -335,3 +335,10 @@ class ProductUpdateView(APIView):
         except Product.DoesNotExist:
             return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
         
+class DeleteReviewView(APIView):
+    serializer_class = ReviewSerializer
+    def post(self, request):
+        reviewID = request.data.get('review')
+        review = Review.objects.get(id=reviewID)
+        review.delete()
+        return Response({'message': 'Product deleted'}, status=status.HTTP_200_OK)
