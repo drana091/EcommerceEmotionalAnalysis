@@ -12,11 +12,6 @@ export default function AddressCheckoutForm({ formData, handleInputChange, butto
                 <Grid item xs={12} align="center">
                     <CreateOrderForm formData={formData} handleInputChange={handleInputChange} />
                 </Grid>
-                <Grid item xs={12} align="center">
-                    <Button variant="contained" color="primary" onClick={buttonPressed}>
-                        Place Order
-                    </Button>
-                </Grid>
             </Grid>
         </Grid>
     </React.Fragment>

@@ -1,6 +1,5 @@
 import { Button, Grid, Box, Typography, Paper } from '@mui/material'; 
 import React from 'react';
-import InputField from './InputField';
 import AddressCheckoutForm from './AddressCheckoutForm';
 import PaymentCheckoutForm from './PaymentCheckoutForm';
 import ConfirmationCheckoutForm from './ConfirmationCheckoutForm';

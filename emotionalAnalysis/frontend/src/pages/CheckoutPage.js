@@ -75,6 +75,9 @@ export default function CheckoutPage() {
             // Call updateStock only if fetch was successful
             updateStock();
             */
+
+            // Redirect to orders page
+            window.location.href = '/pastorders';
            
         })
         .catch((error) => {
@@ -127,7 +130,7 @@ export default function CheckoutPage() {
     
 
     return (
-        <Box sx={{ flexGrow: 1 }}>
+        <Box sx={{ flexGrow: 1}}>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <NavBar />
@@ -137,7 +140,7 @@ export default function CheckoutPage() {
                 <Grid container item xs={12} alignItems="center" justifyContent="center" sx={{marginTop: '4%', marginLeft: '4%'}} >
                     
                     {/* Checkout Form */}
-                    <Grid item xs={6} align="center">
+                    <Grid item xs={6} align="center" sx={{ backgroundColor: 'white', padding:'1%', borderRadius:'10px', boxShadow: '0 0 10px 0 #000000', width: '100%', height: '100%'}}>
                         <CheckoutStepper formData={formData} handleInputChange={handleInputChange} buttonPressed={buttonPressed} />
                     </Grid>
                     
