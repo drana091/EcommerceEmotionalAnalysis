@@ -3,13 +3,12 @@ import { Button, Grid, Typography, Box } from '@mui/material';
 import NavBar from '../components/NavBar';
 import { FetchUserCart } from '../components/fetch/FetchUserCart';
 import CartBox from '../components/CartBox';
-import CreateOrderForm from '../components/CreateOrderForm';
+import CheckoutStepper from '../components/CheckoutStepper';
 
 export default function CheckoutPage() {
     // Get the user ID from the local storage
     const user = localStorage.getItem('user');
     const userID = JSON.parse(user).id;
-
     const [userCart, setUserCart] = useState([]);
     
 
@@ -125,6 +124,7 @@ export default function CheckoutPage() {
     {
         totalPrice += item.total;
     });
+    
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -138,19 +138,8 @@ export default function CheckoutPage() {
                     
                     {/* Checkout Form */}
                     <Grid item xs={6} align="center">
-                        <Grid container spacing={1}>
-                            <Grid item xs={12} align="center">
-                                <CreateOrderForm formData={formData} handleInputChange={handleInputChange} />
-                            </Grid>
-                            <Grid item xs={12} align="center">
-                                <Button variant="contained" color="primary" onClick={buttonPressed}>
-                                    Place Order
-                                </Button>
-                            </Grid>
-                        </Grid>
+                        <CheckoutStepper formData={formData} handleInputChange={handleInputChange} buttonPressed={buttonPressed} />
                     </Grid>
-                    
-                    
                     
                     {/* Cart */}
                     <Grid item xs={6} align="center">
