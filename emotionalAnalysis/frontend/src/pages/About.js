@@ -109,7 +109,6 @@ export default function About() {
                     </React.Fragment>
                 ))}
                     
-                    
 
                 </Grid>
             </Grid>
