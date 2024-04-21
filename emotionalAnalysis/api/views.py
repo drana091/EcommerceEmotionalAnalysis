@@ -81,9 +81,10 @@ class RandomProductView(generics.ListAPIView):
 class UpdateStockView(APIView):
     serializer_class = ProductSerializer
     def post(self, request):
-        productID = request.data.get('product')
-        newStock = request.data.get('stock')
-        product = Product.objects.get(id=productID)
+        product = request.data.get('product')
+        quantity = request.data.get('quantity')
+        product = Product.objects.get(id=product)
+        newStock = product.stock - quantity
         product.stock = newStock
         product.save()
         return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)

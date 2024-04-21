@@ -68,16 +68,13 @@ export default function CheckoutPage() {
         })
         .then((data) => {
             console.log(data);
+            // Call updateStock only if fetch was successful
+            updateStock();
             // Call deleteItemsFromCart only if fetch was successful
             deleteItemsFromCart();
 
-            /* Implement this for updating stock after buying products
-            // Call updateStock only if fetch was successful
-            updateStock();
-            */
-
             // Redirect to orders page
-            window.location.href = '/pastorders';
+           // window.location.href = '/pastorders';
            
         })
         .catch((error) => {
@@ -101,24 +98,22 @@ export default function CheckoutPage() {
         });
     };
 
-    // Implement this for updating stock after buying products
-    /*
+
     const updateStock = () => {
         // Iterate through each item in the cart and update the stock
+        console.log("Updatastock User Cart:", userCart)
         userCart.forEach((cartItem) => {
-            // New stock = old stock - quantity
-            let newStock = cartItem.product.stock - cartItem.quantity;
             const requestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.csrfToken},
-                body: JSON.stringify({ product: cartItem.product, stock: newStock }),
+                body: JSON.stringify({ product: cartItem.product, quantity: cartItem.quantity}),
             };
             fetch('/api/update-stock', requestOptions)
             .then((response) => response.json())
             .then((data) => console.log("Updated stock:", data));
         });
     }
-    */
+
     
 
     // Price calculation

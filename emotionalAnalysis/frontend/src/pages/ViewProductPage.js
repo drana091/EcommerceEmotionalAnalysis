@@ -99,6 +99,9 @@ export default function ViewProductPage() {
         });
     }
 
+    const soldOut = product && product.stock === 0;
+    console.log("Sold out:", soldOut)
+
     return (
         <Grid container spacing={1}>
             <NavBar />
@@ -111,32 +114,46 @@ export default function ViewProductPage() {
             </Grid>
 
             {/* Render if not admin */}
-            {!isAdmin && <React.Fragment>
-            <Grid item xs={12} align="center">
-                {product && <ProductBox product={product} />}
-            </Grid>
-            
-            {/*Add to cart button */}
-            <Grid item xs={12} align="center">
-                <ProductToCartButton product={product} formData={formData} />
-            </Grid>
-            {/* Make Review */}
-            <Grid item xs={12} align="center">
-                <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
-            </Grid>
-            
-
-            {/* Display all reviews */}
-            <Grid item xs={12} align="center">
-                <Typography component="h4" variant="h4">
-                    Reviews:
-                </Typography>
-            </Grid>
-            {reviews.map(review => (
-                <Grid key={review.id} item xs={6} align="center">
-                    <ShowReviewBox review={review} onDelete={handleDeleteReview}/>
+            {!isAdmin && 
+            <React.Fragment>
+                <Grid item xs={12} align="center">
+                    {product && <ProductBox product={product} />}
                 </Grid>
-            ))}
+                
+                {/*Add to cart button */}
+                {!soldOut &&
+                    <Grid item xs={12} align="center">
+                        <ProductToCartButton product={product} formData={formData} />
+                    </Grid>
+                }
+                {soldOut &&
+                    <Grid item xs={12} align="center">
+                        <Typography component="h4" variant="h4">
+                            Sold Out
+                        </Typography>
+                    </Grid>
+                }
+
+                
+                
+
+                {/* Make Review */}
+                <Grid item xs={12} align="center">
+                    <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
+                </Grid>
+                
+
+                {/* Display all reviews */}
+                <Grid item xs={12} align="center">
+                    <Typography component="h4" variant="h4">
+                        Reviews:
+                    </Typography>
+                </Grid>
+                {reviews.map(review => (
+                    <Grid key={review.id} item xs={6} align="center">
+                        <ShowReviewBox review={review} onDelete={handleDeleteReview}/>
+                    </Grid>
+                ))}
             </React.Fragment>}
 
             {/* Render if admin */}
