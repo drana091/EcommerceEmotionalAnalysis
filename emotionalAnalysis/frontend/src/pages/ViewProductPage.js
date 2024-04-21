@@ -100,7 +100,6 @@ export default function ViewProductPage() {
     }
 
     const soldOut = product && product.stock === 0;
-    console.log("Sold out:", soldOut)
 
     return (
         <Grid container spacing={1}>
@@ -133,9 +132,6 @@ export default function ViewProductPage() {
                         </Typography>
                     </Grid>
                 }
-
-                
-                
 
                 {/* Make Review */}
                 <Grid item xs={12} align="center">
