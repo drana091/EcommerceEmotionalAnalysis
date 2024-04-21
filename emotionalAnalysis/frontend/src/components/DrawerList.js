@@ -66,9 +66,8 @@ export default function DrawerList({ open, toggleDrawer  }) {
                     </ListItemButton>
                 </ListItem>
                 <ListItem>
-                    <ListItemButton>
+                    <ListItemButton component={Link} to="/about">
                         <ListItemIcon>
-                            {/* Add icon here */}
                         </ListItemIcon>
                         <ListItemText primary="About" />
                     </ListItemButton>
