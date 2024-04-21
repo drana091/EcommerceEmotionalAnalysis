@@ -8,7 +8,6 @@ export default function ShowReviewBox({ review, onDelete }) {
     // Check if the user or admin is logged in
     const isLoggedIn = localStorage.getItem('user') !== null;
 
-
     return (
         // Box of Review
         <React.Fragment>

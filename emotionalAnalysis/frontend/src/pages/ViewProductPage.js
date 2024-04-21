@@ -12,11 +12,11 @@ import AdminViewProductPage from './AdminViewProductPage';
 
 export default function ViewProductPage() {
     // Get the user ID from the local storage
-    const user = localStorage.getItem('user');
-    const userID = user ? JSON.parse(user).id : null;
-    // Check if the user or admin is logged in
-const isLoggedIn = localStorage.getItem('user') !== null;
-const isAdmin = user !== null && user.admin;
+    const isLoggedIn = localStorage.getItem('user') !== null;
+    const user = JSON.parse(localStorage.getItem('user'));
+    // Check if the user is admin
+    const isAdmin = user !== null && user.admin;
+    const userID = user ? user.id : null;
 
     let { productID } = useParams();
     const [product, setProduct] = useState(null);

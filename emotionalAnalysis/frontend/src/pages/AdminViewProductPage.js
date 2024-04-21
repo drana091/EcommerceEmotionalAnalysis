@@ -34,7 +34,7 @@ export default function AdminViewProductPage() {
         setFormData(prevState => ({ ...prevState, comment: e.target.value }));
     }
     
-    const handleDeleteReview = async (reviewId) => {
+    const handleAdminDeleteReview = async (reviewId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this review?');
         if (!confirmDelete) return;
     
@@ -144,7 +144,7 @@ export default function AdminViewProductPage() {
             </Grid>
             {reviews.map(review => (
                 <Grid key={review.id} item xs={6} align="center">
-                    <ShowReviewBox review={review} onDelete={handleDeleteReview} />
+                    <AdminShowReviewBox review={review} onDelete={handleAdminDeleteReview} />
                 </Grid>
             ))}
             
