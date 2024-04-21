@@ -14,10 +14,10 @@ export default function About() {
 
             
                 {/* About Section */}
-                <Grid item xs={4} align="center" sx={{backgroundColor:'blue'}}>
+                <Grid item xs={4} align="center" sx={{backgroundColor:'#ccd5ae'}}>
                     Test
                 </Grid>
-                <Grid item xs={8} align="center" sx={{backgroundColor:'red'}}>
+                <Grid item xs={8} align="center" sx={{backgroundColor:'#d4a373'}}>
                     Test
                 </Grid>
 
@@ -28,13 +28,13 @@ export default function About() {
                     Test
                 </Grid>
                 <Grid item xs={2} align="center" sx={{backgroundColor:'#F3D7CA'}}>
-                    Test
+                    <p style={{writingMode: "vertical-rl"}}>About Us</p>
                 </Grid>
 
-                <Grid item xs={5} align="center" sx={{backgroundColor:'blue'}}>
+                <Grid item xs={5} align="center" sx={{backgroundColor:'#e9edc9'}}>
                     Test
                 </Grid>
-                <Grid item xs={7} align="center" sx={{backgroundColor:'red'}}>
+                <Grid item xs={7} align="center" sx={{backgroundColor:'#faedcd'}}>
                     Test
                 </Grid>
                 
