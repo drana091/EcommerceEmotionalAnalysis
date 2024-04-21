@@ -6,6 +6,7 @@ import DeleteFromCartButton from './DeleteFromCartButton';
 import { FetchUser } from './fetch/FetchUser';
 import { Unstable_NumberInput as NumberInput } from '@mui/base/Unstable_NumberInput';
 import UpdateQuantityButton from './buttons/UpdateQuantityButton';
+import CheckoutProductBox from './CheckoutProductBox';
 
 export default function CartBox({ userCart, setUserCart }) {
     const [cartItems, setCartItems] = useState([]);
@@ -47,7 +48,12 @@ export default function CartBox({ userCart, setUserCart }) {
             {cartItems.map((cartItem, index) => (
                 <React.Fragment key={cartItem.product.id}>
                     <Grid item xs={10}>
-                        <ProductBox product={cartItem.product} quantity={cartItem.quantity} />
+                        {url === '/checkout' && (
+                            <CheckoutProductBox product={cartItem.product} quantity={cartItem.quantity} />
+                        )}
+                        {url === '/cart' && (
+                            <ProductBox product={cartItem.product} quantity={cartItem.quantity} />
+                        )}
                         <DeleteFromCartButton product={cartItem.product} user={cartItem.user} setUserCart={setUserCart} />
                     </Grid>
                     <Grid item xs={2} align="center">

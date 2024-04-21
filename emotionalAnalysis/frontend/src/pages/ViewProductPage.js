@@ -41,6 +41,7 @@ const isAdmin = user !== null && user.admin;
     }
     
     const createReviewButtonPressed = () => {
+        console.log("FormData:", formData);
         const requestOptions = {
             method: 'POST',
             headers: {
