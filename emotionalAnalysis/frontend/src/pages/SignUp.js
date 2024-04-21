@@ -7,6 +7,7 @@ import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 
 export default function SignUp() {
     const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ export default function SignUp() {
         username: '',
         password: '',
     });
+    const [alertMessage, setAlertMessage] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -35,7 +37,25 @@ export default function SignUp() {
         // The fetch() method is used to make a POST request to the server.
         fetch('/api/create-user', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => {
+            console.log("Response status:", data);
+            // If not filled out, set an error message
+            if (data === '400') 
+            {
+                setAlertMessage('Please fill out all fields');
+                return;
+            }
+            // If user already exists, set an error message
+            if (data === '404')
+            {
+                setAlertMessage('Please choose a different username');
+                return;
+            }
+            console.log(data);
+           // window.location.href = '/'; // Redirect to the home page
+        }
+        );
+          
     };
 
     const itemData = [
@@ -159,7 +179,9 @@ const theme = createTheme({
                                     Submit
                                 </Button>
                             </Grid>
-
+                            
+                             {/* Alert message */}
+                             {alertMessage && <Alert severity="error">{alertMessage}</Alert>}
                             
 
                         </Grid>

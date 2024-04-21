@@ -7,6 +7,7 @@ import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 
 export default function SignUp() {
     const[user, setUser] = useState({
@@ -20,6 +21,7 @@ export default function SignUp() {
         username: '',
         password: '',
     });
+    const [alertMessage, setAlertMessage] = useState(null);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -40,19 +42,27 @@ export default function SignUp() {
         fetch('/api/signin', requestOptions)
         .then((response) => response.json())
         .then((data) => {
-            console.log("Response status:", data.status);
-            // If status is 404, display an error message
-            if (data.status === 401) {
-                
-                alert("User does not exist!"); // Alert message for user not found
+            console.log("Response status:", data);
+            // If user does not exist, set an error message
+            if (data === '404') 
+            {
+                setAlertMessage('User does not exist');
                 return;
             }
-
-            
-          console.log(data);
-          setUser(data);
-          localStorage.setItem('user', JSON.stringify(data));
-          window.location.href = '/'; // Redirect to the home page
+            if (data === '401')
+            {
+                setAlertMessage('Incorrect credentials');
+                return;
+            }
+            if (data === '400')
+            {
+                setAlertMessage('Please enter a username and password');
+                return;
+            }
+            console.log(data);
+            setUser(data);
+            localStorage.setItem('user', JSON.stringify(data));
+            window.location.href = '/'; // Redirect to the home page
         }
         );
           
@@ -156,7 +166,9 @@ const theme = createTheme({
                                     Submit
                                 </Button>
                             </Grid>
-
+                            
+                            {/* Alert message */}
+                            {alertMessage && <Alert severity="error">{alertMessage}</Alert>}
                             
 
                         </Grid>

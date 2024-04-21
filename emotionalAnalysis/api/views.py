@@ -111,13 +111,13 @@ class SignInView(generics.RetrieveAPIView):
 
         # Check if both username and password are provided
         if not username or not password:
-            return Response({'message': 'Username and password are required.'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response('400')
 
         try:
             # Retrieve user from database
             user = User.objects.get(username=username)
         except User.DoesNotExist:
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response('404')
         
         # Check if the password is correct
         if check_password(password, user.password):
@@ -125,7 +125,7 @@ class SignInView(generics.RetrieveAPIView):
             return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
         else:
             # Return error message if authentication fails
-            return Response({'message': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
+            return Response('401')
 
 
 # View to create a new user.
@@ -146,7 +146,9 @@ class CreateUserView(APIView):
             user = User(Fname=Fname, Lname=Lname, email=email, username=username, password=password)
             user.save()
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)    
+        
+        # If the data is invalid, return a bad request response
+        return Response('400')    
 
 #----------------------------------------------
 # REVIEW VIEWS
