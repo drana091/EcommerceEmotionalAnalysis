@@ -13,6 +13,7 @@ import PastOrdersPage from './PastOrdersPage';
 import ProductsByEmotion from './ProductsByEmotion';
 import AccountPage from './AccountPage';
 import UpdateProductForm from './UpdateProductForm';
+import About from './About';
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
                 <Route path= '/all' element={<AllProductsPage />} />
                 <Route path= '/product/:productID' element={<ViewProductPage />} />
                 <Route path= '/emotion/:emotion' element={<ProductsByEmotion />} />
+                <Route path= '/about' element={<About />} />
 
                 {/* If Logged In */}
                 {isUser ? (
