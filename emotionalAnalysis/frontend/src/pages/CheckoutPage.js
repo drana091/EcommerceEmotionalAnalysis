@@ -10,7 +10,6 @@ export default function CheckoutPage() {
     const user = localStorage.getItem('user');
     const userID = JSON.parse(user).id;
     const [userCart, setUserCart] = useState([]);
-    const [totalPrice, setTotalPrice] = useState(0);
     
 
     // Fetch the user's cart data
@@ -75,7 +74,7 @@ export default function CheckoutPage() {
             deleteItemsFromCart();
 
             // Redirect to orders page
-           // window.location.href = '/pastorders';
+            window.location.href = '/pastorders';
            
         })
         .catch((error) => {
@@ -90,8 +89,9 @@ export default function CheckoutPage() {
             const requestOptions = {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.csrfToken},
-                body: JSON.stringify({ user: userID, product: cartItem.product }),
+                body: JSON.stringify({ cartID: cartItem.id }),
             };
+            console.log("DeleteItemsFromCart:", requestOptions)
             fetch('/api/delete-product-cart', requestOptions)
             .then((response) => response.json())
             .then((data) => console.log("Deleted item from cart:", data))
@@ -114,32 +114,49 @@ export default function CheckoutPage() {
             .then((data) => console.log("Updated stock:", data));
         });
     }
-    
 
+    // Price calculation
+    let totalPrice = 0;
+    userCart.forEach((item) => 
+    {
+        totalPrice += parseFloat(item.total);
+    });
+    totalPrice = parseFloat(totalPrice.toFixed(2));
+    
     return (
-        <Box sx={{ flexGrow: 1}}>
+        <Box>
             <Grid container spacing={1}>
                 <Grid item xs={12}>
                     <NavBar />
                 </Grid>
 
-                {/* Checkout Area */}
-                <Grid container item xs={12} alignItems="center" justifyContent="center" sx={{marginTop: '4%', marginLeft: '4%'}} >
+                {/* Cart Container */}
+                <Grid container sx={{marginLeft:'2.5%', marginRight: '2.5%', marginTop: '2.5%', marginBottom:'2.5%', borderRadius:'30px', boxShadow: '0 0 10px 0px #ce94e3',}}>
                     
-                    {/* Checkout Form */}
-                    <Grid item xs={6} align="center" sx={{ backgroundColor: 'white', padding:'1%', borderRadius:'10px', boxShadow: '0 0 10px 0 #000000', width: '100%', height: '100%'}}>
-                        <CheckoutStepper formData={formData} handleInputChange={handleInputChange} buttonPressed={buttonPressed} />
+                    {/* Left Part */}
+                    <Grid item xs={8}  sx={{backgroundColor:'#fae1dd', width:'100%', height: '100%', border:'50px', borderTopLeftRadius: '30px', borderBottomLeftRadius: '30px'}} >
+                        <Grid container>
+                            {/* Checkout Form */}
+                            <Grid item xs={12} align="center" sx={{ backgroundColor: 'white', padding:'1%', borderRadius:'10px', boxShadow: '0 0 10px 0 #000000', width: '100%', height: '100%', marginTop: '2.5%', marginBottom: '2.5%', marginLeft: '20%', marginRight: '20%'}}>
+                                <CheckoutStepper formData={formData} handleInputChange={handleInputChange} buttonPressed={buttonPressed} />
+                            </Grid>
+                        </Grid>
                     </Grid>
-                    
-                    {/* Cart */}
-                    <Grid item xs={6} align="center">
-                        <Box ml={'25%'} mr={'25%'} >
-                            <CartBox userCart={userCart} setUserCart={setUserCart} />
-                        </Box>
-                        <Typography>
-                            Total Price: {totalPrice}
-                        </Typography>
+
+                    {/* Right Part */}
+                    <Grid item xs={4} align='center' sx={{backgroundColor:'#f8edeb', width:'100%', height: '100%',  borderTopRightRadius: '30px', borderBottomRightRadius: '30px'}}>
+                        <Grid container>
+                            <Grid item xs={12} align="center">
+                                <CartBox userCart={userCart} setUserCart={setUserCart} />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Typography>
+                                    Total Price: {totalPrice}
+                                </Typography>
+                            </Grid>
+                        </Grid>
                     </Grid>
+
                 </Grid>
             </Grid>
         </Box>

@@ -99,7 +99,7 @@ export default function ViewProductPage() {
         });
     }
 
-    const soldOut = product && product.stock === 0;
+    const soldOut = product && product.stock <= 0;
 
     return (
         <Grid container spacing={1}>
