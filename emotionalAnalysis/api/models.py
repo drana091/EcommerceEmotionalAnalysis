@@ -7,7 +7,7 @@ from .functions.generateImageUrl import generateImageUrl
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
-    price = models.FloatField(default=0.0)
+    price = models.DecimalField(max_digits=15, decimal_places=2)
     stock = models.IntegerField(default = 0)
     totalEmotion = models.CharField(max_length=255, blank=True, null=True)
     image_url = models.CharField(max_length=255, blank=True, null=True)
@@ -75,7 +75,7 @@ class Cart(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     quantity = models.IntegerField(default = 1)
-    total = models.FloatField(default = 0.0)
+    total = models.DecimalField(default = 0.0, max_digits=15, decimal_places=2)
 
     # Run when a cart is saved
     def save(self, *args, **kwargs):
@@ -97,6 +97,6 @@ class Order(models.Model):
     country = models.CharField(max_length=255)
     paymentMethod = models.CharField(max_length=255)
     quantity = models.IntegerField(default = 1)
-    total = models.FloatField(default = 0.0)
+    total = models.DecimalField(default = 0.0, max_digits=20, decimal_places=2)
     date = models.DateTimeField(auto_now_add=True)
 

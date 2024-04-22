@@ -227,12 +227,11 @@ class CreateCartView(APIView):
 class DeleteProductFromCartView(APIView):
     serializer_class = CartSerializer
     def post(self, request):
-        user_id = request.data.get('user')
-        product_id = request.data.get('product')
-        cart_item = Cart.objects.filter(user_id=user_id, product_id=product_id)
-        cart_item.delete()
-        return Response({'message': 'Product deleted from cart'}, status=status.HTTP_200_OK)
-
+        cartID = request.data.get('cartID')
+        cart = Cart.objects.get(id=cartID)
+        cart.delete()
+        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+        
 # View to update the quantity of a product in the cart
 class UpdateCartQuantityView(APIView):
     serializer_class = CartSerializer

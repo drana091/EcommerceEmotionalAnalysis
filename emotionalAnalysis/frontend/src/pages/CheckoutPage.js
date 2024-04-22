@@ -10,6 +10,7 @@ export default function CheckoutPage() {
     const user = localStorage.getItem('user');
     const userID = JSON.parse(user).id;
     const [userCart, setUserCart] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
     
 
     // Fetch the user's cart data
@@ -113,15 +114,6 @@ export default function CheckoutPage() {
             .then((data) => console.log("Updated stock:", data));
         });
     }
-
-    
-
-    // Price calculation
-    let totalPrice = 0;
-    userCart.forEach((item) => 
-    {
-        totalPrice += item.total;
-    });
     
 
     return (
@@ -145,7 +137,7 @@ export default function CheckoutPage() {
                             <CartBox userCart={userCart} setUserCart={setUserCart} />
                         </Box>
                         <Typography>
-                            Total Price: {totalPrice.toFixed(2)}
+                            Total Price: {totalPrice}
                         </Typography>
                     </Grid>
                 </Grid>
