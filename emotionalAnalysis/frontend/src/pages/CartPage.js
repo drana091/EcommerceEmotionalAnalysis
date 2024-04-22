@@ -136,10 +136,10 @@ export default function CartPage() {
                                 <TableHead>
                                     
                                     <TableRow>
-                                        <TableCell>Product</TableCell>
-                                        <TableCell>Price</TableCell>
-                                        <TableCell>Quantity</TableCell>
-                                        <TableCell>Total</TableCell>
+                                        <TableCellCenter>Product</TableCellCenter>
+                                        <TableCellCenter>Price</TableCellCenter>
+                                        <TableCellCenter>Quantity</TableCellCenter>
+                                        <TableCellCenter>Total</TableCellCenter>
                                     </TableRow>
                                     
                                 </TableHead>
@@ -147,15 +147,15 @@ export default function CartPage() {
                                     {/* Iterate over the products in the cart and display them */}
                                     {productData.map((product, index) => (
                                         <TableRow key={product.id}>
-                                            <TableCell>
+                                            <TableCellCenter>
                                                 <img src={window.location.origin + '/media/' + product.image_url} alt={product.name} style={{width: '30%', height:'auto' }}/>
                                                 <h4>{product.name}</h4>
                                                 <p>{product.description}</p>
                                                 {console.log("cartItem:", userCart[index])}
                                                 <DeleteFromCartButton cartItem={userCart[index]} setUserCart={setUserCart}/>
-                                            </TableCell>
-                                            <TableCell>${product.price}</TableCell>
-                                            <TableCell>
+                                            </TableCellCenter>
+                                            <TableCellCenter>${product.price}</TableCellCenter>
+                                            <TableCellCenter>
                                                 <Layout>
                                                     <CompactNumberInput
                                                         aria-label="Compact number input"
@@ -166,10 +166,10 @@ export default function CartPage() {
                                                         value={userCart[index].quantity}
                                                         onChange={(event, newQuantity) => handleQuantityChange(newQuantity, index)}
                                                     />
-                                                    <Pre>Current value: {userCart[index].quantity}</Pre>
+                                                    <Pre>{userCart[index].quantity}</Pre>
                                                 </Layout>
-                                            </TableCell>
-                                            <TableCell>${userCart[index].total}</TableCell>
+                                            </TableCellCenter>
+                                            <TableCellCenter>${userCart[index].total}</TableCellCenter>
                                         </TableRow>
                                     ))}
 
@@ -188,9 +188,9 @@ export default function CartPage() {
                                 <img src={window.location.origin + '/media/bannerImages/logo.png'} alt="Logo" style={{width: '60%', height: 'auto', marginTop: '30%'}} /> 
                             </Grid>
                             <Grid item xs={12}>
-                                <Button variant="contained" color="primary" href="/checkout" startIcon={<ShoppingCartIcon />}>
+                                <CheckoutButton variant="contained" href="/checkout">
                                     Go to Checkout
-                                </Button> 
+                                </CheckoutButton>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -201,6 +201,37 @@ export default function CartPage() {
         </Box>
     );
 }
+
+// Align table cells to the center
+const TableCellCenter = styled(TableCell)({
+    textAlign: 'center',
+});
+
+const CheckoutButton = styled(Button)({
+    backgroundColor: 'black',
+    color: 'white',
+    borderRadius: '100px',
+    padding: '10px 30px',
+    fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+      ].join(','),
+
+});
+
+// ========================================================================================================
+// ========================================================================================================
+// Following code for number input is taken from https://mui.com/base-ui/react-number-input/
+// ========================================================================================================
+// ========================================================================================================
 
 const blue = {
     100: '#DAECFF',

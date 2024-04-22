@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@mui/material';
-
+import { styled } from '@mui/material/styles';
 
 const buttonPressed = (cartItem) => {
     console.log("Product:", cartItem);
@@ -30,8 +30,29 @@ const buttonPressed = (cartItem) => {
 
 export default function DeleteFromCartButton({ cartItem}) {
     return(
-        <Button variant="contained" color="primary" onClick={() => buttonPressed(cartItem)}>
+        <RemoveFromCartButton variant="contained"  onClick={() => buttonPressed(cartItem)}>
             Remove from Cart
-        </Button>
+        </RemoveFromCartButton>
     );
 }
+
+const RemoveFromCartButton = styled(Button)({
+    backgroundColor: 'black',
+    color: 'white',
+    borderRadius: '100px',
+    padding: '10px 20px',
+    width: 'auto',
+    fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+    ].join(','),
+
+});
