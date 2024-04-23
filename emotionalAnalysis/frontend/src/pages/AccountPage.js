@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Grid, Typography, Box, ThemeProvider, Container } from '@mui/material'; 
+import { Grid, Typography, Box, ThemeProvider, Container, Tab } from '@mui/material'; 
 import NavBar from '../components/NavBar';
 import { json } from 'react-router-dom';
 import Avatar from '@mui/material/Avatar';
@@ -7,6 +7,7 @@ import { createTheme } from '@mui/material/styles';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { useState } from 'react';
+import styled from '@emotion/styled';
 
 
 const theme = createTheme({
@@ -112,23 +113,25 @@ export default function AccountPage() {
 
                             {/* User Avatar */}
                             <Grid item xs={12} sx={{border:'solid'}}>
-                                Avatar
+                                {customAvatar(100, initials)}
+                                {user.Fname + ' ' + user.Lname}
                             </Grid>
 
                             {/* List Stepper */}
-                            <Grid item xs={12}>
+                            <Grid item xs={12} sx={{}}>
                                 <ToggleButtonGroup
                                     color="primary"
                                     value={activeTab}
                                     exclusive
                                     onChange={handleTabChange}
                                     orientation='vertical'
+                                    sx={{width:'100%', marginTop:'5%'}}
                                 >
-                                    <ToggleButton value="Account">Account</ToggleButton>
-                                    <ToggleButton value="Settings">Settings</ToggleButton>
-                                    <ToggleButton value="Orders">Orders</ToggleButton>
-                                    <ToggleButton value="Payment Information">Payment Information</ToggleButton>
-                                    <ToggleButton value="Danger Zone">Danger Zone</ToggleButton>
+                                    <TabButton value="Account">Account</TabButton>
+                                    <TabButton value="Settings">Settings</TabButton>
+                                    <TabButton value="Orders">Orders</TabButton>
+                                    <TabButton value="Payment Information">Payment Information</TabButton>
+                                    <TabButton value="Danger Zone">Danger Zone</TabButton>
                                 </ToggleButtonGroup>
                             </Grid>
 
@@ -140,7 +143,7 @@ export default function AccountPage() {
                         <Grid container>
 
                             {/* Display Tab */}
-                            <Grid item xs={12}>
+                            <Grid item xs={12} sx={{border:'solid'}}>
                                 {displayTab}
                             </Grid>
                             
@@ -152,3 +155,9 @@ export default function AccountPage() {
         </Box>
     );
 }
+
+const TabButton = styled(ToggleButton)({
+    width: '100%',
+    borderRadius: '20px',
+    marginBottom: '2%',
+});
