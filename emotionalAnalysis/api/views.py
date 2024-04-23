@@ -32,7 +32,7 @@ class SingleProductView(generics.RetrieveAPIView):
 class DeleteProductView(APIView):
     serializer_class = ProductSerializer
     def post(self, request):
-        productID = request.data.get('product')
+        productID = request.data.get('productID')
         product = Product.objects.get(id=productID)
         product.delete()
         return Response({'message': 'Product deleted'}, status=status.HTTP_200_OK)
@@ -60,7 +60,8 @@ class CreateProductView(APIView):
             name = serializer.data.get('name')
             description = serializer.data.get('description')
             price = serializer.data.get('price')
-            product = Product(name=name, description=description, price=price)
+            stock = serializer.data.get('stock')
+            product = Product(name=name, description=description, price=price, stock=stock)
             product.save()
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)

@@ -2,7 +2,8 @@ import { Button, Grid, Box, Typography, Paper } from '@mui/material';
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-export default function ProductBox({ product, onDelete }) {
+export default function AdminProductBox({ product, onDelete }) {
+    const url = window.location.pathname;
     const imageURL = `${window.location.origin}/media/${product.image_url}`;
     const handleDeleteClick = () => {
         onDelete(product.id);
@@ -23,19 +24,26 @@ export default function ProductBox({ product, onDelete }) {
                             <Typography variant="body2" color="textSecondary">Stock: {product.stock}</Typography>
                             <Typography variant="body2" color="textSecondary">Emotion: {product.totalEmotion}</Typography>
                         </Grid>
-                        <Grid item>
+                        {url !== '/product/'+product.id && <Grid item>
                             <Button variant="contained" color="primary" component={Link} to={`/product/${product.id}`}>View Details</Button>
-                        </Grid>
-                        <Grid item>
-                            <Button variant="contained" color="error" onClick={handleDeleteClick}>Delete</Button>
-                        </Grid>
+                        </Grid>}
                         <Grid item>
                             <Typography variant="h6">${product.price}</Typography>
                         </Grid>
-                        <Grid item>
-                            {/* Add Update Product button */}
-                            <Button variant="contained" color="secondary" component={Link} to={`/product-update/${product.id}`}>Update Product</Button>
-                        </Grid>
+                        
+                        {url === '/product/'+product.id && 
+                        <>
+                            <Grid item>
+                                <Button variant="contained" color="error" onClick={handleDeleteClick}>Delete</Button>
+                            </Grid>
+                            <Grid item>
+                                {/* Add Update Product button */}
+                                <Button variant="contained" color="secondary" component={Link} to={`/product-update/${product.id}`}>Update Product</Button>
+                            </Grid>
+                        </>}
+                        
+                        
+                        
                     </Grid>
                 </Grid>
             </Paper>

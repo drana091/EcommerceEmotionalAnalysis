@@ -94,29 +94,26 @@ export default function AdminViewProductPage() {
     }
 
     const handleDeleteProduct = async (productId) => {
-        // Confirm with the user before deleting the product
-
         const confirmDelete = window.confirm('Are you sure you want to delete this product?');
         if (!confirmDelete) return;
 
-        try {
-            const response = await fetch(`/api/product-delete/${productId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': window.csrfToken,
-                },
-            });
-            if (!response.ok) {
-                throw new Error('Failed to delete product');
-            }
+        const requestOptions = {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': window.csrfToken,
+            },
+            body: JSON.stringify({ productID: productId }),
             
+        };
+        fetch('/api/delete-product', requestOptions)
+        .then((response) => {response.json()})
+        .then((data) => {console.log(data)})
+        .then(() => {
             navigate('/all');
-        } catch (error) {
-            console.error('Error deleting product:', error);
-            // Handle error, display an error message to the user
-        }
+        });
     };
+    
 
     return (
         <React.Fragment>
