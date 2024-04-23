@@ -54,7 +54,7 @@ export default function UpdateProductForm() {
                 <Grid item xs={12}>
                     <NavBar />
                 </Grid>            
-            <Grid item xs={12} md={6}>
+            <Grid item xs={6}>
                 <Typography variant="h4" align="center" gutterBottom>
                     Update Product
                 </Typography>
@@ -64,7 +64,7 @@ export default function UpdateProductForm() {
                         label="Name"
                         InputLabelProps={{ shrink: true }}
                         name="name"
-                        value={formData.name || product.name}
+                        value={formData.name}
                         onChange={handleChange}
                         variant="outlined"
                         margin="normal"
@@ -74,7 +74,7 @@ export default function UpdateProductForm() {
                         label="Description"
                         InputLabelProps={{ shrink: true }}
                         name="description"
-                        value={formData.description || product.description}
+                        value={formData.description}
                         onChange={handleChange}
                         variant="outlined"
                         margin="normal"
@@ -86,7 +86,18 @@ export default function UpdateProductForm() {
                         label="Price"
                         InputLabelProps={{ shrink: true }}
                         name="price"
-                        value={formData.price || product.price}
+                        value={formData.price}
+                        onChange={handleChange}
+                        variant="outlined"
+                        margin="normal"
+                        type="number"
+                    />
+                    <TextField
+                        fullWidth
+                        label="Stock"
+                        InputLabelProps={{ shrink: true }}
+                        name="stock"
+                        value={formData.stock}
                         onChange={handleChange}
                         variant="outlined"
                         margin="normal"
