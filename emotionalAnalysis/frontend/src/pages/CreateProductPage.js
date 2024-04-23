@@ -3,13 +3,17 @@ import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box }
 import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
 import CreateProductBox from '../components/CreateProductBox';
+import { useNavigate } from "react-router-dom";
+
 
 export default function CreateProductPage() {
     const [formData, setFormData] = useState({
         name: "",
         description: "",
         price: "",
+        stock: "",
     });
+    const navigate = useNavigate();
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -28,7 +32,10 @@ export default function CreateProductPage() {
         // The fetch() method is used to make a POST request to the server.
         fetch('/api/create-product', requestOptions)
         .then((response) => response.json())
-        .then((data) => console.log(data));
+        .then((data) => console.log(data))
+        .then(() => {
+            navigate('/all');
+        });
     };
 
     return (

@@ -34,6 +34,16 @@ export default function CreateProductForm({ handleInputChange, formData }) {
                 value={formData.price}
                 onChange={handleInputChange}
             />
+
+            {/* Stock input */}
+            <InputField 
+                id="stock"
+                name="stock"
+                label="Stock"
+                type="number"
+                value={formData.stock}
+                onChange={handleInputChange}
+            />
         </FormControl>
     );
 };
