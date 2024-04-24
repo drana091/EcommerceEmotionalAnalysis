@@ -1,8 +1,13 @@
 import React from 'react';
 import { Button } from '@mui/material';
-import { FetchUserCart } from './fetch/FetchUserCart';
+import { styled } from '@mui/material/styles';
 
-const buttonPressed = (product, user, setUserCart) => {
+const buttonPressed = (cartItem) => {
+    console.log("Product:", cartItem);
+    const user = localStorage.getItem('user');
+    const userID = JSON.parse(user).id;
+
+
     const requestOptions = {
         method: 'POST',
         headers: {
@@ -11,25 +16,43 @@ const buttonPressed = (product, user, setUserCart) => {
             'X-CSRFToken': window.csrfToken,
         },
         body: JSON.stringify({
-            product: product.id,
-            user: user.id,
+            cartID: cartItem.id,
         }),
     };
     // The fetch() method is used to make a POST request to the server.
     fetch('/api/delete-product-cart', requestOptions)
     .then((response) => response.json())
     .then((data) => console.log(data))
-    .then(() => {
-        // Fetch the cart again to show the updated list
-        FetchUserCart(user.id).then((userCartData) => setUserCart(userCartData))
-    });
+    .then(() => { window.location.reload(); }
+    )
     
 }
 
-export default function DeleteFromCartButton({ product, user, setUserCart }) {
+export default function DeleteFromCartButton({ cartItem}) {
     return(
-        <Button variant="contained" color="primary" onClick={() => buttonPressed(product, user, setUserCart)}>
+        <RemoveFromCartButton variant="contained"  onClick={() => buttonPressed(cartItem)}>
             Remove from Cart
-        </Button>
+        </RemoveFromCartButton>
     );
 }
+
+const RemoveFromCartButton = styled(Button)({
+    backgroundColor: 'black',
+    color: 'white',
+    borderRadius: '100px',
+    padding: '10px 20px',
+    width: 'auto',
+    fontFamily: [
+        '-apple-system',
+        'BlinkMacSystemFont',
+        '"Segoe UI"',
+        'Roboto',
+        '"Helvetica Neue"',
+        'Arial',
+        'sans-serif',
+        '"Apple Color Emoji"',
+        '"Segoe UI Emoji"',
+        '"Segoe UI Symbol"',
+    ].join(','),
+
+});

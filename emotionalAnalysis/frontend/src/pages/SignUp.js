@@ -1,150 +1,195 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box, } from '@mui/material'; 
+import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
-
-function Copyright(props) {
-  return (
-    <Typography variant="body2" color="text.secondary" align="center" {...props}>
-      {'Copyright © '}
-      <Link color="inherit" href="https://mui.com/">
-        Your Website
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
+import InputField from '../components/InputField';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 
 export default function SignUp() {
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        const formData = new FormData(event.currentTarget);
-        try {
-          const response = await fetch('/api/create-user', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              Fname: formData.get('firstName'),
-              Lname: formData.get('lastName'),
-              email: formData.get('email'),
-              password: formData.get('password'),
-              // Add other form fields as needed
-            }),
-          });
-          if (!response.ok) {
-            throw new Error('Failed to submit form');
-          }
-          console.log('Form submitted successfully');
-          // Optionally, you can redirect the user or perform other actions after successful form submission
-        } catch (error) {
-          console.error('Error submitting form:', error);
-          // Handle error, e.g., display an error message to the user
-        }
-      };
-  
+    const [formData, setFormData] = useState({
+        Fname: '',
+        Lname: '',
+        email: '',
+        username: '',
+        password: '',
+    });
+    const [alertMessage, setAlertMessage] = useState(null);
 
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <NavBar />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign up
-          </Typography>
-          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  autoComplete="given-name"
-                  name="firstName"
-                  required
-                  fullWidth
-                  id="firstName"
-                  label="First Name"
-                  autoFocus
-                />
-              </Grid>
-              <Grid item xs={12} sm={6}>
-                <TextField
-                  required
-                  fullWidth
-                  id="lastName"
-                  label="Last Name"
-                  name="lastName"
-                  autoComplete="family-name"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  id="email"
-                  label="Email Address"
-                  name="email"
-                  autoComplete="email"
-                />
-              </Grid>
-              <Grid item xs={12}>
-                <TextField
-                  required
-                  fullWidth
-                  name="password"
-                  label="Password"
-                  type="password"
-                  id="password"
-                  autoComplete="new-password"
-                />
-              </Grid>
-              
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const buttonPressed = () => {
+        console.log("FormData:", formData);
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.csrfToken},
+            body: JSON.stringify(formData),
+        };
+        // The fetch() method is used to make a POST request to the server.
+        fetch('/api/create-user', requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Response status:", data);
+            // If not filled out, set an error message
+            if (data === '400') 
+            {
+                setAlertMessage('Please fill out all fields');
+                return;
+            }
+            // If user already exists, set an error message
+            if (data === '404')
+            {
+                setAlertMessage('Please choose a different username');
+                return;
+            }
+            console.log(data);
+           // window.location.href = '/'; // Redirect to the home page
+        }
+        );
+          
+    };
+
+    const itemData = [
+        {
+            img: `${window.location.origin}/media/iconImages/facebookIcon.svg`,
+            title: 'Facebook',
+        },
+        {
+            img: `${window.location.origin}/media/iconImages/linkedinIcon.svg`,
+            title: 'Twitter',
+        },
+        {
+            img: `${window.location.origin}/media/iconImages/instagramIcon.svg`,
+            title: 'Instagram',
+        }
+    ];
+
+const theme = createTheme({
+    palette: {
+        submitButton: {
+            main: '#c482cf',
+        },
+       
+    },
+});
+
+    return (
+        <ThemeProvider theme={theme}>
+        <Box sx={{ display: 'flex', backgroundImage: `url(${window.location.origin}/media/bannerImages/recordBackground.jpg)` }}>
+            <Grid container spacing={1}>
+
+                {/* NavBar */}
+                <Grid item xs={12}>
+                    <NavBar />
+                </Grid>
+
+                {/* SignIn Box */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', padding: '0%', alignItems: 'center', margin: 'auto', height: '80%', width: '50%', overflow: 'hidden',}}>  
+                    <Grid container spacing={1} align='center' alignContent={"center"} alignItems={'center'} sx={{ width: '100%', height: '100%',}}>
+
+                        {/* Left Section*/}
+                        <Grid item xs={6} sx={{backgroundColor: '#7aad76', width: '100%', height: '100%', borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px'}}>
+                            <Typography component="h6" variant="h6" sx={{marginTop:'10%'}}>
+                                Make a new account:
+                            </Typography>
+                            <img src={`${window.location.origin}/media/bannerImages/SignInRecord.webp`} alt="record" style={{width: '100%', }} />
+                            <Typography component="p" variant="p" sx={{marginTop:'10%'}}>
+                                Already have an account?
+                                <br />
+                                <a href="/signin">Log in here</a> <LoginRoundedIcon />
+                            </Typography>
+
+                            {/* Social Media Icons */}
+                            <Typography component="p" variant="p" sx={{marginTop:'10%'}}>
+                                Find us on social media:
+                            </Typography>
+                            <ImageList sx={{ width: '100px', height: '100%' }} cols={3} rowHeight={1}>
+                                {itemData.map((item) => (
+                                    <ImageListItem key={item.img}>
+                                    <img
+                                        srcSet={`${item.img}`}
+                                        src={`${item.img}`}
+                                        alt={item.title}
+                                        loading="lazy"
+                                    />
+                                    </ImageListItem>
+                                ))}
+                            </ImageList>
+
+                            
+                        </Grid>
+
+                        {/* Form */}
+                        <Grid item xs={6} sm container alignContent={'center'} justifyContent={'center'} sx={{backgroundColor: '#e4e8da', width: '100%', height: '100%', borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}>
+                            <FormControl>
+                                <InputField
+                                    id="Fname"
+                                    name="Fname"
+                                    label="First Name"
+                                    type="text"
+                                    value={formData.Fname}
+                                    onChange={handleInputChange}
+                                />
+                                <InputField
+                                    id="Lname"
+                                    name="Lname"
+                                    label="Last Name"
+                                    type="text"
+                                    value={formData.Lname}
+                                    onChange={handleInputChange}
+                                />
+                                <InputField
+                                    id="email"
+                                    name="email"
+                                    label="Email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                />
+                                <InputField
+                                    id="username"
+                                    name="username"
+                                    label="Username"
+                                    type="text"
+                                    value={formData.username}
+                                    onChange={handleInputChange}
+                                />
+                                <InputField
+                                    id="password"
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                />
+                            </FormControl>
+
+                            {/* Submit button */}
+                            <Grid item xs={12} align="center" sx={{padding: 1}}>
+                                <Button color="submitButton" variant="contained" onClick={buttonPressed}>
+                                    Submit
+                                </Button>
+                            </Grid>
+                            
+                             {/* Alert message */}
+                             {alertMessage && <Alert severity="error">{alertMessage}</Alert>}
+                            
+
+                        </Grid>
+                    </Grid>
+                </Box>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign Up
-            </Button>
-            <Grid container justifyContent="flex-end">
-              <Grid item>
-                <Link href="/signin" variant="body2">
-                  Already have an account? Sign in
-                </Link>
-              </Grid>
-            </Grid>
-          </Box>
+            
         </Box>
-        <Copyright sx={{ mt: 5 }} />
-      </Container>
-    </ThemeProvider>
-  );
+        </ThemeProvider>
+    );
 }

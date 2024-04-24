@@ -7,6 +7,8 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.contrib.auth import authenticate
 import random
+from django.contrib.auth.hashers import make_password
+from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 
 
@@ -25,6 +27,16 @@ class SingleProductView(generics.RetrieveAPIView):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
+
+# View to delete a product
+class DeleteProductView(APIView):
+    serializer_class = ProductSerializer
+    def post(self, request):
+        productID = request.data.get('productID')
+        product = Product.objects.get(id=productID)
+        product.delete()
+        return Response({'message': 'Product deleted'}, status=status.HTTP_200_OK)
+
 
 # View to show products with a specific totalEmotion
 class EmotionProductView(generics.ListAPIView):
@@ -48,12 +60,13 @@ class CreateProductView(APIView):
             name = serializer.data.get('name')
             description = serializer.data.get('description')
             price = serializer.data.get('price')
-            product = Product(name=name, description=description, price=price)
+            stock = serializer.data.get('stock')
+            product = Product(name=name, description=description, price=price, stock=stock)
             product.save()
             return Response(ProductSerializer(product).data, status=status.HTTP_201_CREATED)
         return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # View to fetch random products
+# View to fetch random products
 class RandomProductView(generics.ListAPIView):
     serializer_class = ProductSerializer
 
@@ -64,6 +77,18 @@ class RandomProductView(generics.ListAPIView):
         random_product_ids = random.sample(all_product_ids, k=3)  # Adjust the value of 'k' as needed
         # Fetch products corresponding to the random IDs
         return Product.objects.filter(id__in=random_product_ids)
+    
+# View to update stock of a product
+class UpdateStockView(APIView):
+    serializer_class = ProductSerializer
+    def post(self, request):
+        product = request.data.get('product')
+        quantity = request.data.get('quantity')
+        product = Product.objects.get(id=product)
+        newStock = product.stock - quantity
+        product.stock = newStock
+        product.save()
+        return Response(ProductSerializer(product).data, status=status.HTTP_200_OK)
     
 #----------------------------------------------
 # USER VIEWS
@@ -80,24 +105,31 @@ class SingleUserView(generics.RetrieveAPIView):
     lookup_field = 'pk'
 
 # View to login a user
-class SignInView(APIView):
-    def post(self, request):
-        # Extract username/email and password from the request data
+class SignInView(generics.RetrieveAPIView):
+    def post(self, request, format=None):
+        # Extract username and password from request data
         username = request.data.get('username')
         password = request.data.get('password')
 
-        # Authenticate user
-        user = authenticate(request, username=username, password=password)
+        # Check if both username and password are provided
+        if not username or not password:
+            return Response('400')
 
-        if user is not None:
-            # User authentication successful
-            # Return success response with user data or authentication token
-            return Response({'message': 'Sign in successful', 'user_id': user.id}, status=status.HTTP_200_OK)
-        else:
-            # User authentication failed
-            # Return error response
-            return Response({'error': 'Invalid username/email or password'}, status=status.HTTP_401_UNAUTHORIZED)
+        try:
+            # Retrieve user from database
+            user = User.objects.get(username=username)
+        except User.DoesNotExist:
+            return Response('404')
         
+        # Check if the password is correct
+        if check_password(password, user.password):
+            # Return user data if authentication succeeds
+            return Response(UserSerializer(user).data, status=status.HTTP_200_OK)
+        else:
+            # Return error message if authentication fails
+            return Response('401')
+
+
 # View to create a new user.
 # Takes a POST request with parameters: name, email, password, address, phone
 class CreateUserView(APIView):
@@ -111,11 +143,14 @@ class CreateUserView(APIView):
             Fname = serializer.data.get('Fname')
             Lname = serializer.data.get('Lname')
             email = serializer.data.get('email')
-            password = serializer.data.get('password')
-            user = User(Fname=Fname, Lname=Lname, email=email, password=password)
+            username = serializer.data.get('username')
+            password = make_password(serializer.data.get('password'))
+            user = User(Fname=Fname, Lname=Lname, email=email, username=username, password=password)
             user.save()
             return Response(UserSerializer(user).data, status=status.HTTP_201_CREATED)
-        return Response({'Bad Request': 'Invalid data...'}, status=status.HTTP_400_BAD_REQUEST)    
+        
+        # If the data is invalid, return a bad request response
+        return Response('400')    
 
 #----------------------------------------------
 # REVIEW VIEWS
@@ -193,12 +228,22 @@ class CreateCartView(APIView):
 class DeleteProductFromCartView(APIView):
     serializer_class = CartSerializer
     def post(self, request):
-        user_id = request.data.get('user')
-        product_id = request.data.get('product')
-        cart_item = Cart.objects.filter(user_id=user_id, product_id=product_id)
-        cart_item.delete()
-        return Response({'message': 'Product deleted from cart'}, status=status.HTTP_200_OK)
-
+        cartID = request.data.get('cartID')
+        cart = Cart.objects.get(id=cartID)
+        cart.delete()
+        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+        
+# View to update the quantity of a product in the cart
+class UpdateCartQuantityView(APIView):
+    serializer_class = CartSerializer
+    def post(self, request):
+        cartID = request.data.get('cartID')
+        newQuantity = request.data.get('quantity')
+        cart = Cart.objects.get(id=cartID)
+        cart.quantity = newQuantity
+        cart.save()
+        return Response(CartSerializer(cart).data, status=status.HTTP_200_OK)
+    
 #----------------------------------------------
 # ORDER VIEWS
 #----------------------------------------------
@@ -229,6 +274,11 @@ class CreateOrderView(APIView):
             zip_code = serializer.validated_data.get('zip')
             country = serializer.validated_data.get('country')
             payment_method = serializer.validated_data.get('paymentMethod')
+
+            # Total price calculation
+            totalPrice = 0
+            for product in products:
+                totalPrice += product.price
             
             # Create the order instance
             order = Order.objects.create(
@@ -239,6 +289,7 @@ class CreateOrderView(APIView):
                 zip=zip_code,
                 country=country,
                 paymentMethod=payment_method,
+                total=totalPrice
             )
             
             # Add products to the order
@@ -272,3 +323,23 @@ class SearchProduct(generics.ListAPIView):
         else:
             # If no search query is provided, return a bad request response
             return JsonResponse({'error': 'No search query provided'}, status=400)
+        
+class ProductUpdateView(APIView):
+    def put(self, request, pk):
+        try:
+            product = Product.objects.get(pk=pk)
+            serializer = ProductSerializer(product, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_200_OK)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Product.DoesNotExist:
+            return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+        
+class DeleteReviewView(APIView):
+    serializer_class = ReviewSerializer
+    def post(self, request):
+        reviewID = request.data.get('review')
+        review = Review.objects.get(id=reviewID)
+        review.delete()
+        return Response({'message': 'Product deleted'}, status=status.HTTP_200_OK)

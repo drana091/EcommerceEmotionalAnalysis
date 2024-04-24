@@ -18,7 +18,7 @@ class ProductSerializer(serializers.ModelSerializer):
 class CreateProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ('name', 'description', 'price')
+        fields = ('name', 'description', 'price', 'stock')
 
 #----------------------------------------------
 # USER SERIALIZERS
@@ -27,13 +27,18 @@ class CreateProductSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('id', 'Fname', 'Lname', 'email', 'password')
+        fields = ('id', 'Fname', 'Lname', 'email', 'username', 'password', 'admin')
 
 # Create a serializer for the User model that creates a new user.
 class CreateUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ('Fname', 'Lname', 'email', 'password')       
+        fields = ('Fname', 'Lname', 'email', 'username', 'password')     
+
+class SignInUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ('username', 'password')  
         
 #----------------------------------------------
 # REVIEW SERIALIZERS
@@ -72,7 +77,7 @@ class CreateCartSerializer(serializers.ModelSerializer):
 class OrderSerializer(serializers.ModelSerializer):
     class Meta:
         model = Order
-        fields = ('id', 'user', 'products', 'quantity', 'total', 'address', 'city', 'state', 'zip', 'country', 'paymentMethod')
+        fields = ('id', 'user', 'products', 'quantity', 'total', 'address', 'city', 'state', 'zip', 'country', 'paymentMethod', 'date')
 
 # Create a serializer for the Order model that creates a new order
 class CreateOrderSerializer(serializers.ModelSerializer):

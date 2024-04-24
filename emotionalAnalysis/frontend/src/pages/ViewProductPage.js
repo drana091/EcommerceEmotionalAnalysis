@@ -8,12 +8,20 @@ import { FetchProduct } from '../components/fetch/FetchProduct';
 import { FetchProductReviews } from '../components/fetch/FetchProductReviews';
 import CreateReviewBox from '../components/CreateReviewBox';
 import ProductToCartButton from '../components/ProductToCartButton';
+import AdminViewProductPage from './AdminViewProductPage';
 
 export default function ViewProductPage() {
+    // Get the user ID from the local storage
+    const isLoggedIn = localStorage.getItem('user') !== null;
+    const user = JSON.parse(localStorage.getItem('user'));
+    // Check if the user is admin
+    const isAdmin = user !== null && user.admin;
+    const userID = user ? user.id : null;
+
     let { productID } = useParams();
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
-    const [formData, setFormData] = useState({ product: null, user: '1', comment: "" });
+    const [formData, setFormData] = useState({ product: null, user: userID, comment: "" });
 
     useEffect(() => {
         const fetchData = async () => {
@@ -21,7 +29,7 @@ export default function ViewProductPage() {
             const reviewsData = await FetchProductReviews(productID);
             setProduct(productData);
             setReviews(reviewsData);
-            setFormData({ product: productData, user: '1', comment: "" });
+            setFormData({ product: productData, user: userID, comment: "" });
         };
 
         fetchData();
@@ -32,7 +40,38 @@ export default function ViewProductPage() {
         setFormData(prevState => ({ ...prevState, comment: e.target.value }));
     }
     
+    const handleDeleteReview = async (reviewId) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this review?');
+        if (!confirmDelete) return;
+    
+        try {
+            // Make a DELETE request to the API endpoint responsible for deleting reviews
+            const response = await fetch(`/api/review-delete/${reviewId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': window.csrfToken,
+                },
+            });
+    
+            if (response.ok) {
+                // If the deletion was successful, remove the deleted review from the state
+                setReviews((prevReviews) => prevReviews.filter((review) => review.id !== reviewId));
+                alert('Review deleted successfully.');
+            } else {
+                // If there was an error in the deletion process, display an error message
+                alert('Error deleting review.');
+            }
+        } catch (error) {
+            // If there was an error in the fetch request, log the error
+            console.error('Error deleting review:', error);
+            // Display an error message
+            alert('Error deleting review.');
+        }
+    };
+
     const createReviewButtonPressed = () => {
+        console.log("FormData:", formData);
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -60,6 +99,8 @@ export default function ViewProductPage() {
         });
     }
 
+    const soldOut = product && product.stock <= 0;
+
     return (
         <Grid container spacing={1}>
             <NavBar />
@@ -71,31 +112,48 @@ export default function ViewProductPage() {
                 </Typography>
             </Grid>
 
-            <Grid item xs={12} align="center">
-                {product && <ProductBox product={product} />}
-            </Grid>
-            
-            {/*Add to cart button */}
-            <Grid item xs={12} align="center">
-                <ProductToCartButton product={product} formData={formData} />
-            </Grid>
-            {/* Make Review */}
-            <Grid item xs={12} align="center">
-                <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
-            </Grid>
-            
-
-            {/* Display all reviews */}
-            <Grid item xs={12} align="center">
-                <Typography component="h4" variant="h4">
-                    Reviews:
-                </Typography>
-            </Grid>
-            {reviews.map(review => (
-                <Grid key={review.id} item xs={6} align="center">
-                    <ShowReviewBox review={review} />
+            {/* Render if not admin */}
+            {!isAdmin && 
+            <React.Fragment>
+                <Grid item xs={12} align="center">
+                    {product && <ProductBox product={product} />}
                 </Grid>
-            ))}
+                
+                {/*Add to cart button */}
+                {!soldOut &&
+                    <Grid item xs={12} align="center">
+                        <ProductToCartButton product={product} formData={formData} />
+                    </Grid>
+                }
+                {soldOut &&
+                    <Grid item xs={12} align="center">
+                        <Typography component="h4" variant="h4">
+                            Sold Out
+                        </Typography>
+                    </Grid>
+                }
+
+                {/* Make Review */}
+                <Grid item xs={12} align="center">
+                    <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
+                </Grid>
+                
+
+                {/* Display all reviews */}
+                <Grid item xs={12} align="center">
+                    <Typography component="h4" variant="h4">
+                        Reviews:
+                    </Typography>
+                </Grid>
+                {reviews.map(review => (
+                    <Grid key={review.id} item xs={6} align="center">
+                        <ShowReviewBox review={review} onDelete={handleDeleteReview}/>
+                    </Grid>
+                ))}
+            </React.Fragment>}
+
+            {/* Render if admin */}
+            {isAdmin && <AdminViewProductPage product={product} />}
             
         </Grid>
     );

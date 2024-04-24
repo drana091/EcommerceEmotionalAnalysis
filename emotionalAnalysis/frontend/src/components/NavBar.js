@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
@@ -7,8 +7,17 @@ import Button from '@mui/material/Button';
 import InputBase from '@mui/material/InputBase';
 import SearchIcon from '@mui/icons-material/Search';
 import { styled, alpha } from '@mui/material/styles';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SideDrawer from './SideDrawer';
+import SignOutButton from './buttons/SignOutButton';
+import SignUpButton from './buttons/SignUpButton';
+import SignInButton from './buttons/SignInButton';
+import GoToCreateProductButton from './buttons/GoToCreateProductButton';
+import GoToCartButton from './buttons/GoToCartButton';
+import GoToOrdersButton from './buttons/GoToOrdersButton';
+import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import AccountPageButton from './buttons/AccountPageButton';
 
 const ButtonContainer = styled('div')({
   display: 'flex',
@@ -16,7 +25,6 @@ const ButtonContainer = styled('div')({
   alignItems: 'center',
   '& .MuiButton-root': {
     color: 'white',
-    // Add more button styles here if needed
   },
 });
 
@@ -76,66 +84,73 @@ const LogoImg = styled('img')({
   marginRight: '230px', // Add some spacing between logo and text/buttons
 });
 
+const isLoggedIn = localStorage.getItem('user') !== null;
+const user = JSON.parse(localStorage.getItem('user'));
+const isAdmin = user !== null && user.admin;
+
 
 export default function NavBar() {
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+
   const handleSearchSubmit = async (e) => {
     e.preventDefault();
     if (searchQuery.trim() !== '') {
-        try {
-            const response = await fetch('/api/search/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': window.csrfToken,
-                },
-                body: JSON.stringify({ query: searchQuery }),
-            });
+      try {
+        const response = await fetch('/api/search/', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': window?.csrfToken || '', // Check if window object exists
+          },
+          body: JSON.stringify({ query: searchQuery }),
+        });
 
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-
-            const data = await response.json();
-            if (data.length > 0) {
-                const productId = data[0].id;
-                navigate(`/product/${productId}`);
-            } else {
-                alert('Product not found');
-            }
-        } catch (error) {
-            console.error('An error occurred while fetching search results:', error);
-            alert('Failed to fetch search results. Please try again later.');
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        const data = await response.json();
+        if (data.length > 0) {
+          const productId = data[0].id;
+          navigate(`/product/${productId}`);
+        } else {
+          alert('Product not found');
+        }
+      } catch (error) {
+        console.error('An error occurred while fetching search results:', error);
+        alert('Failed to fetch search results. Please try again later.');
+      }
     } else {
-        alert('Please enter a search query');
+      alert('Please enter a search query');
     }
-};  
+  };
   return (
     <NavBarContainer>
       <StyledAppBar position="static">
         <Toolbar>
-          <SideDrawer />
-          <LogoImg src={window.location.origin + '/media/bannerImages/logo.png'} alt="Logo" />
-          <ButtonContainer>
-            <Button color="primary" component={Link} to="/">
-              Home
-            </Button>
-            <Button color="primary" component={Link} to="/all">
-              Products
-            </Button>
-            <Button color="primary" component={Link} to="/create">
-              Create Product
-            </Button>
-            <Button color="primary" component={Link} to="/cart">
-              Cart
-            </Button>
-            <Button color="primary" component={Link} to="/pastorders">
-              Orders
-            </Button>
-          </ButtonContainer>
-          <SearchContainer>
+          
+        <SideDrawer />
+        <LogoImg src={window.location.origin + '/media/bannerImages/logo.png'} alt="Logo" />
+
+        <ButtonContainer>
+          <Button color="primary" component={Link} to="/">
+            Home
+          </Button>
+          <Button color="primary" component={Link} to="/all">
+            Products
+          </Button>
+          {isAdmin && <GoToCreateProductButton />}
+          {isLoggedIn && !isAdmin && <GoToCartButton />}
+          {isLoggedIn && !isAdmin && <GoToOrdersButton />}
+          {!isLoggedIn && <SignInButton />}
+          {!isLoggedIn && <SignUpButton />}
+          {isLoggedIn && <SignOutButton />} 
+          {isLoggedIn && <AccountPageButton />}
+
+        </ButtonContainer>
+
+        <SearchContainer>
           <form onSubmit={handleSearchSubmit}>
                         <InputBase
                             placeholder="Search…"
@@ -147,6 +162,7 @@ export default function NavBar() {
                         </Button>
                     </form>
           </SearchContainer>
+
         </Toolbar>
       </StyledAppBar>
     </NavBarContainer>

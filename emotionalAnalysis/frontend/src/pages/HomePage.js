@@ -108,7 +108,7 @@ export default function HomePage() {
                         </Grid>
                     ))}
 
-                {/* Call to Action */}
+                {/* Start Shopping */}
                 <Grid item xs={12} align="center">
                     <Box mt={4}>
                         <Typography variant="h6" gutterBottom>

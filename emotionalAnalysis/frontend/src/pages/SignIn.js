@@ -1,114 +1,182 @@
-import * as React from 'react';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import CssBaseline from '@mui/material/CssBaseline';
-import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
-import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
-import Container from '@mui/material/Container';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import React, { useState } from 'react';
+import { Button, Grid, Typography, TextField, FormHelperText, FormControl, Box, } from '@mui/material'; 
+import { Link } from 'react-router-dom';
 import NavBar from '../components/NavBar';
+import InputField from '../components/InputField';
+import LoginRoundedIcon from '@mui/icons-material/LoginRounded';
+import ImageList from '@mui/material/ImageList';
+import ImageListItem from '@mui/material/ImageListItem';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import Alert from '@mui/material/Alert';
 
-const defaultTheme = createTheme();
+export default function SignUp() {
+    const[user, setUser] = useState({
+        Fname: '',
+        Lname: '',
+        email: '',
+        username: '',
+        password: '',
+    });
+    const [formData, setFormData] = useState({
+        username: '',
+        password: '',
+    });
+    const [alertMessage, setAlertMessage] = useState(null);
 
-export default function SignIn() {
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    try {
-      const response = await fetch('/api/user', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormData(prevState => ({
+            ...prevState,
+            [name]: value
+        }));
+    };
+
+    const buttonPressed = () => {
+        console.log("FormData:", formData);
+        const requestOptions = {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json', 'X-CSRFToken': window.csrfToken},
+            body: JSON.stringify(formData),
+        };
+        // The fetch() method is used to make a POST request to the server.
+        fetch('/api/signin', requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+            console.log("Response status:", data);
+            // If user does not exist, set an error message
+            if (data === '404') 
+            {
+                setAlertMessage('User does not exist');
+                return;
+            }
+            if (data === '401')
+            {
+                setAlertMessage('Incorrect credentials');
+                return;
+            }
+            if (data === '400')
+            {
+                setAlertMessage('Please enter a username and password');
+                return;
+            }
+            console.log(data);
+            setUser(data);
+            localStorage.setItem('user', JSON.stringify(data));
+            window.location.href = '/'; // Redirect to the home page
+        }
+        );
+          
+    };
+    
+    const itemData = [
+        {
+            img: `${window.location.origin}/media/iconImages/facebookIcon.svg`,
+            title: 'Facebook',
         },
-        body: JSON.stringify({
-          email: formData.get('email'),
-          password: formData.get('password'),
-        }),
-      });
-      if (!response.ok) {
-        throw new Error('Failed to login');
-      }
-      // Redirect user to dashboard or home page upon successful login
-      window.location.href = '/dashboard';
-    } catch (error) {
-      console.error('Error logging in:', error);
-      // Handle error, e.g., display an error message to the user
-    }
-  };
+        {
+            img: `${window.location.origin}/media/iconImages/linkedinIcon.svg`,
+            title: 'Twitter',
+        },
+        {
+            img: `${window.location.origin}/media/iconImages/instagramIcon.svg`,
+            title: 'Instagram',
+        }
+    ];
 
-  return (
-    <ThemeProvider theme={defaultTheme}>
-      <NavBar />
-      <Container component="main" maxWidth="xs">
-        <CssBaseline />
-        <Box
-          sx={{
-            marginTop: 8,
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'center',
-          }}
-        >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-            <LockOutlinedIcon />
-          </Avatar>
-          <Typography component="h1" variant="h5">
-            Sign in
-          </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              autoFocus
-            />
-            <TextField
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Sign In
-            </Button>
-            <Grid container>
-              <Grid item xs>
-                <Link href="#" variant="body2">
-                  Forgot password?
-                </Link>
-              </Grid>
-              <Grid item>
-                <Link href="/signup" variant="body2">
-                  {"Don't have an account? Sign Up"}
-                </Link>
-              </Grid>
+const theme = createTheme({
+    palette: {
+        submitButton: {
+            main: '#c482cf',
+        },
+       
+    },
+});
+
+
+    return (
+        <ThemeProvider theme={theme}>
+        <Box sx={{ display: 'flex', backgroundImage: `url(${window.location.origin}/media/bannerImages/recordBackground.jpg)` }}>
+            <Grid container spacing={1}>
+
+                {/* NavBar */}
+                <Grid item xs={12}>
+                    <NavBar />
+                </Grid>
+
+                {/* SignIn Box */}
+                <Box sx={{ display: 'flex', justifyContent: 'center', padding: '0%', alignItems: 'center', margin: 'auto', height: '80%', width: '50%', overflow: 'hidden',}}>  
+                    <Grid container spacing={1} align='center' alignContent={"center"} alignItems={'center'} sx={{ width: '100%', height: '100%',}}>
+
+                        {/* Left Section*/}
+                        <Grid item xs={6} sx={{backgroundColor: '#7aad76', width: '100%', height: '100%', borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px'}}>
+                            <Typography component="h6" variant="h6" sx={{marginTop:'10%'}}>
+                                Log in to your account:
+                            </Typography>
+                            <img src={`${window.location.origin}/media/bannerImages/SignInRecord.webp`} alt="record" style={{width: '100%', }} />
+                            <Typography component="p" variant="p" sx={{marginTop:'10%'}}>
+                                Don't have an account?
+                                <br />
+                                <a href="/signup">Sign up here</a> <LoginRoundedIcon />
+                            </Typography>
+
+                            {/* Social Media Icons */}
+                            <Typography component="p" variant="p" sx={{marginTop:'10%'}}>
+                                Find us on social media:
+                            </Typography>
+                            <ImageList sx={{ width: '100px', height: '100%' }} cols={3} rowHeight={1}>
+                                {itemData.map((item) => (
+                                    <ImageListItem key={item.img}>
+                                    <img
+                                        srcSet={`${item.img}`}
+                                        src={`${item.img}`}
+                                        alt={item.title}
+                                        loading="lazy"
+                                    />
+                                    </ImageListItem>
+                                ))}
+                            </ImageList>
+
+                            
+                        </Grid>
+
+                        {/* Form */}
+                        <Grid item xs={6} sm container alignContent={'center'} justifyContent={'center'} sx={{backgroundColor: '#e4e8da', width: '100%', height: '100%', borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}>
+                            <FormControl>
+                                <InputField
+                                    id="username"
+                                    name="username"
+                                    label="Username"
+                                    type="text"
+                                    value={formData.username}
+                                    onChange={handleInputChange}
+                                />
+                                <InputField
+                                    id="password"
+                                    name="password"
+                                    label="Password"
+                                    type="password"
+                                    value={formData.password}
+                                    onChange={handleInputChange}
+                                />
+                            </FormControl>
+
+                            {/* Submit button */}
+                            <Grid item xs={12} align="center" sx={{padding: 1}}>
+                                <Button color="submitButton" variant="contained" onClick={buttonPressed}>
+                                    Submit
+                                </Button>
+                            </Grid>
+                            
+                            {/* Alert message */}
+                            {alertMessage && <Alert severity="error">{alertMessage}</Alert>}
+                            
+
+                        </Grid>
+                    </Grid>
+                </Box>
             </Grid>
-          </Box>
+            
         </Box>
-      </Container>
-    </ThemeProvider>
-  );
+        </ThemeProvider>
+    );
 }

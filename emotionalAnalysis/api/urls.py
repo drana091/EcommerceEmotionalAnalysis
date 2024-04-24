@@ -17,6 +17,12 @@ urlpatterns = [
     path('emotion-product/<emotion>', EmotionProductView.as_view()),
     ## New URL pattern for fetching random products
     path('random-products', RandomProductView.as_view()),
+    ## Delete a product
+    path('delete-product', DeleteProductView.as_view()),
+    ## Update a product stock
+    path ('update-stock', UpdateStockView.as_view()),
+    ## Update Product
+    path('product-update/<pk>', ProductUpdateView.as_view()),
  
     #----------------------------------------------
     # REVIEW URLS
@@ -25,13 +31,14 @@ urlpatterns = [
     path('review', ReviewView.as_view()),
     path('create-review', CreateReviewView.as_view()),
     path('product-reviews/<product>', ProductReviewView.as_view()),
-
+    path('review-delete', DeleteReviewView.as_view()),
     #----------------------------------------------
     # USER URLS
     #----------------------------------------------
     path('user', UserView.as_view()),
     path('user/<pk>', SingleUserView.as_view()),
     path('create-user', CreateUserView.as_view()),
+    path('signin', SignInView.as_view()),
 
     #----------------------------------------------
     # CART URLS
@@ -40,6 +47,7 @@ urlpatterns = [
     path('create-cart', CreateCartView.as_view()),
     path('user-cart/<user>', UserCartView.as_view()),
     path('delete-product-cart', DeleteProductFromCartView.as_view()),
+    path('update-cart-quantity', UpdateCartQuantityView.as_view()),
 
     #----------------------------------------------
     # ORDER URLS
