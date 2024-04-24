@@ -14,6 +14,7 @@ import ProductsByEmotion from './ProductsByEmotion';
 import AccountPage from './AccountPage';
 import UpdateProductForm from './UpdateProductForm';
 import About from './About';
+import SearchResult from './SearchResult';
 
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
                 <Route path= '/product/:productID' element={<ViewProductPage />} />
                 <Route path= '/emotion/:emotion' element={<ProductsByEmotion />} />
                 <Route path= '/about' element={<About />} />
+                <Route path= '/search' element={<SearchResult />} />
 
                 {/* If Logged In */}
                 {isUser ? (

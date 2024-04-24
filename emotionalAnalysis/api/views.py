@@ -11,7 +11,6 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 from django.http import JsonResponse
 
-
 # Create your views here. This is where you define what happends to the data.
 
 #----------------------------------------------
@@ -301,28 +300,16 @@ class CreateOrderView(APIView):
         
         return Response({'Bad Request': 'Invalid data'}, status=status.HTTP_400_BAD_REQUEST)
 
-class SearchProduct(generics.ListAPIView):
-    
+class SearchProduct(APIView):
     def post(self, request):
-        query = request.data.get('query')  # Get the search query from the request data
+        query = request.data.get('query')
         if query:
-            # Query the database for products containing the search query in their name
             products = Product.objects.filter(name__icontains=query)
-            # Serialize the queryset into JSON format
-            data = [{
-                'id': product.id,
-                'name': product.name,
-                'description': product.description,
-                'price': product.price,
-                'stock': product.stock,
-                'totalEmotion': product.totalEmotion,
-                'image_url': product.image_url
-            } for product in products]
-            # Return the JSON response
-            return JsonResponse(data, safe=False)
+            serializer = ProductSerializer(products, many=True)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         else:
-            # If no search query is provided, return a bad request response
-            return JsonResponse({'error': 'No search query provided'}, status=400)
+            return Response({'error': 'No search query provided'}, status=status.HTTP_400_BAD_REQUEST)
+        
         
 class ProductUpdateView(APIView):
     def put(self, request, pk):
