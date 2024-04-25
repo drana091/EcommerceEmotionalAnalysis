@@ -42,6 +42,7 @@ export default function ProductsByEmotion() {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         minHeight: '100vh',
+        minWidth: '100%',   
         overflow: 'auto' 
     };
 
