@@ -74,7 +74,7 @@ export default function CheckoutPage() {
             deleteItemsFromCart();
 
             // Redirect to orders page
-            window.location.href = '/pastorders';
+            window.location.href = '/account';
            
         })
         .catch((error) => {

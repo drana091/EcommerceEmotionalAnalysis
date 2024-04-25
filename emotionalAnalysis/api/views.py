@@ -273,6 +273,7 @@ class CreateOrderView(APIView):
             zip_code = serializer.validated_data.get('zip')
             country = serializer.validated_data.get('country')
             payment_method = serializer.validated_data.get('paymentMethod')
+            
 
             # Total price calculation
             totalPrice = 0
