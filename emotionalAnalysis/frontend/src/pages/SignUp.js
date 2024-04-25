@@ -52,7 +52,7 @@ export default function SignUp() {
                 return;
             }
             console.log(data);
-           // window.location.href = '/'; // Redirect to the home page
+            window.location.href = '/signin';
         }
         );
           
