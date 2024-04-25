@@ -67,11 +67,7 @@ export default function PastOrdersPage() {
     }, [orders]);
 
     return (
-        <div style={{ padding: '20px' }}>
-            <NavBar />
-            <Typography variant="h4" style={{ marginTop: '20px', marginBottom: '10px' }}>
-                Past Orders
-            </Typography>
+        <div style={{ padding: '20px', overflow: 'auto', height: '50vh' }}>
             <Grid container spacing={2}>
                 {products.map(({ order, products }) => (
                     <Grid item xs={12} key={order.id}>
@@ -90,7 +86,7 @@ export default function PastOrdersPage() {
                             </Typography>
                             <Grid container spacing={2}>
                                 {products.map(product => (
-                                    <Grid item xs={12} md={4} key={product.id}>
+                                    <Grid item xs={12} md={6} key={product.id}>
                                         <ProductBox product={product} />
                                     </Grid>
                                 ))}

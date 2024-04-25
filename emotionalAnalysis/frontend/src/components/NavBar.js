@@ -142,7 +142,7 @@ export default function NavBar() {
           </Button>
           {isAdmin && <GoToCreateProductButton />}
           {isLoggedIn && !isAdmin && <GoToCartButton />}
-          {isLoggedIn && !isAdmin && <GoToOrdersButton />}
+
           {!isLoggedIn && <SignInButton />}
           {!isLoggedIn && <SignUpButton />}
           {isLoggedIn && <SignOutButton />} 
