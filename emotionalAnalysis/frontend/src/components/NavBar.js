@@ -18,6 +18,7 @@ import GoToOrdersButton from './buttons/GoToOrdersButton';
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AccountPageButton from './buttons/AccountPageButton';
+import SearchProduct from './SearchProduct';
 
 const ButtonContainer = styled('div')({
   display: 'flex',
@@ -88,43 +89,9 @@ const isLoggedIn = localStorage.getItem('user') !== null;
 const user = JSON.parse(localStorage.getItem('user'));
 const isAdmin = user !== null && user.admin;
 
-
 export default function NavBar() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const navigate = useNavigate();
+  
 
-  const handleSearchSubmit = async (e) => {
-    e.preventDefault();
-    if (searchQuery.trim() !== '') {
-      try {
-        const response = await fetch('/api/search/', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-CSRFToken': window?.csrfToken || '', // Check if window object exists
-          },
-          body: JSON.stringify({ query: searchQuery }),
-        });
-
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        if (data.length > 0) {
-          const productId = data[0].id;
-          navigate(`/product/${productId}`);
-        } else {
-          alert('Product not found');
-        }
-      } catch (error) {
-        console.error('An error occurred while fetching search results:', error);
-        alert('Failed to fetch search results. Please try again later.');
-      }
-    } else {
-      alert('Please enter a search query');
-    }
-  };
   return (
     <NavBarContainer>
       <StyledAppBar position="static">
@@ -151,18 +118,8 @@ export default function NavBar() {
         </ButtonContainer>
 
         <SearchContainer>
-          <form onSubmit={handleSearchSubmit}>
-                        <InputBase
-                            placeholder="Search…"
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                        />
-                        <Button type="submit" color="inherit">
-                            <SearchIcon />
-                        </Button>
-                    </form>
+         <SearchProduct/>
           </SearchContainer>
-
         </Toolbar>
       </StyledAppBar>
     </NavBarContainer>

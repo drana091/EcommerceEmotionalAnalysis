@@ -19,4 +19,5 @@ urlpatterns = [
     path('account', index),
     path('product-update/<id>', index),
     path('about', index),
+    path('search', index),
 ]
