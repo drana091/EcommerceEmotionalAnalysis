@@ -46,7 +46,6 @@ const isAdmin = user !== null && user.admin;
 
     return (
         // Render only if not admin
-        
         <Grid container spacing={1}>
             <NavBar />
 

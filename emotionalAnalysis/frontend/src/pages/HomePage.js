@@ -10,7 +10,6 @@ export default function HomePage() {
     useEffect(() => {
         const fetchRandomProducts = async () => {
             try {
-                // Specify the number of random products to fetch
                 const response = await fetch(`/api/random-products`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch random products');
@@ -31,8 +30,8 @@ export default function HomePage() {
             poster: {
                 fontFamily: "Lucida Handwriting",
                 fontSize: '4rem',
-                color: '#333', // Adjusted text color for better readability
-                fontWeight: 'bold', // Added font weight for emphasis
+                color: '#333', 
+                fontWeight: 'bold', 
             }
         }
     });
@@ -64,12 +63,11 @@ export default function HomePage() {
                         backgroundImage: `url(${window.location.origin}/media/bannerImages/recordBanner.png)`,
                         backgroundSize: 'cover',
                         backgroundPosition: 'center',
-                        height: '400px', // Set a minHeight to ensure the banner container is at least 400px tall
+                        height: '400px', 
                         margin: '0 8%',
                         display: 'flex',
                         justifyContent: 'center',
                         alignItems: 'center',
-                        // Remove overflow: hidden
                     }}
                 >
                     <Grid container spacing={2}>
@@ -83,11 +81,6 @@ export default function HomePage() {
                     </Grid>
                 </Grid>
 
-
-
-
-
-
                 {/* Promotions */}
                 <Grid item xs={12} align="center">
                     <Promotions />
@@ -98,9 +91,8 @@ export default function HomePage() {
                     <Typography variant="h4" gutterBottom>
                         Featured Products
                     </Typography>
-                    
-                    
                 </Grid>
+                
                 {/* Display all products */}
                 {products.map(product => (
                         <Grid key={product.id} item xs={4} align="center">

@@ -16,7 +16,6 @@ const isAdmin = user !== null && user.admin;
             <Paper elevation={10}>
                 <Grid container spacing={2} alignItems="center">
                     <Grid item xs={12} sm={6}>
-                        {/* Adjusted styles to make the image fill the container */}
                         <img src={imageURL} alt={product.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </Grid>
                     <Grid item xs={12} sm={6} container direction="column" justifyContent="space-between">
@@ -32,10 +31,7 @@ const isAdmin = user !== null && user.admin;
                         <Grid item>
                             <Typography variant="h6">${product.price}</Typography>
                         </Grid>
-                        {/* Delete Product Button if admin */}
-                        {isAdmin && <Grid item>
-                            <DeleteProductButton product={product} />
-                        </Grid>}
+
                     </Grid>
                 </Grid>
             </Paper>

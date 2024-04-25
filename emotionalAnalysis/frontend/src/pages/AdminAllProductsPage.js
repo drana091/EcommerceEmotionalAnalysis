@@ -18,7 +18,6 @@ export default function AdminAllProductsPage() {
                 setProducts(data);
             } catch (error) {
                 console.error('Error fetching products:', error);
-                // Handle error, e.g., display an error message to the user
             } finally {
                 setLoading(false);
             }

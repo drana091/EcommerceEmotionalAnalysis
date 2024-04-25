@@ -10,10 +10,14 @@ import CreateReviewBox from '../components/CreateReviewBox';
 import ProductToCartButton from '../components/ProductToCartButton';
 
 export default function AdminViewProductPage() {
+    // Get the user ID from the local storage
+    const isLoggedIn = localStorage.getItem('user') !== null;
+    const user = JSON.parse(localStorage.getItem('user'));
+    const userID = user ? user.id : null;
     let { productID } = useParams();
     const [product, setProduct] = useState(null);
     const [reviews, setReviews] = useState([]);
-    const [formData, setFormData] = useState({ product: null, user: '1', comment: "" });
+    const [formData, setFormData] = useState({ product: null, user: userID, comment: "" });
     const navigate = useNavigate();
 
 
@@ -23,7 +27,7 @@ export default function AdminViewProductPage() {
             const reviewsData = await FetchProductReviews(productID);
             setProduct(productData);
             setReviews(reviewsData);
-            setFormData({ product: productData, user: '1', comment: "" });
+            setFormData({ product: productData, user: userID, comment: "" });
         };
 
         fetchData();
