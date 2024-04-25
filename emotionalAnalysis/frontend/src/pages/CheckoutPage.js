@@ -73,7 +73,7 @@ export default function CheckoutPage() {
             // Call deleteItemsFromCart only if fetch was successful
             deleteItemsFromCart();
 
-            // Redirect to orders page
+            // Redirect to account page
             window.location.href = '/account';
            
         })
