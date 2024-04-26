@@ -70,12 +70,12 @@ class RandomProductView(generics.ListAPIView):
     serializer_class = ProductSerializer
 
     def get_queryset(self):
-        # Get all product IDs
-        all_product_ids = list(Product.objects.values_list('id', flat=True))
-        # Choose a random subset of product IDs (e.g., 10 random product IDs)
-        random_product_ids = random.sample(all_product_ids, k=3)  # Adjust the value of 'k' as needed
-        # Fetch products corresponding to the random IDs
-        return Product.objects.filter(id__in=random_product_ids)
+        # Get product ID
+        productID = list(Product.objects.values_list('id', flat=True))
+        # Choose a random products
+        randomID = random.sample(productID, k=3) 
+        # Fetch products
+        return Product.objects.filter(id__in=randomID)
     
 # View to update stock of a product
 class UpdateStockView(APIView):

@@ -127,15 +127,6 @@ export default function AdminViewProductPage() {
                 {product && <ProductBox product={product} onDelete={handleDeleteProduct}/>}
             </Grid>
             
-            {/*Add to cart button */}
-            <Grid item xs={12} align="center">
-                <ProductToCartButton product={product} formData={formData} />
-            </Grid>
-            {/* Make Review */}
-            <Grid item xs={12} align="center">
-                <CreateReviewBox commentChange={commentChange} createReviewButtonPressed={createReviewButtonPressed} />
-            </Grid>
-            
 
             {/* Display all reviews */}
             <Grid item xs={12} align="center">
