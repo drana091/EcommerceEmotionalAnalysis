@@ -35,33 +35,21 @@ export default function AdminViewProductPage() {
     }
     
     const handleAdminDeleteReview = async (reviewId) => {
-        const confirmDelete = window.confirm('Are you sure you want to delete this review?');
-        if (!confirmDelete) return;
     
-        try {
-            // Make a DELETE request to the API endpoint responsible for deleting reviews
-            const response = await fetch(`/api/review-delete/${reviewId}`, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRFToken': window.csrfToken,
-                },
-            });
-    
-            if (response.ok) {
-                // If the deletion was successful, remove the deleted review from the state
-                //setReviews((prevReviews) => prevReviews.filter((review) => review.id !== reviewId));
-                alert('Review deleted successfully.');
-            } else {
-                // If there was an error in the deletion process, display an error message
-                alert('Error deleting review.');
-            }
-        } catch (error) {
-            // If there was an error in the fetch request, log the error
-            console.error('Error deleting review:', error);
-            // Display an error message
-            alert('Error deleting review.');
+        // Make a DELETE request to the API endpoint responsible for deleting reviews
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': window.csrfToken,
+            },
+            body: JSON.stringify({ reviewId: reviewId }),
+
         }
+        fetch('/api/review-delete', requestOptions)
+        .then((response) => {response.json()})
+        .then((data) => {console.log(data)})
+        .then(() => window.location.reload());
     };
 
 
