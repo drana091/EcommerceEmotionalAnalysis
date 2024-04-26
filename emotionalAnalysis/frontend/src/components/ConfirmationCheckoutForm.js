@@ -22,10 +22,10 @@ console.log(formData);
                             City: {formData.city}
                         </Typography>
                         <Typography variant="subtitle1" gutterBottom>
-                            State: {formData.postalCode}
+                            State: {formData.state}
                         </Typography>
                         <Typography variant="subtitle1" gutterBottom>
-                            Zip: {formData.state}
+                            Zip: {formData.zip}
                         </Typography>
                         <Typography variant="subtitle1" gutterBottom>
                             Country: {formData.country}
