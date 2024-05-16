@@ -11,4 +11,4 @@ Please view the `Guides` folder for multiple files on how the software works.
 - React
 
 ## Credit
-- Project was made by ...
+- Project was made by Christopher Fallas Aguero, Dhruv Rana, Winnie Delinois, and Tyler Van Buren
